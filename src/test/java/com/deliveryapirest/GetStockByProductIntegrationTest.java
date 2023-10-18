@@ -29,4 +29,23 @@ public class GetStockByProductIntegrationTest {
 
     Assertions.assertEquals(200, response.getStatusCode());
   }
+
+  @Test
+  void givenProductId_whenGetStockByProduct_thenReturnProductStock() {
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .when()
+            .get("/stock/1")
+            .then()
+            .extract()
+            .response();
+
+    Assertions.assertNotNull(response.getBody().jsonPath().get("id"));
+    Assertions.assertNotNull(response.getBody().jsonPath().get("productId"));
+    Assertions.assertNotNull(response.getBody().jsonPath().get("quantity"));
+    Assertions.assertNotNull(response.getBody().jsonPath().get("createdAt"));
+    Assertions.assertNull(response.getBody().jsonPath().get("updatedAt"));
+    Assertions.assertNull(response.getBody().jsonPath().get("deletedAt"));
+  }
 }
