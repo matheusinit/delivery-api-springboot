@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  database:
+    container_name: delivery-api-database
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - /usr/docker/postgresql/delivery-api/:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
