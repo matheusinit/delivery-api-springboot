@@ -22,8 +22,8 @@ To run the tests:
 
 ## References
 
- - [Spring Boot](https://spring.io/guides/gs/spring-boot/)
- - [What are microservices?](https://microservices.io/index.html)
+ - :link: [Spring Boot](https://spring.io/guides/gs/spring-boot/)
+ - :link: [What are microservices?](https://microservices.io/index.html)
  - :book: Microservice Patterns: With Examples in Java
 
  Built with :heart: by matheusinit
