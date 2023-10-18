@@ -5,7 +5,7 @@ demonstrate how to build and gain experience with challenges that Microservice A
 
  - Ordering API REST
 
-  A microservice to manage products orders of a ecommerce application. See at: [matheusinit/ordering-api-aspnet](https://github.com/matheusinit/ordering-api-aspnet)
+    A microservice to manage products orders of a ecommerce application. See at: [matheusinit/ordering-api-aspnet](https://github.com/matheusinit/ordering-api-aspnet)
 
 ## How to run
 
