@@ -67,4 +67,13 @@ class StockUnitTest {
 
     assertThat(stock.getUpdatedAt(), is(nullValue()));
   }
+
+  @Test
+  void ensureWhenStockIsCreatedThenShouldHaveDeleteDateTimeNotDefined() {
+    var productId = UUID.randomUUID();
+
+    var stock = new Stock(productId);
+
+    assertThat(stock.getDeletedAt(), is(nullValue()));
+  }
 }
