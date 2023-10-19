@@ -15,7 +15,7 @@ public class GetStockByProductController {
 
   @Autowired StockRepository repository;
 
-  @GetMapping("/stock/{productId}")
+  @GetMapping("/product/{productId}/stock")
   ResponseEntity<?> getStockByProduct(@PathVariable UUID productId) {
 
     var stock = this.repository.findByProductId(productId);

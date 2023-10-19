@@ -30,7 +30,7 @@ public class GetStockByProductIntegrationTest {
         RestAssured.given()
             .accept("application/json")
             .when()
-            .get("/stock/" + productId)
+            .get("/product/" + productId + "/stock")
             .then()
             .extract()
             .response();
@@ -47,7 +47,7 @@ public class GetStockByProductIntegrationTest {
         RestAssured.given()
             .accept("application/json")
             .when()
-            .get("/stock/" + productId)
+            .get("/product/" + productId + "/stock")
             .then()
             .extract()
             .response();
@@ -68,7 +68,7 @@ public class GetStockByProductIntegrationTest {
         RestAssured.given()
             .accept("application/json")
             .when()
-            .get(String.format("/stock/%s", invalidId))
+            .get(String.format("/product/%s/stock", invalidId))
             .then()
             .extract()
             .response();
@@ -84,7 +84,7 @@ public class GetStockByProductIntegrationTest {
         RestAssured.given()
             .accept("application/json")
             .when()
-            .get(String.format("/stock/%s", invalidId))
+            .get(String.format("/product/%s/stock", invalidId))
             .then()
             .extract()
             .response();
