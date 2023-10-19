@@ -58,4 +58,13 @@ class StockUnitTest {
 
     assertThat(stock.getCreatedAt(), is(instanceOf(LocalDateTime.class)));
   }
+
+  @Test
+  void ensureWhenStockIsCreatedThenShouldHaveUpdateDateTimeNotDefined() {
+    var productId = UUID.randomUUID();
+
+    var stock = new Stock(productId);
+
+    assertThat(stock.getUpdatedAt(), is(nullValue()));
+  }
 }
