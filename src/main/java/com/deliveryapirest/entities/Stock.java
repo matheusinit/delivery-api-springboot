@@ -26,6 +26,12 @@ public class Stock {
 
   protected Stock() {}
 
+  public Stock(UUID productId) {
+    this.productId = productId;
+    this.quantity = 0;
+    this.id = UUID.randomUUID();
+  }
+
   public Stock(UUID productId, int quantity) {
     this.productId = productId;
     this.quantity = quantity;
