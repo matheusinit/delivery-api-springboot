@@ -1,5 +1,6 @@
 package com.deliveryapirest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.deliveryapirest.entities.Stock;
@@ -15,5 +16,14 @@ class StockUnitTest {
     var stock = new Stock(productId, 1);
 
     assertNotNull(stock.getId());
+  }
+
+  @Test
+  void ensureWhenStockIsCreatedThenShouldHaveProductId() {
+    var productId = UUID.randomUUID();
+
+    var stock = new Stock(productId, 1);
+
+    assertEquals(productId, stock.getProductId());
   }
 }
