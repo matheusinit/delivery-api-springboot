@@ -1,7 +1,7 @@
 package com.deliveryapirest.controller;
 
-import com.deliveryapirest.StockRepository;
 import com.deliveryapirest.errors.StockNotFoundError;
+import com.deliveryapirest.repositories.StockRepository;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
