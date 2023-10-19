@@ -3,6 +3,7 @@ package com.deliveryapirest.controller;
 import com.deliveryapirest.StockRepository;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +19,9 @@ public class GetStockByProductController {
     var stock = this.repository.findByProductId(productId);
 
     if (stock == null) {
-      return ResponseEntity.status(404).build();
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    return ResponseEntity.ok().body(stock);
+    return ResponseEntity.status(HttpStatus.OK).body(stock);
   }
 }
