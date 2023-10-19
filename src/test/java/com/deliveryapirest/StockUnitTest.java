@@ -1,9 +1,12 @@
 package com.deliveryapirest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.deliveryapirest.entities.Stock;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -45,5 +48,14 @@ class StockUnitTest {
 
     var expectedQuantity = 0;
     assertEquals(expectedQuantity, stock.getQuantity());
+  }
+
+  @Test
+  void ensureWhenStockIsCreatedThenShouldHaveCreationDateTimeDefined() {
+    var productId = UUID.randomUUID();
+
+    var stock = new Stock(productId);
+
+    assertThat(stock.getCreatedAt(), is(instanceOf(LocalDateTime.class)));
   }
 }
