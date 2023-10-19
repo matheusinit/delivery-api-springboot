@@ -16,9 +16,14 @@ To run the project:
 
     ./gradlew bootRun
 
-To run the tests:
+To run the unit tests:
     
     ./gradlew test
+
+To run the integration tests:
+
+    ./gradlew integrationTest
+
 
 ## References
 
