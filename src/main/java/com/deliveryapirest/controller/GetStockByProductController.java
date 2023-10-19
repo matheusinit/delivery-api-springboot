@@ -22,7 +22,7 @@ public class GetStockByProductController {
 
     if (stock == null)
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
-          .body(StockNotFoundError.returnError("Stock with given ID not found"));
+          .body(StockNotFoundError.make("Stock with given ID not found"));
 
     return ResponseEntity.status(HttpStatus.OK).body(stock);
   }

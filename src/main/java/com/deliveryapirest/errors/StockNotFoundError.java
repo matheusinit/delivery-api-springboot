@@ -7,7 +7,7 @@ public class StockNotFoundError {
     this.message = message;
   }
 
-  public static StockNotFoundError returnError(String message) {
+  public static StockNotFoundError make(String message) {
     return new StockNotFoundError(message);
   }
 }
