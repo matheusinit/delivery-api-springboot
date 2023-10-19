@@ -16,6 +16,28 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+  integrationTest {
+    compileClasspath += main.output
+    runtimeClasspath += main.output
+    resources.srcDir "$projectDir/src/integration/resources"
+  }
+}
+
+configurations {
+  integrationTestImplementation.extendsFrom testImplementation
+  integrationTestRuntime.extendsFrom testRuntime
+}
+
+tasks.register('integrationTest', Test) {
+  useJUnitPlatform()
+
+  classpath = sourceSets.integrationTest.runtimeClasspath
+  testClassesDirs = sourceSets.integrationTest.output.classesDirs
+}
+
+check.dependsOn integrationTest
+
 test {
   testLogging {
     events "passed", "skipped", "failed", "standardOut" 
@@ -28,7 +50,7 @@ test {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation "org.springframework.boot:spring-boot-starter-log4j2"
   modules {
       module("org.springframework.boot:spring-boot-starter-logging") {
@@ -37,6 +59,8 @@ dependencies {
   }
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'io.rest-assured:rest-assured:5.3.2'
+  integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+  integrationTestImplementation 'io.rest-assured:rest-assured:5.3.2'
 }
 
 tasks.named('test') {
