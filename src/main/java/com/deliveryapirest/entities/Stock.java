@@ -1,8 +1,10 @@
 package com.deliveryapirest.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +17,11 @@ public class Stock {
   private UUID productId;
   private int quantity;
   @CreationTimestamp private String createdAt;
-  @UpdateTimestamp private String updatedAt;
+
+  @Column(insertable = false)
+  @UpdateTimestamp
+  private LocalDateTime updatedAt;
+
   private String deletedAt;
 
   protected Stock() {}
@@ -28,5 +34,25 @@ public class Stock {
 
   public UUID getId() {
     return id;
+  }
+
+  public UUID getProductId() {
+    return productId;
+  }
+
+  public int getQuantity() {
+    return quantity;
+  }
+
+  public String getCreatedAt() {
+    return createdAt;
+  }
+
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public String getDeletedAt() {
+    return deletedAt;
   }
 }
