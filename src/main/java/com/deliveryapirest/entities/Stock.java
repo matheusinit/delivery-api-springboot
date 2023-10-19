@@ -30,6 +30,7 @@ public class Stock {
     this.productId = productId;
     this.quantity = 0;
     this.id = UUID.randomUUID();
+    this.createdAt = LocalDateTime.now();
   }
 
   public Stock(UUID productId, int quantity) {
