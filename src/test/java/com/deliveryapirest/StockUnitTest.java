@@ -36,4 +36,14 @@ class StockUnitTest {
 
     assertEquals(quantity, stock.getQuantity());
   }
+
+  @Test
+  void ensureWhenQuantityIsNotProvidedShouldHaveQuantityEqualToZero() {
+    var productId = UUID.randomUUID();
+
+    var stock = new Stock(productId);
+
+    var expectedQuantity = 0;
+    assertEquals(expectedQuantity, stock.getQuantity());
+  }
 }
