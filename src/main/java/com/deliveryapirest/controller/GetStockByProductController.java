@@ -20,10 +20,9 @@ public class GetStockByProductController {
 
     var stock = this.repository.findByProductId(productId);
 
-    if (stock == null) {
+    if (stock == null)
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
           .body(StockNotFoundError.returnError("Stock with given ID not found"));
-    }
 
     return ResponseEntity.status(HttpStatus.OK).body(stock);
   }
