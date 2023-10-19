@@ -16,13 +16,13 @@ public class Stock {
   @Id private UUID id;
   private UUID productId;
   private int quantity;
-  @CreationTimestamp private String createdAt;
+  @CreationTimestamp private LocalDateTime createdAt;
 
   @Column(insertable = false)
   @UpdateTimestamp
   private LocalDateTime updatedAt;
 
-  private String deletedAt;
+  private LocalDateTime deletedAt;
 
   protected Stock() {}
 
@@ -44,7 +44,7 @@ public class Stock {
     return quantity;
   }
 
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
   }
 
@@ -52,7 +52,7 @@ public class Stock {
     return updatedAt;
   }
 
-  public String getDeletedAt() {
+  public LocalDateTime getDeletedAt() {
     return deletedAt;
   }
 }
