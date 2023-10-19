@@ -75,4 +75,21 @@ public class GetStockByProductIntegrationTest {
 
     Assertions.assertEquals(404, response.getStatusCode());
   }
+
+  @Test
+  void givenInvalidProductId_whenGetStockByProduct_thenReturnStockNotFoundError() {
+    var invalidId = UUID.randomUUID();
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .when()
+            .get(String.format("/stock/%s", invalidId))
+            .then()
+            .extract()
+            .response();
+
+    Assertions.assertEquals(
+        "Stock with given ID not found", response.getBody().jsonPath().get("message"));
+  }
 }
