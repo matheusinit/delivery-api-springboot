@@ -20,6 +20,9 @@ test {
   testLogging {
     events "passed", "skipped", "failed", "standardOut" 
   }
+  outputs.upToDateWhen {
+    false
+  }
 }
 
 dependencies {
