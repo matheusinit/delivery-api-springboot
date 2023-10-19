@@ -25,6 +25,7 @@ To run the tests:
  - :link: [Spring Boot](https://spring.io/guides/gs/spring-boot/)
  - :link: [What are microservices?](https://microservices.io/index.html)
  - :book: Microservice Patterns: With Examples in Java
+ - :link: [Best practices for REST API design](https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design/)
 
  Built with :heart: by matheusinit
 
