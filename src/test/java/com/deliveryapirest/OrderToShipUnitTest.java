@@ -18,9 +18,20 @@ class OrderToShipUnitTest {
   @Test
   void ensureWhenProductIdIsProvidedThenShouldHaveProductId() {
     var productId = UUID.randomUUID();
+    var quantity = 1;
 
-    var orderToShip = new OrderToShip(productId);
+    var orderToShip = new OrderToShip(productId, quantity);
 
     assertThat(orderToShip.getProductId(), is(productId));
+  }
+
+  @Test
+  void ensureWhenQuantityIsProvidedThenShouldHaveQuantityEqualAsExpected() {
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+
+    var orderToShip = new OrderToShip(productId, quantity);
+
+    assertThat(orderToShip.getQuantity(), is(quantity));
   }
 }
