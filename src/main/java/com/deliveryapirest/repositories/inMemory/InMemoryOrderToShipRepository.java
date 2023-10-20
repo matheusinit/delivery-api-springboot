@@ -5,7 +5,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class InMemoryOrderToShipRepository {
+  private Collection<OrderToShip> orders;
+
+  public InMemoryOrderToShipRepository() {
+    this.orders = new ArrayList<OrderToShip>();
+  }
+
   public Collection<OrderToShip> findAll() {
     return new ArrayList<OrderToShip>();
+  }
+
+  public void save(OrderToShip orderToShip) {
+    this.orders.add(orderToShip);
   }
 }
