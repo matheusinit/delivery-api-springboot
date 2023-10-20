@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,13 +16,13 @@ public class Stock {
   @Id private UUID id;
   private UUID productId;
   private int quantity;
-  @CreationTimestamp private LocalDateTime createdAt;
+  @CreationTimestamp private Instant createdAt;
 
   @Column(insertable = false)
   @UpdateTimestamp
-  private LocalDateTime updatedAt;
+  private Instant updatedAt;
 
-  private LocalDateTime deletedAt;
+  private Instant deletedAt;
 
   protected Stock() {}
 
@@ -30,7 +30,7 @@ public class Stock {
     this.productId = productId;
     this.quantity = 0;
     this.id = UUID.randomUUID();
-    this.createdAt = LocalDateTime.now();
+    this.createdAt = Instant.now();
   }
 
   public Stock(UUID productId, int quantity) {
@@ -51,15 +51,15 @@ public class Stock {
     return quantity;
   }
 
-  public LocalDateTime getCreatedAt() {
+  public Instant getCreatedAt() {
     return createdAt;
   }
 
-  public LocalDateTime getUpdatedAt() {
+  public Instant getUpdatedAt() {
     return updatedAt;
   }
 
-  public LocalDateTime getDeletedAt() {
+  public Instant getDeletedAt() {
     return deletedAt;
   }
 }
