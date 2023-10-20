@@ -1,11 +1,13 @@
 package com.deliveryapirest.entities;
 
+import java.time.Instant;
 import java.util.UUID;
 
 public class OrderToShip {
   private UUID id;
   private UUID productId;
   private int quantity;
+  private Instant createdAt;
 
   public OrderToShip() {
     this.id = UUID.randomUUID();
@@ -14,6 +16,7 @@ public class OrderToShip {
   public OrderToShip(UUID productId, int quantity) {
     this.productId = productId;
     this.quantity = quantity;
+    this.createdAt = Instant.now();
   }
 
   public UUID getId() {
@@ -26,5 +29,9 @@ public class OrderToShip {
 
   public int getQuantity() {
     return quantity;
+  }
+
+  public Instant getCreatedAt() {
+    return this.createdAt;
   }
 }
