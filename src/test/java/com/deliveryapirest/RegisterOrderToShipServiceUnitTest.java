@@ -47,4 +47,20 @@ class RegisterOrderToShipServiceUnitTest {
     assertThat(list.size(), is(0));
     assertThat(list, expected);
   }
+
+  @Test
+  void
+      ensureWhenThereIsItemsRegistered_and_orderProvidedHasDeletedAtNotNull_thenShouldNotRegister() {
+    var deletedAt = ZonedDateTime.now();
+    var order = new Order(deletedAt);
+    var repository = new InMemoryOrderToShipRepository();
+    repository.save(new OrderToShip());
+    var sut = new RegisterOrderToShipService(repository);
+
+    sut.register(order);
+
+    var list = repository.findAll();
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("deletedAt", is(deletedAt))));
+    assertThat(list, expected);
+  }
 }
