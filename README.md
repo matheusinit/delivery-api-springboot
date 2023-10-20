@@ -13,9 +13,13 @@ assure the quality of the code, the funcionality of the API and the maintenance 
 ## Why use Instant instead of LocalDateTime or ZonedDateTime?
 
 `Instant` is a class to represent a instant of time, a moment, in seconds since 00:00:00 UTC on 1 January 1970 (Unix epoch). It is used to represent a moment in time since the 
-Unix epoch, so do even has information about a date or time. `LocalDateTime` has no information about time-zone, so it can represent different **instants** depending on 
-the time-zone the computer is localed. It is used more to represent date and time, such as Birthdays. And `ZonedDateTime` can represent a date and time with the information 
-about the time-zone, so more suited for working with dates that change time-zone that want date and time to be consistent.
+Unix epoch, so do even has information about a date or time.
+
+`LocalDateTime` has no information about time-zone, so it can represent different **instants** depending on
+the time-zone the computer is localed. It is used more to represent date and time, such as Birthdays.
+
+And `ZonedDateTime` can represent a date and time with the information about the time-zone, so more suited for working with dates that
+change time-zone that want date and time to be consistent.
 
 ## How to run
 
