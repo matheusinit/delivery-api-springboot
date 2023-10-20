@@ -9,6 +9,7 @@ public class OrderToShip {
   private int quantity;
   private Instant createdAt;
   private Instant updatedAt;
+  private Instant deletedAt;
 
   public OrderToShip() {
     this.id = UUID.randomUUID();
@@ -38,5 +39,9 @@ public class OrderToShip {
 
   public Instant getUpdatedAt() {
     return this.updatedAt;
+  }
+
+  public Instant getDeletedAt() {
+    return deletedAt;
   }
 }
