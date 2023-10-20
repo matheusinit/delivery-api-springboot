@@ -16,6 +16,10 @@ To run the project:
 
     ./gradlew bootRun
 
+To download the dependencies:
+
+    ./gradlew build --refresh-dependencies
+
 To run the unit tests:
     
     ./gradlew test
