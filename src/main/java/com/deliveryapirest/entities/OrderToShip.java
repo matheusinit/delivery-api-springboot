@@ -34,11 +34,11 @@ public class OrderToShip {
   }
 
   public Instant getCreatedAt() {
-    return this.createdAt;
+    return createdAt;
   }
 
   public Instant getUpdatedAt() {
-    return this.updatedAt;
+    return updatedAt;
   }
 
   public Instant getDeletedAt() {
