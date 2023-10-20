@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.deliveryapirest.entities.Stock;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -56,7 +56,7 @@ class StockUnitTest {
 
     var stock = new Stock(productId);
 
-    assertThat(stock.getCreatedAt(), is(instanceOf(LocalDateTime.class)));
+    assertThat(stock.getCreatedAt(), is(instanceOf(Instant.class)));
   }
 
   @Test
