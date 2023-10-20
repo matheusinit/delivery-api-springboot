@@ -63,4 +63,18 @@ class RegisterOrderToShipServiceUnitTest {
     var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("deletedAt", is(deletedAt))));
     assertThat(list, expected);
   }
+
+  @Test
+  void ensureWhenOrderWithStatusNotSentIsProvided_thenShouldRegister() {
+    var order = new Order(OrderStatus.NOT_SENT);
+    var repository = new InMemoryOrderToShipRepository();
+    var sut = new RegisterOrderToShipService(repository);
+
+    sut.register(order);
+
+    var list = repository.findAll();
+    var expected = hasItem(Matchers.<OrderToShip>hasProperty("status", is(OrderStatus.NOT_SENT)));
+    assertThat(list.size(), is(1));
+    assertThat(list, expected);
+  }
 }
