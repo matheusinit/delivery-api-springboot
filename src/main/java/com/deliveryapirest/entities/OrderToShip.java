@@ -16,6 +16,7 @@ public class OrderToShip {
   }
 
   public OrderToShip(UUID productId, int quantity) {
+    id = UUID.randomUUID();
     this.productId = productId;
     this.quantity = quantity;
     this.createdAt = Instant.now();
