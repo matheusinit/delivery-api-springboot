@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import com.deliveryapirest.entities.OrderToShip;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class OrderToShipUnitTest {
@@ -12,5 +13,14 @@ class OrderToShipUnitTest {
     var orderToShip = new OrderToShip();
 
     assertThat(orderToShip.getId(), is(notNullValue()));
+  }
+
+  @Test
+  void ensureWhenProductIdIsProvidedThenShouldHaveProductId() {
+    var productId = UUID.randomUUID();
+
+    var orderToShip = new OrderToShip(productId);
+
+    assertThat(orderToShip.getProductId(), is(productId));
   }
 }
