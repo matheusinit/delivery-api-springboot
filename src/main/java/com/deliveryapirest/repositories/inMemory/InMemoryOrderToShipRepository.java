@@ -12,7 +12,7 @@ public class InMemoryOrderToShipRepository {
   }
 
   public Collection<OrderToShip> findAll() {
-    return new ArrayList<OrderToShip>();
+    return orders;
   }
 
   public void save(OrderToShip orderToShip) {
