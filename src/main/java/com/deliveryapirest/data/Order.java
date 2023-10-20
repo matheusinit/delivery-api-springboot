@@ -1,10 +1,24 @@
 package com.deliveryapirest.data;
 
-enum Status {
-  NOT_SENT,
-  CANCELLED
-}
+import java.time.ZonedDateTime;
 
 public class Order {
-  public final Status status = Status.CANCELLED;
+  private OrderStatus status;
+  private ZonedDateTime deletedAt;
+
+  public Order(OrderStatus status) {
+    this.status = status;
+  }
+
+  public Order(ZonedDateTime deletedAt) {
+    this.deletedAt = deletedAt;
+  }
+
+  public OrderStatus getStatus() {
+    return status;
+  }
+
+  public ZonedDateTime getDeletedAt() {
+    return deletedAt;
+  }
 }
