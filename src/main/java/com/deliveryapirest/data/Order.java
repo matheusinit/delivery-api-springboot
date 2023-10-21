@@ -9,12 +9,17 @@ public class Order {
   private OrderStatus status;
   private ZonedDateTime deletedAt;
 
-  public Order(OrderStatus status) {
+  public Order(OrderStatus status, int quantity) {
     this.status = status;
+    this.quantity = quantity;
   }
 
   public Order(ZonedDateTime deletedAt) {
     this.deletedAt = deletedAt;
+  }
+
+  public Order(int quantity) {
+    this.quantity = quantity;
   }
 
   public Order(UUID productId, int quantity) {

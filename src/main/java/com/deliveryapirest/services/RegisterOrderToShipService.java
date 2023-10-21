@@ -13,8 +13,12 @@ public class RegisterOrderToShipService {
   }
 
   public void register(Order order) {
-    var status = order.getStatus();
+    var quantity = order.getQuantity();
+    if (quantity == 0) {
+      return;
+    }
 
+    var status = order.getStatus();
     if (status == OrderStatus.CANCELLED) {
       return;
     }
