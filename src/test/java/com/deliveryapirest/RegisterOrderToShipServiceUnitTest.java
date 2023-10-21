@@ -31,7 +31,8 @@ class RegisterOrderToShipServiceUnitTest {
 
   @Test
   void ensureWhenStatusProvidedIsNotNotSentThenShouldNotRegister() {
-    var order = new Order(OrderStatus.CANCELLED);
+    var quantity = 1;
+    var order = new Order(OrderStatus.CANCELLED, quantity);
     var repository = makeRepository();
     var sut = makeSut(repository);
 
@@ -60,6 +61,21 @@ class RegisterOrderToShipServiceUnitTest {
   }
 
   @Test
+  void ensureWhenQuantityProvidedIsEqual0ThenShouldNotRegister() {
+    var quantity = 0;
+    var order = new Order(quantity);
+    var repository = makeRepository();
+    var sut = makeSut(repository);
+
+    sut.register(order);
+
+    var list = repository.findAll();
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(quantity))));
+    assertThat(list.size(), is(0));
+    assertThat(list, expected);
+  }
+
+  @Test
   void
       ensureWhenThereIsItemsRegistered_and_orderProvidedHasDeletedAtNotNull_thenShouldNotRegister() {
     var deletedAt = ZonedDateTime.now();
@@ -77,7 +93,8 @@ class RegisterOrderToShipServiceUnitTest {
 
   @Test
   void ensureWhenOrderWithStatusNotSentIsProvided_thenShouldRegister() {
-    var order = new Order(OrderStatus.NOT_SENT);
+    var quantity = 1;
+    var order = new Order(OrderStatus.NOT_SENT, quantity);
     var repository = makeRepository();
     var sut = makeSut(repository);
 
