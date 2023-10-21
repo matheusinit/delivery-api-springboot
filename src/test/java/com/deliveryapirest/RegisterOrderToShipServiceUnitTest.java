@@ -18,11 +18,22 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 class RegisterOrderToShipServiceUnitTest {
+
+  private InMemoryOrderToShipRepository makeRepository() {
+    var repository = new InMemoryOrderToShipRepository();
+
+    return repository;
+  }
+
+  private RegisterOrderToShipService makeSut(InMemoryOrderToShipRepository repository) {
+    return new RegisterOrderToShipService(repository);
+  }
+
   @Test
   void ensureWhenStatusProvidedIsNotNotSentThenShouldNotRegister() {
     var order = new Order(OrderStatus.CANCELLED);
-    var repository = new InMemoryOrderToShipRepository();
-    var sut = new RegisterOrderToShipService(repository);
+    var repository = makeRepository();
+    var sut = makeSut(repository);
 
     sut.register(order);
 
@@ -37,8 +48,8 @@ class RegisterOrderToShipServiceUnitTest {
   void ensureWhenDeletedAtProvidedIsNotNullThenShouldNotRegister() {
     var deletedAt = ZonedDateTime.now();
     var order = new Order(deletedAt);
-    var repository = new InMemoryOrderToShipRepository();
-    var sut = new RegisterOrderToShipService(repository);
+    var repository = makeRepository();
+    var sut = makeSut(repository);
 
     sut.register(order);
 
@@ -53,9 +64,9 @@ class RegisterOrderToShipServiceUnitTest {
       ensureWhenThereIsItemsRegistered_and_orderProvidedHasDeletedAtNotNull_thenShouldNotRegister() {
     var deletedAt = ZonedDateTime.now();
     var order = new Order(deletedAt);
-    var repository = new InMemoryOrderToShipRepository();
+    var repository = makeRepository();
     repository.save(new OrderToShip());
-    var sut = new RegisterOrderToShipService(repository);
+    var sut = makeSut(repository);
 
     sut.register(order);
 
@@ -67,8 +78,8 @@ class RegisterOrderToShipServiceUnitTest {
   @Test
   void ensureWhenOrderWithStatusNotSentIsProvided_thenShouldRegister() {
     var order = new Order(OrderStatus.NOT_SENT);
-    var repository = new InMemoryOrderToShipRepository();
-    var sut = new RegisterOrderToShipService(repository);
+    var repository = makeRepository();
+    var sut = makeSut(repository);
 
     sut.register(order);
 
