@@ -3,12 +3,12 @@ package com.deliveryapirest.services;
 import com.deliveryapirest.data.Order;
 import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
-import com.deliveryapirest.repositories.inMemory.InMemoryOrderToShipRepository;
+import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
 
 public class RegisterOrderToShipService {
-  private final InMemoryOrderToShipRepository repository;
+  private final OrderToShipRepository repository;
 
-  public RegisterOrderToShipService(InMemoryOrderToShipRepository repository) {
+  public RegisterOrderToShipService(OrderToShipRepository repository) {
     this.repository = repository;
   }
 

@@ -1,11 +1,16 @@
 package com.deliveryapirest.entities;
 
 import com.deliveryapirest.data.OrderStatus;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
 
+@Entity
+@Table(name = "orders_to_ship")
 public class OrderToShip {
-  private UUID id;
+  @Id private UUID id;
   private UUID productId;
   private int quantity;
   private OrderStatus status;
