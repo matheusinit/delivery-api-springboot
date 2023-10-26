@@ -4,7 +4,9 @@ import com.deliveryapirest.data.Order;
 import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
 import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RegisterOrderToShipService {
   private final OrderToShipRepository repository;
 
@@ -23,11 +25,19 @@ public class RegisterOrderToShipService {
       return;
     }
 
-    if (order.getDeletedAt() != null) {
+    if (order.getDeletedAt().orElse(null) != null) {
       return;
     }
 
-    var orderToShip = new OrderToShip(order.getProductId(), order.getStatus(), order.getQuantity());
+    var orderToShip =
+        new OrderToShip(
+            order.getId(),
+            order.getProductId(),
+            order.getQuantity(),
+            order.getStatus(),
+            order.getCreatedAt(),
+            order.getUpdatedAt(),
+            order.getDeletedAt());
 
     repository.save(orderToShip);
   }

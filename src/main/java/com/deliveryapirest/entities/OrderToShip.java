@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +22,24 @@ public class OrderToShip {
 
   public OrderToShip() {
     this.id = UUID.randomUUID();
+  }
+
+  public OrderToShip(
+      UUID id,
+      UUID productId,
+      int quantity,
+      OrderStatus status,
+      ZonedDateTime createdAt,
+      Optional<ZonedDateTime> updatedAt,
+      Optional<ZonedDateTime> deletedAt) {
+    this.id = id;
+    this.productId = productId;
+    this.quantity = quantity;
+    this.status = status;
+    this.createdAt = createdAt.toInstant();
+    var updatedAtWithNull = updatedAt.orElse(null);
+    this.updatedAt = updatedAtWithNull == null ? null : updatedAtWithNull.toInstant();
+    this.deletedAt = deletedAt.orElse(null) == null ? null : deletedAt.get().toInstant();
   }
 
   public OrderToShip(UUID productId, OrderStatus status, int quantity) {

@@ -1,34 +1,65 @@
 package com.deliveryapirest.consumer;
 
+import com.deliveryapirest.data.Order;
+import com.deliveryapirest.data.OrderStatus;
+import com.deliveryapirest.services.RegisterOrderToShipService;
 import com.deliveryapirest.typeAdapters.GsonOptionalAdapter;
 import com.deliveryapirest.typeAdapters.GsonZonedDateTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.time.ZonedDateTime;
 import java.util.Optional;
+import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 record OrderToConsume(
-    String id,
-    String productId,
-    String status,
+    UUID id,
+    UUID productId,
+    int status,
     ZonedDateTime createdAt,
     Optional<ZonedDateTime> updatedAt,
     Optional<ZonedDateTime> canceledAt) {}
 
 @Component
 public class OrderingConsumer {
+  @Autowired RegisterOrderToShipService registerOrderToShipService;
+
   @KafkaListener(topics = "ordering", groupId = "orderingGroup")
   public void checkOrder(String content) {
+    OrderToConsume orderToConsume = receiveAndSerializeContent(content);
+
+    var order = convertOrderToConsumeToOrderObject(orderToConsume);
+
+    this.registerOrderToShipService.register(order);
+  }
+
+  private OrderToConsume receiveAndSerializeContent(String content) {
     Gson gson =
         new GsonBuilder()
             .registerTypeAdapter(ZonedDateTime.class, new GsonZonedDateTimeAdapter())
             .registerTypeAdapterFactory(GsonOptionalAdapter.FACTORY)
             .create();
 
-    OrderToConsume order = gson.fromJson(content, OrderToConsume.class);
+    var contentInJson = gson.fromJson(content, OrderToConsume.class);
 
-    System.out.println(content);
+    return contentInJson;
+  }
+
+  private Order convertOrderToConsumeToOrderObject(OrderToConsume orderToConsume) {
+    OrderStatus orderStatusInEnum = OrderStatus.fromInt(orderToConsume.status());
+
+    var order =
+        new Order(
+            orderToConsume.id(),
+            orderToConsume.productId(),
+            1,
+            orderStatusInEnum,
+            orderToConsume.createdAt(),
+            orderToConsume.updatedAt(),
+            orderToConsume.canceledAt());
+
+    return order;
   }
 }
