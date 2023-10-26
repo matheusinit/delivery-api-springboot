@@ -25,7 +25,7 @@ public class RegisterOrderToShipService {
       return;
     }
 
-    if (order.getDeletedAt().orElse(null) != null) {
+    if (order.getCanceledAt().orElse(null) != null) {
       return;
     }
 
@@ -37,7 +37,7 @@ public class RegisterOrderToShipService {
             order.getStatus(),
             order.getCreatedAt(),
             order.getUpdatedAt(),
-            order.getDeletedAt());
+            order.getCanceledAt());
 
     repository.save(orderToShip);
   }

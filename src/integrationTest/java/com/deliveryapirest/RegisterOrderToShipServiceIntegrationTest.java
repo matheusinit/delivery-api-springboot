@@ -58,15 +58,15 @@ class RegisterOrderToShipServiceIntegrationTest {
   }
 
   @Test
-  void givenDeletedAtNotNull_whenRegister_thenShouldNotRegister() {
+  void givenCanceledAtNotNull_whenRegister_thenShouldNotRegister() {
     var sut = new RegisterOrderToShipService(repository);
-    var deletedAt = Optional.of(ZonedDateTime.now());
-    var order = new Order(deletedAt);
+    var canceledAt = Optional.of(ZonedDateTime.now());
+    var order = new Order(canceledAt);
 
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("deletedAt", is(deletedAt))));
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
     var listSize = ((Collection<?>) list).size();
     assertThat(listSize, is(0));
     assertThat(list, expected);

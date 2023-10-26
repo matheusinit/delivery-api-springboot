@@ -67,13 +67,13 @@ class OrderToShipUnitTest {
   }
 
   @Test
-  void ensureWhenOrderToShipIsCreatedThenShouldHaveDeletedAtAsNull() {
+  void ensureWhenOrderToShipIsCreatedThenShouldHaveCanceledAtAsNull() {
     var productId = UUID.randomUUID();
     var quantity = 2;
 
     var orderToShip = new OrderToShip(productId, quantity);
 
-    assertThat(orderToShip.getDeletedAt(), is(nullValue()));
+    assertThat(orderToShip.getCanceledAt(), is(nullValue()));
   }
 
   @Test

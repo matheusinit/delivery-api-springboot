@@ -75,7 +75,7 @@ public class Order {
     return updatedAt;
   }
 
-  public Optional<ZonedDateTime> getDeletedAt() {
+  public Optional<ZonedDateTime> getCanceledAt() {
     return canceledAt;
   }
 }

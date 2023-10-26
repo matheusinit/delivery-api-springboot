@@ -48,16 +48,16 @@ class RegisterOrderToShipServiceUnitTest {
   }
 
   @Test
-  void ensureWhenDeletedAtProvidedIsNotNullThenShouldNotRegister() {
-    var deletedAt = Optional.of(ZonedDateTime.now());
-    var order = new Order(deletedAt);
+  void ensureWhenCanceledAtProvidedIsNotNullThenShouldNotRegister() {
+    var canceledAt = Optional.of(ZonedDateTime.now());
+    var order = new Order(canceledAt);
     var repository = makeRepository();
     var sut = makeSut(repository);
 
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("deletedAt", is(deletedAt))));
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
     assertThat(list.size(), is(0));
     assertThat(list, expected);
   }
@@ -79,9 +79,9 @@ class RegisterOrderToShipServiceUnitTest {
 
   @Test
   void
-      ensureWhenThereIsItemsRegistered_and_orderProvidedHasDeletedAtNotNull_thenShouldNotRegister() {
-    var deletedAt = Optional.of(ZonedDateTime.now());
-    var order = new Order(deletedAt);
+      ensureWhenThereIsItemsRegistered_and_orderProvidedHasCanceledAtNotNull_thenShouldNotRegister() {
+    var canceledAt = Optional.of(ZonedDateTime.now());
+    var order = new Order(canceledAt);
     var repository = makeRepository();
     repository.save(new OrderToShip());
     var sut = makeSut(repository);
@@ -89,7 +89,7 @@ class RegisterOrderToShipServiceUnitTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("deletedAt", is(deletedAt))));
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
     assertThat(list, expected);
   }
 

@@ -18,7 +18,7 @@ public class OrderToShip {
   private OrderStatus status;
   private Instant createdAt;
   private Instant updatedAt;
-  private Instant deletedAt;
+  private Instant canceledAt;
 
   public OrderToShip() {
     this.id = UUID.randomUUID();
@@ -31,7 +31,7 @@ public class OrderToShip {
       OrderStatus status,
       ZonedDateTime createdAt,
       Optional<ZonedDateTime> updatedAt,
-      Optional<ZonedDateTime> deletedAt) {
+      Optional<ZonedDateTime> canceledAt) {
     this.id = id;
     this.productId = productId;
     this.quantity = quantity;
@@ -39,7 +39,7 @@ public class OrderToShip {
     this.createdAt = createdAt.toInstant();
     var updatedAtWithNull = updatedAt.orElse(null);
     this.updatedAt = updatedAtWithNull == null ? null : updatedAtWithNull.toInstant();
-    this.deletedAt = deletedAt.orElse(null) == null ? null : deletedAt.get().toInstant();
+    this.canceledAt = canceledAt.orElse(null) == null ? null : canceledAt.get().toInstant();
   }
 
   public OrderToShip(UUID productId, OrderStatus status, int quantity) {
@@ -81,7 +81,7 @@ public class OrderToShip {
     return updatedAt;
   }
 
-  public Instant getDeletedAt() {
-    return deletedAt;
+  public Instant getCanceledAt() {
+    return canceledAt;
   }
 }
