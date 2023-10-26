@@ -29,7 +29,8 @@ class RegisterOrderToShipServiceIntegrationTest {
     var list = repository.findAll();
     var expected =
         not(hasItem(Matchers.<OrderToShip>hasProperty("status", is(OrderStatus.CANCELLED))));
-    assertThat(((Collection<?>) list).size(), is(0));
+    var listSize = ((Collection<?>) list).size();
+    assertThat(listSize, is(0));
     assertThat(list, expected);
   }
 }
