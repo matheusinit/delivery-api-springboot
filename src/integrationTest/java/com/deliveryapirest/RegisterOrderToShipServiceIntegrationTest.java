@@ -38,12 +38,13 @@ class RegisterOrderToShipServiceIntegrationTest {
   @Test
   void givenQuantityEqualZero_whenRegister_thenShouldNotRegister() {
     var sut = new RegisterOrderToShipService(repository);
-    var order = new Order(OrderStatus.NOT_SENT, 0);
+    var quantity = 0;
+    var order = new Order(OrderStatus.NOT_SENT, quantity);
 
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(0))));
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(quantity))));
     var listSize = ((Collection<?>) list).size();
     assertThat(listSize, is(0));
     assertThat(list, expected);
