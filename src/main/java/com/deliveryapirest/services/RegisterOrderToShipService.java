@@ -27,6 +27,8 @@ public class RegisterOrderToShipService {
       return;
     }
 
-    repository.save(new OrderToShip(order.getProductId(), order.getStatus(), order.getQuantity()));
+    var orderToShip = new OrderToShip(order.getProductId(), order.getStatus(), order.getQuantity());
+
+    repository.save(orderToShip);
   }
 }
