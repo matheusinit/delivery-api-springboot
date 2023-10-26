@@ -1,7 +1,7 @@
 package com.deliveryapirest;
 
 import com.deliveryapirest.entities.Stock;
-import com.deliveryapirest.repositories.StockRepository;
+import com.deliveryapirest.repositories.hibernate.StockRepository;
 import io.restassured.RestAssured;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;

@@ -1,4 +1,4 @@
-package com.deliveryapirest.repositories;
+package com.deliveryapirest.repositories.hibernate;
 
 import com.deliveryapirest.entities.Stock;
 import java.util.UUID;
