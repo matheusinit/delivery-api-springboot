@@ -8,6 +8,7 @@ import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
 import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
 import com.deliveryapirest.services.RegisterOrderToShipService;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,21 @@ class RegisterOrderToShipServiceIntegrationTest {
 
     var list = repository.findAll();
     var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(0))));
+    var listSize = ((Collection<?>) list).size();
+    assertThat(listSize, is(0));
+    assertThat(list, expected);
+  }
+
+  @Test
+  void givenDeletedAtNotNull_whenRegister_thenShouldNotRegister() {
+    var sut = new RegisterOrderToShipService(repository);
+    var deletedAt = ZonedDateTime.now();
+    var order = new Order(deletedAt);
+
+    sut.register(order);
+
+    var list = repository.findAll();
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("deletedAt", is(deletedAt))));
     var listSize = ((Collection<?>) list).size();
     assertThat(listSize, is(0));
     assertThat(list, expected);
