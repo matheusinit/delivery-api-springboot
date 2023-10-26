@@ -1,10 +1,11 @@
 package com.deliveryapirest.repositories.inMemory;
 
 import com.deliveryapirest.entities.OrderToShip;
+import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryOrderToShipRepository {
+public class InMemoryOrderToShipRepository implements OrderToShipRepository {
   private List<OrderToShip> orders;
 
   public InMemoryOrderToShipRepository() {
@@ -15,7 +16,9 @@ public class InMemoryOrderToShipRepository {
     return orders;
   }
 
-  public void save(OrderToShip orderToShip) {
+  public OrderToShip save(OrderToShip orderToShip) {
     this.orders.add(orderToShip);
+
+    return this.orders.get(this.orders.size() - 1);
   }
 }

@@ -1,9 +1,10 @@
 package com.deliveryapirest.repositories.protocols;
 
 import com.deliveryapirest.entities.OrderToShip;
-import java.util.UUID;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
-public interface OrderToShipRepository extends CrudRepository<OrderToShip, UUID> {}
+public interface OrderToShipRepository {
+  public List<OrderToShip> findAll();
+
+  public OrderToShip save(OrderToShip orderToShip);
+}

@@ -12,8 +12,10 @@ import com.deliveryapirest.data.Order;
 import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
 import com.deliveryapirest.repositories.inMemory.InMemoryOrderToShipRepository;
+import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
 import com.deliveryapirest.services.RegisterOrderToShipService;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +27,7 @@ class RegisterOrderToShipServiceUnitTest {
     return repository;
   }
 
-  private RegisterOrderToShipService makeSut(InMemoryOrderToShipRepository repository) {
+  private RegisterOrderToShipService makeSut(OrderToShipRepository repository) {
     return new RegisterOrderToShipService(repository);
   }
 
@@ -47,7 +49,7 @@ class RegisterOrderToShipServiceUnitTest {
 
   @Test
   void ensureWhenDeletedAtProvidedIsNotNullThenShouldNotRegister() {
-    var deletedAt = ZonedDateTime.now();
+    var deletedAt = Optional.of(ZonedDateTime.now());
     var order = new Order(deletedAt);
     var repository = makeRepository();
     var sut = makeSut(repository);
@@ -78,7 +80,7 @@ class RegisterOrderToShipServiceUnitTest {
   @Test
   void
       ensureWhenThereIsItemsRegistered_and_orderProvidedHasDeletedAtNotNull_thenShouldNotRegister() {
-    var deletedAt = ZonedDateTime.now();
+    var deletedAt = Optional.of(ZonedDateTime.now());
     var order = new Order(deletedAt);
     var repository = makeRepository();
     repository.save(new OrderToShip());

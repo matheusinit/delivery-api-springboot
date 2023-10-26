@@ -16,6 +16,9 @@ public class Order {
   public Order(OrderStatus status, int quantity) {
     this.status = status;
     this.quantity = quantity;
+    this.createdAt = ZonedDateTime.now();
+    this.updatedAt = Optional.empty();
+    this.canceledAt = Optional.empty();
   }
 
   public Order(Optional<ZonedDateTime> canceledAt) {
