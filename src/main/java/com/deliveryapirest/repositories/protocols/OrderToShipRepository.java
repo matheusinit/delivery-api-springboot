@@ -7,4 +7,6 @@ public interface OrderToShipRepository {
   public List<OrderToShip> findAll();
 
   public OrderToShip save(OrderToShip orderToShip);
+
+  public void deleteAll();
 }

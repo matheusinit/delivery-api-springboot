@@ -21,4 +21,8 @@ public class InMemoryOrderToShipRepository implements OrderToShipRepository {
 
     return this.orders.get(this.orders.size() - 1);
   }
+
+  public void deleteAll() {
+    this.orders.clear();
+  }
 }

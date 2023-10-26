@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 class RegisterOrderToShipServiceIntegrationTest {
 
   @Autowired OrderToShipRepository repository;
+
+  @BeforeEach
+  void clearOrderToShipRecords() {
+    repository.deleteAll();
+  }
 
   @Test
   void givenOrderWithStatusDifferentThanNotSent_whenRegister_thenShouldNotRegister() {
