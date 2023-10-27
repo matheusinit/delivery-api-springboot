@@ -48,4 +48,21 @@ class StationDeliveryUnitTest {
 
     assertEquals("Longitude is required", error.getMessage());
   }
+
+  @Test
+  void
+      givenNameAndZipCodeAndLatitudeAndLongitude_whenDeliveryStationIsCreated_thenShouldReturnObjectWithData()
+          throws Exception {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+    var latitude = -5.826694;
+    var longitude = -35.2144;
+
+    var stationDelivery = new StationDelivery(name, zipCode, latitude, longitude);
+
+    assertEquals(name, stationDelivery.getName());
+    assertEquals(zipCode, stationDelivery.getZipCode());
+    assertEquals(latitude, stationDelivery.getLatitude());
+    assertEquals(longitude, stationDelivery.getLongitude());
+  }
 }
