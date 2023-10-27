@@ -17,7 +17,7 @@ class StationDeliveryUnitTest {
   }
 
   @Test
-  void givenName_whenAnyOtherFieldIsProvided_thenShouldThrowError() {
+  void givenName_whenAnyOtherFieldIsNotProvided_thenShouldThrowError() {
     var name = "Rio Grande do Norte\'s Station Delivery";
 
     Exception error =
