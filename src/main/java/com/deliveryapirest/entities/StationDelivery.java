@@ -15,5 +15,9 @@ public class StationDelivery {
     if (latitude == null && longitude == null) {
       throw new Exception("Latitude and Longitude is required");
     }
+
+    if (longitude == null) {
+      throw new Exception("Longitude is required");
+    }
   }
 }
