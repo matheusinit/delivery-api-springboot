@@ -25,4 +25,15 @@ class StationDeliveryUnitTest {
 
     assertEquals("Zip code, Latitude and Longitude is required", error.getMessage());
   }
+
+  @Test
+  void givenNameAndZipCode_whenAnyOtherFieldIsNotProvided_thenShouldThrowError() {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+
+    Exception error =
+        assertThrows(Exception.class, () -> new StationDelivery(name, zipCode, null, null));
+
+    assertEquals("Latitude and Longitude is required", error.getMessage());
+  }
 }
