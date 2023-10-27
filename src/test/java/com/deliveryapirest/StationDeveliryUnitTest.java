@@ -23,6 +23,6 @@ class StationDeliveryUnitTest {
     Exception error =
         assertThrows(Exception.class, () -> new StationDelivery(name, null, null, null));
 
-    assertEquals("Zip code, latitude and longitude is required", error.getMessage());
+    assertEquals("Zip code, Latitude and Longitude is required", error.getMessage());
   }
 }
