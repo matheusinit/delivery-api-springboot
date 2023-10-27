@@ -2,6 +2,11 @@ package com.deliveryapirest.entities;
 
 public class StationDelivery {
 
+  private String name;
+  private String zipCode;
+  private Double latitude;
+  private Double longitude;
+
   public StationDelivery(String name, String zipCode, Double latitude, Double longitude)
       throws Exception {
     if (name == null && zipCode == null && latitude == null && longitude == null) {
@@ -19,5 +24,26 @@ public class StationDelivery {
     if (longitude == null) {
       throw new Exception("Longitude is required");
     }
+
+    this.name = name;
+    this.zipCode = zipCode;
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getZipCode() {
+    return zipCode;
+  }
+
+  public Double getLatitude() {
+    return latitude;
+  }
+
+  public Double getLongitude() {
+    return longitude;
   }
 }
