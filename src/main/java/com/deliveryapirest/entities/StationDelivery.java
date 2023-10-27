@@ -8,6 +8,12 @@ public class StationDelivery {
       throw new Exception("Name, Zip code, Latitude and Longitude is required");
     }
 
-    throw new Exception("Zip code, Latitude and Longitude is required");
+    if (zipCode == null && latitude == null && longitude == null) {
+      throw new Exception("Zip code, Latitude and Longitude is required");
+    }
+
+    if (latitude == null && longitude == null) {
+      throw new Exception("Latitude and Longitude is required");
+    }
   }
 }
