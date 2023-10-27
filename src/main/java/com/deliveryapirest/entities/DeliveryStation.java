@@ -1,13 +1,13 @@
 package com.deliveryapirest.entities;
 
-public class StationDelivery {
+public class DeliveryStation {
 
   private String name;
   private String zipCode;
   private Double latitude;
   private Double longitude;
 
-  public StationDelivery(String name, String zipCode, Double latitude, Double longitude)
+  public DeliveryStation(String name, String zipCode, Double latitude, Double longitude)
       throws Exception {
     if (name == null && zipCode == null && latitude == null && longitude == null) {
       throw new Exception("Name, Zip code, Latitude and Longitude is required");

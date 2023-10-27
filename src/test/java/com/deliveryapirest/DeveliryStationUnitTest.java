@@ -3,15 +3,15 @@ package com.deliveryapirest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.deliveryapirest.entities.StationDelivery;
+import com.deliveryapirest.entities.DeliveryStation;
 import org.junit.jupiter.api.Test;
 
-class StationDeliveryUnitTest {
+class DeliveryStationUnitTest {
 
   @Test
-  void givenNoneFields_whenStationDeliveryIsCreated_thenShouldThrowError() {
+  void givenNoneFields_whenDeliveryStationIsCreated_thenShouldThrowError() {
     Exception error =
-        assertThrows(Exception.class, () -> new StationDelivery(null, null, null, null));
+        assertThrows(Exception.class, () -> new DeliveryStation(null, null, null, null));
 
     assertEquals("Name, Zip code, Latitude and Longitude is required", error.getMessage());
   }
@@ -21,7 +21,7 @@ class StationDeliveryUnitTest {
     var name = "Rio Grande do Norte\'s Station Delivery";
 
     Exception error =
-        assertThrows(Exception.class, () -> new StationDelivery(name, null, null, null));
+        assertThrows(Exception.class, () -> new DeliveryStation(name, null, null, null));
 
     assertEquals("Zip code, Latitude and Longitude is required", error.getMessage());
   }
@@ -32,7 +32,7 @@ class StationDeliveryUnitTest {
     var zipCode = "59064-625";
 
     Exception error =
-        assertThrows(Exception.class, () -> new StationDelivery(name, zipCode, null, null));
+        assertThrows(Exception.class, () -> new DeliveryStation(name, zipCode, null, null));
 
     assertEquals("Latitude and Longitude is required", error.getMessage());
   }
@@ -44,7 +44,7 @@ class StationDeliveryUnitTest {
     var latitude = -5.826694;
 
     Exception error =
-        assertThrows(Exception.class, () -> new StationDelivery(name, zipCode, latitude, null));
+        assertThrows(Exception.class, () -> new DeliveryStation(name, zipCode, latitude, null));
 
     assertEquals("Longitude is required", error.getMessage());
   }
@@ -58,11 +58,11 @@ class StationDeliveryUnitTest {
     var latitude = -5.826694;
     var longitude = -35.2144;
 
-    var stationDelivery = new StationDelivery(name, zipCode, latitude, longitude);
+    var deliveryStation = new DeliveryStation(name, zipCode, latitude, longitude);
 
-    assertEquals(name, stationDelivery.getName());
-    assertEquals(zipCode, stationDelivery.getZipCode());
-    assertEquals(latitude, stationDelivery.getLatitude());
-    assertEquals(longitude, stationDelivery.getLongitude());
+    assertEquals(name, deliveryStation.getName());
+    assertEquals(zipCode, deliveryStation.getZipCode());
+    assertEquals(latitude, deliveryStation.getLatitude());
+    assertEquals(longitude, deliveryStation.getLongitude());
   }
 }
