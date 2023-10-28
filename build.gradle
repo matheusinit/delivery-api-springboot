@@ -35,6 +35,10 @@ tasks.register('integrationTest', Test) {
   classpath = sourceSets.integrationTest.runtimeClasspath
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
 
+  testLogging {
+    events "standardOut" 
+  }
+
   outputs.upToDateWhen {
     false
   }
