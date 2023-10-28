@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 class DeliveryStationLocation {
   private String name;
   private String zipCode;
+  private Double latitude;
 
-  public DeliveryStationLocation(String name, String zipCode) {
+  public DeliveryStationLocation(String name, String zipCode, Double latitude) {
     this.name = name;
     this.zipCode = zipCode;
+    this.latitude = latitude;
   }
 
   public String getName() {
@@ -22,6 +24,10 @@ class DeliveryStationLocation {
 
   public String getZipCode() {
     return this.zipCode;
+  }
+
+  public Double getLatitude() {
+    return this.latitude;
   }
 }
 
@@ -36,7 +42,14 @@ public class AddDeliveryStationController {
           .body(BadRequestError.make("Zip code, Latitude and Longitude is required"));
     }
 
+    if (deliveryStationLocation.getName() != null
+        && deliveryStationLocation.getZipCode() != null
+        && deliveryStationLocation.getLatitude() == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(BadRequestError.make("Latitude and Longitude is required"));
+    }
+
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(BadRequestError.make("Latitude and Longitude is required"));
+        .body(BadRequestError.make("Longitude is required"));
   }
 }
