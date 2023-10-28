@@ -12,10 +12,12 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 class AddDeliveryStationRequest {
   private String name;
   private String zipCode;
+  private Double latitude;
 
-  public AddDeliveryStationRequest(String name, String zipCode) {
+  public AddDeliveryStationRequest(String name, String zipCode, Double latitude) {
     this.name = name;
     this.zipCode = zipCode;
+    this.latitude = latitude;
   }
 
   public String getName() {
@@ -24,6 +26,10 @@ class AddDeliveryStationRequest {
 
   public String getZipCode() {
     return this.zipCode;
+  }
+
+  public Double getLatitude() {
+    return this.latitude;
   }
 }
 
@@ -41,7 +47,7 @@ public class AddDeliveryStationControllerIntegrationTest {
       throws JSONException {
     var name = "Rio Grande do Norte\'s Station Delivery";
 
-    var requestBody = new AddDeliveryStationRequest(name, null);
+    var requestBody = new AddDeliveryStationRequest(name, null, null);
 
     var response =
         RestAssured.given()
@@ -65,7 +71,7 @@ public class AddDeliveryStationControllerIntegrationTest {
     var name = "Rio Grande do Norte\'s Station Delivery";
     var zipCode = "59064-625";
 
-    var requestBody = new AddDeliveryStationRequest(name, zipCode);
+    var requestBody = new AddDeliveryStationRequest(name, zipCode, null);
 
     var response =
         RestAssured.given()
@@ -81,5 +87,28 @@ public class AddDeliveryStationControllerIntegrationTest {
     assertEquals(400, response.getStatusCode());
     assertEquals(
         "Latitude and Longitude is required", response.getBody().jsonPath().get("message"));
+  }
+
+  @Test
+  void givenNameAndZipCodeAndLatitude_whenLongitudeIsNotProvided_thenShouldGetBadRequest() {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+    var latitude = -5.826694;
+
+    var requestBody = new AddDeliveryStationRequest(name, zipCode, latitude);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(requestBody)
+            .when()
+            .post("/station")
+            .then()
+            .extract()
+            .response();
+
+    assertEquals(400, response.getStatusCode());
+    assertEquals("Longitude is required", response.getBody().jsonPath().get("message"));
   }
 }
