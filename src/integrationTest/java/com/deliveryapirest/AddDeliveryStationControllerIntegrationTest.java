@@ -11,13 +11,19 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 class AddDeliveryStationRequest {
   private String name;
+  private String zipCode;
 
-  public AddDeliveryStationRequest(String name) {
+  public AddDeliveryStationRequest(String name, String zipCode) {
     this.name = name;
+    this.zipCode = zipCode;
   }
 
   public String getName() {
     return name;
+  }
+
+  public String getZipCode() {
+    return this.zipCode;
   }
 }
 
@@ -35,11 +41,12 @@ public class AddDeliveryStationControllerIntegrationTest {
       throws JSONException {
     var name = "Rio Grande do Norte\'s Station Delivery";
 
-    var requestBody = new AddDeliveryStationRequest(name);
+    var requestBody = new AddDeliveryStationRequest(name, null);
 
     var response =
         RestAssured.given()
             .accept("application/json")
+            .contentType("application/json")
             .body(requestBody)
             .when()
             .post("/station")
@@ -51,5 +58,28 @@ public class AddDeliveryStationControllerIntegrationTest {
     assertEquals(
         "Zip code, Latitude and Longitude is required",
         response.getBody().jsonPath().get("message"));
+  }
+
+  @Test
+  void givenOnlyNameAndZipCode_whenAnyOtherFieldIsNotProvided_thenShouldGetBadRequest() {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+
+    var requestBody = new AddDeliveryStationRequest(name, zipCode);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(requestBody)
+            .when()
+            .post("/station")
+            .then()
+            .extract()
+            .response();
+
+    assertEquals(400, response.getStatusCode());
+    assertEquals(
+        "Latitude and Longitude is required", response.getBody().jsonPath().get("message"));
   }
 }
