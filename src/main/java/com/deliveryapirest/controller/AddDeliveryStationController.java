@@ -1,5 +1,6 @@
 package com.deliveryapirest.controller;
 
+import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.errors.BadRequestError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,13 @@ class DeliveryStationLocation {
   private String name;
   private String zipCode;
   private Double latitude;
+  private Double longitude;
 
-  public DeliveryStationLocation(String name, String zipCode, Double latitude) {
+  public DeliveryStationLocation(String name, String zipCode, Double latitude, Double longitude) {
     this.name = name;
     this.zipCode = zipCode;
     this.latitude = latitude;
+    this.longitude = longitude;
   }
 
   public String getName() {
@@ -29,6 +32,10 @@ class DeliveryStationLocation {
   public Double getLatitude() {
     return this.latitude;
   }
+
+  public Double getLongitude() {
+    return this.longitude;
+  }
 }
 
 @RestController()
@@ -37,19 +44,31 @@ public class AddDeliveryStationController {
   ResponseEntity<?> addDeliveryStation(
       @RequestBody DeliveryStationLocation deliveryStationLocation) {
 
-    if (deliveryStationLocation.getName() != null && deliveryStationLocation.getZipCode() == null) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(BadRequestError.make("Zip code, Latitude and Longitude is required"));
-    }
+    try {
+      var deliveryStation =
+          new DeliveryStation(
+              deliveryStationLocation.getName(),
+              deliveryStationLocation.getZipCode(),
+              deliveryStationLocation.getLatitude(),
+              deliveryStationLocation.getLongitude());
 
-    if (deliveryStationLocation.getName() != null
-        && deliveryStationLocation.getZipCode() != null
-        && deliveryStationLocation.getLatitude() == null) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(BadRequestError.make("Latitude and Longitude is required"));
-    }
+      return ResponseEntity.status(HttpStatus.CREATED).body(deliveryStation);
+    } catch (Exception exception) {
+      if (deliveryStationLocation.getName() != null
+          && deliveryStationLocation.getZipCode() == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(BadRequestError.make("Zip code, Latitude and Longitude is required"));
+      }
 
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(BadRequestError.make("Longitude is required"));
+      if (deliveryStationLocation.getName() != null
+          && deliveryStationLocation.getZipCode() != null
+          && deliveryStationLocation.getLatitude() == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(BadRequestError.make("Latitude and Longitude is required"));
+      }
+
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(BadRequestError.make("Longitude is required"));
+    }
   }
 }
