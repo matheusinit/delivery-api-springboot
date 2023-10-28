@@ -13,11 +13,13 @@ class AddDeliveryStationRequest {
   private String name;
   private String zipCode;
   private Double latitude;
+  private Double longitude;
 
-  public AddDeliveryStationRequest(String name, String zipCode, Double latitude) {
+  public AddDeliveryStationRequest(String name, String zipCode, Double latitude, Double longitude) {
     this.name = name;
     this.zipCode = zipCode;
     this.latitude = latitude;
+    this.longitude = longitude;
   }
 
   public String getName() {
@@ -30,6 +32,10 @@ class AddDeliveryStationRequest {
 
   public Double getLatitude() {
     return this.latitude;
+  }
+
+  public Double getLongitude() {
+    return this.longitude;
   }
 }
 
@@ -47,7 +53,7 @@ public class AddDeliveryStationControllerIntegrationTest {
       throws JSONException {
     var name = "Rio Grande do Norte\'s Station Delivery";
 
-    var requestBody = new AddDeliveryStationRequest(name, null, null);
+    var requestBody = new AddDeliveryStationRequest(name, null, null, null);
 
     var response =
         RestAssured.given()
@@ -71,7 +77,7 @@ public class AddDeliveryStationControllerIntegrationTest {
     var name = "Rio Grande do Norte\'s Station Delivery";
     var zipCode = "59064-625";
 
-    var requestBody = new AddDeliveryStationRequest(name, zipCode, null);
+    var requestBody = new AddDeliveryStationRequest(name, zipCode, null, null);
 
     var response =
         RestAssured.given()
@@ -95,7 +101,7 @@ public class AddDeliveryStationControllerIntegrationTest {
     var zipCode = "59064-625";
     var latitude = -5.826694;
 
-    var requestBody = new AddDeliveryStationRequest(name, zipCode, latitude);
+    var requestBody = new AddDeliveryStationRequest(name, zipCode, latitude, null);
 
     var response =
         RestAssured.given()
@@ -110,5 +116,35 @@ public class AddDeliveryStationControllerIntegrationTest {
 
     assertEquals(400, response.getStatusCode());
     assertEquals("Longitude is required", response.getBody().jsonPath().get("message"));
+  }
+
+  @Test
+  void givenValidData_whenDeliveryStationIsAdded_thenShouldGetCreated() {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+    Double latitude = -5.826694;
+    Double longitude = -35.2144;
+
+    var requestBody = new AddDeliveryStationRequest(name, zipCode, latitude, longitude);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(requestBody)
+            .when()
+            .post("/station")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    var latitudeInResponse = (Float) responseBody.get("latitude");
+    var longitudeInResponse = (Float) responseBody.get("longitude");
+    assertEquals(201, response.getStatusCode());
+    assertEquals(name, responseBody.get("name"));
+    assertEquals(zipCode, responseBody.get("zipCode"));
+    assertEquals(latitude.floatValue(), latitudeInResponse);
+    assertEquals(longitude.floatValue(), longitudeInResponse);
   }
 }
