@@ -1,5 +1,6 @@
 package com.deliveryapirest.controller;
 
+import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.errors.BadRequestError;
 import org.springframework.http.HttpStatus;
@@ -7,36 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-class DeliveryStationInput {
-  private String name;
-  private String zipCode;
-  private Double latitude;
-  private Double longitude;
-
-  public DeliveryStationInput(String name, String zipCode, Double latitude, Double longitude) {
-    this.name = name;
-    this.zipCode = zipCode;
-    this.latitude = latitude;
-    this.longitude = longitude;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getZipCode() {
-    return this.zipCode;
-  }
-
-  public Double getLatitude() {
-    return this.latitude;
-  }
-
-  public Double getLongitude() {
-    return this.longitude;
-  }
-}
 
 @RestController()
 public class AddDeliveryStationController {

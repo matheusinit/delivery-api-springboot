@@ -2,42 +2,13 @@ package com.deliveryapirest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.deliveryapirest.data.DeliveryStationInput;
 import io.restassured.RestAssured;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-
-class AddDeliveryStationRequest {
-  private String name;
-  private String zipCode;
-  private Double latitude;
-  private Double longitude;
-
-  public AddDeliveryStationRequest(String name, String zipCode, Double latitude, Double longitude) {
-    this.name = name;
-    this.zipCode = zipCode;
-    this.latitude = latitude;
-    this.longitude = longitude;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getZipCode() {
-    return this.zipCode;
-  }
-
-  public Double getLatitude() {
-    return this.latitude;
-  }
-
-  public Double getLongitude() {
-    return this.longitude;
-  }
-}
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AddDeliveryStationControllerIntegrationTest {
@@ -53,7 +24,7 @@ public class AddDeliveryStationControllerIntegrationTest {
       throws JSONException {
     var name = "Rio Grande do Norte\'s Station Delivery";
 
-    var requestBody = new AddDeliveryStationRequest(name, null, null, null);
+    var requestBody = new DeliveryStationInput(name, null, null, null);
 
     var response =
         RestAssured.given()
@@ -77,7 +48,7 @@ public class AddDeliveryStationControllerIntegrationTest {
     var name = "Rio Grande do Norte\'s Station Delivery";
     var zipCode = "59064-625";
 
-    var requestBody = new AddDeliveryStationRequest(name, zipCode, null, null);
+    var requestBody = new DeliveryStationInput(name, zipCode, null, null);
 
     var response =
         RestAssured.given()
@@ -101,7 +72,7 @@ public class AddDeliveryStationControllerIntegrationTest {
     var zipCode = "59064-625";
     var latitude = -5.826694;
 
-    var requestBody = new AddDeliveryStationRequest(name, zipCode, latitude, null);
+    var requestBody = new DeliveryStationInput(name, zipCode, latitude, null);
 
     var response =
         RestAssured.given()
@@ -125,7 +96,7 @@ public class AddDeliveryStationControllerIntegrationTest {
     Double latitude = -5.826694;
     Double longitude = -35.2144;
 
-    var requestBody = new AddDeliveryStationRequest(name, zipCode, latitude, longitude);
+    var requestBody = new DeliveryStationInput(name, zipCode, latitude, longitude);
 
     var response =
         RestAssured.given()
