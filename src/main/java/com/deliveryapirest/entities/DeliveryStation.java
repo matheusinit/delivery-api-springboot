@@ -24,6 +24,8 @@ public class DeliveryStation {
   @UpdateTimestamp
   private Instant updatedAt;
 
+  private Instant deletedAt;
+
   public DeliveryStation(String name, String zipCode, Double latitude, Double longitude)
       throws Exception {
     if (name == null && zipCode == null && latitude == null && longitude == null) {
@@ -48,6 +50,7 @@ public class DeliveryStation {
     this.latitude = latitude;
     this.longitude = longitude;
     this.createdAt = Instant.now();
+    this.deletedAt = null;
   }
 
   public DeliveryStation() {}
@@ -74,5 +77,9 @@ public class DeliveryStation {
 
   public Instant getUpdatedAt() {
     return updatedAt;
+  }
+
+  public Instant getDeletedAt() {
+    return deletedAt;
   }
 }
