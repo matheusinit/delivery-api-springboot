@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,12 @@ record OrderToConsume(
 
 @Component
 public class OrderingConsumer {
-  @Autowired RegisterOrderToShipService registerOrderToShipService;
+
+  RegisterOrderToShipService registerOrderToShipService;
+
+  public OrderingConsumer(RegisterOrderToShipService registerOrderToShipService) {
+    this.registerOrderToShipService = registerOrderToShipService;
+  }
 
   @KafkaListener(topics = "ordering", groupId = "orderingGroup")
   public void checkOrder(String content) {

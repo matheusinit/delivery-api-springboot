@@ -4,7 +4,6 @@ import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.errors.BadRequestError;
 import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 public class AddDeliveryStationController {
 
-  @Autowired DeliveryStationRepository repository;
+  DeliveryStationRepository repository;
+
+  public AddDeliveryStationController(DeliveryStationRepository repository) {
+    this.repository = repository;
+  }
 
   @PostMapping("/station")
   ResponseEntity<?> addDeliveryStation(@RequestBody DeliveryStationInput deliveryStationInput) {
