@@ -2,13 +2,21 @@ package com.deliveryapirest.controller;
 
 import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.entities.DeliveryStation;
-import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.errors.MissingFieldError;
 import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+class InternalServerError {
+  public String message;
+
+  public InternalServerError(String message) {
+    this.message = message;
+  }
+}
 
 @RestController()
 public class AddDeliveryStationController {
@@ -20,7 +28,8 @@ public class AddDeliveryStationController {
   }
 
   @PostMapping("/station")
-  ResponseEntity<?> addDeliveryStation(@RequestBody DeliveryStationInput deliveryStationInput) {
+  public ResponseEntity<?> addDeliveryStation(
+      @RequestBody DeliveryStationInput deliveryStationInput) {
 
     try {
       var name = deliveryStationInput.getName();
@@ -34,10 +43,13 @@ public class AddDeliveryStationController {
 
       return ResponseEntity.status(HttpStatus.CREATED).body(deliveryStation);
     } catch (Exception exception) {
-
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(BadRequestError.make(exception.getMessage()));
-      
+      if (exception.getCause() instanceof MissingFieldError) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(MissingFieldError.make(exception.getMessage()));
+      }
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(
+              new InternalServerError("An internal server error occured. Please try again later."));
     }
   }
 }

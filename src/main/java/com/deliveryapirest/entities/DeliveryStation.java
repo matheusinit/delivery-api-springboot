@@ -1,5 +1,6 @@
 package com.deliveryapirest.entities;
 
+import com.deliveryapirest.errors.MissingFieldError;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -29,19 +30,19 @@ public class DeliveryStation {
   public DeliveryStation(String name, String zipCode, Double latitude, Double longitude)
       throws Exception {
     if (name == null && zipCode == null && latitude == null && longitude == null) {
-      throw new Exception("Name, Zip code, Latitude and Longitude is required");
+      throw new MissingFieldError("Name, Zip code, Latitude and Longitude is required");
     }
 
     if (zipCode == null && latitude == null && longitude == null) {
-      throw new Exception("Zip code, Latitude and Longitude is required");
+      throw new MissingFieldError("Zip code, Latitude and Longitude is required");
     }
 
     if (latitude == null && longitude == null) {
-      throw new Exception("Latitude and Longitude is required");
+      throw new MissingFieldError("Latitude and Longitude is required");
     }
 
     if (longitude == null) {
-      throw new Exception("Longitude is required");
+      throw new MissingFieldError("Longitude is required");
     }
 
     this.id = UUID.randomUUID();
