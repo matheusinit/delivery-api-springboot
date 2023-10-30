@@ -205,4 +205,29 @@ public class AddDeliveryStationControllerIntegrationTest {
     assertThat(responseBody.prettyPrint(), is(containsString("updatedAt")));
     assertThat(responseBody.get("updatedAt"), is(nullValue(Instant.class)));
   }
+
+  @Test
+  void givenValidData_whenDeliveryStationIsAdded_thenShouldHaveDeletedAtValue() {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+    Double latitude = -5.826694;
+    Double longitude = -35.2144;
+
+    var requestBody = new DeliveryStationInput(name, zipCode, latitude, longitude);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(requestBody)
+            .when()
+            .post("/station")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(responseBody.prettify(), is(containsString("deletedAt")));
+    assertThat(responseBody.get("deletedAt"), is(nullValue(Instant.class)));
+  }
 }
