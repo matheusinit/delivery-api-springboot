@@ -40,6 +40,14 @@ To run the integration tests:
     ./gradlew integrationTest
 
 
+## Features
+
+ + [x] Get an order from the message queue
+ + [x] Add delivery stations
+ + [ ] Get delivery stations
+ + [ ] Inform product is in delivery
+ + [ ] Inform product was delivered
+
 ## References
 
  - :link: [Spring Boot](https://spring.io/guides/gs/spring-boot/)
