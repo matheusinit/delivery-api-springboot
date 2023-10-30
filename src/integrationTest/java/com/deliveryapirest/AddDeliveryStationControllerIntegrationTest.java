@@ -3,10 +3,13 @@ package com.deliveryapirest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.deliveryapirest.data.DeliveryStationInput;
+import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
 import io.restassured.RestAssured;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
@@ -14,9 +17,16 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 public class AddDeliveryStationControllerIntegrationTest {
   @LocalServerPort private Integer port;
 
+  @Autowired DeliveryStationRepository repository;
+
   @BeforeAll
   void setup() {
     RestAssured.baseURI = "http://localhost:" + port;
+  }
+
+  @BeforeEach
+  void cleanDatabaseRecords() {
+    this.repository.deleteAll();
   }
 
   @Test
@@ -117,5 +127,30 @@ public class AddDeliveryStationControllerIntegrationTest {
     assertEquals(zipCode, responseBody.get("zipCode"));
     assertEquals(latitude.floatValue(), latitudeInResponse);
     assertEquals(longitude.floatValue(), longitudeInResponse);
+  }
+
+  @Test
+  void givenValidData_whenDeliveryStationIsAdded_thenShouldBeStoredInDatabase() {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+    Double latitude = -5.826694;
+    Double longitude = -35.2144;
+
+    var requestBody = new DeliveryStationInput(name, zipCode, latitude, longitude);
+
+    RestAssured.given()
+        .accept("application/json")
+        .contentType("application/json")
+        .body(requestBody)
+        .when()
+        .post("/station")
+        .then();
+
+    var list = repository.findAll();
+    assertEquals(1, list.size());
+    assertEquals(name, list.get(0).getName());
+    assertEquals(zipCode, list.get(0).getZipCode());
+    assertEquals(latitude, list.get(0).getLatitude());
+    assertEquals(longitude, list.get(0).getLongitude());
   }
 }
