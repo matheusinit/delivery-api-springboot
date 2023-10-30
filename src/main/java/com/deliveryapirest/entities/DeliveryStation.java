@@ -3,7 +3,9 @@ package com.deliveryapirest.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import java.util.UUID;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "delivery_station")
@@ -14,6 +16,7 @@ public class DeliveryStation {
   private String zipCode;
   private Double latitude;
   private Double longitude;
+  @CreationTimestamp private Instant createdAt;
 
   public DeliveryStation(String name, String zipCode, Double latitude, Double longitude)
       throws Exception {
@@ -38,6 +41,7 @@ public class DeliveryStation {
     this.zipCode = zipCode;
     this.latitude = latitude;
     this.longitude = longitude;
+    this.createdAt = Instant.now();
   }
 
   public DeliveryStation() {}
@@ -56,5 +60,9 @@ public class DeliveryStation {
 
   public Double getLongitude() {
     return longitude;
+  }
+
+  public Instant getCreatedAt() {
+    return createdAt;
   }
 }
