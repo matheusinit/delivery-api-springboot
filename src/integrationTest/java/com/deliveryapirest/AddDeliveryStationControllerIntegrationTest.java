@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
 import io.restassured.RestAssured;
+import java.time.Instant;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -178,5 +179,30 @@ public class AddDeliveryStationControllerIntegrationTest {
 
     var responseBody = response.getBody().jsonPath();
     assertThat(responseBody.get("createdAt"), is(notNullValue()));
+  }
+
+  @Test
+  void givenValidData_whenDeliveryStationIsAdded_thenShouldHaveUpdatedAtValue() {
+    var name = "Rio Grande do Norte\'s Station Delivery";
+    var zipCode = "59064-625";
+    Double latitude = -5.826694;
+    Double longitude = -35.2144;
+
+    var requestBody = new DeliveryStationInput(name, zipCode, latitude, longitude);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(requestBody)
+            .when()
+            .post("/station")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(responseBody.prettyPrint(), is(containsString("updatedAt")));
+    assertThat(responseBody.get("updatedAt"), is(nullValue(Instant.class)));
   }
 }
