@@ -35,20 +35,9 @@ public class AddDeliveryStationController {
       return ResponseEntity.status(HttpStatus.CREATED).body(deliveryStation);
     } catch (Exception exception) {
 
-      if (deliveryStationInput.getName() != null && deliveryStationInput.getZipCode() == null) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(BadRequestError.make("Zip code, Latitude and Longitude is required"));
-      }
-
-      if (deliveryStationInput.getName() != null
-          && deliveryStationInput.getZipCode() != null
-          && deliveryStationInput.getLatitude() == null) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(BadRequestError.make("Latitude and Longitude is required"));
-      }
-
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(BadRequestError.make("Longitude is required"));
+          .body(BadRequestError.make(exception.getMessage()));
+      
     }
   }
 }
