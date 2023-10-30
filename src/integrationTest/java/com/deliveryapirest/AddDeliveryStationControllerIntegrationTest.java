@@ -202,7 +202,7 @@ public class AddDeliveryStationControllerIntegrationTest {
             .response();
 
     var responseBody = response.getBody().jsonPath();
-    assertThat(responseBody.prettyPrint(), is(containsString("updatedAt")));
+    assertThat(responseBody.prettify(), is(containsString("updatedAt")));
     assertThat(responseBody.get("updatedAt"), is(nullValue(Instant.class)));
   }
 
