@@ -1,7 +1,15 @@
 package com.deliveryapirest.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.util.UUID;
+
+@Entity
+@Table(name = "delivery_station")
 public class DeliveryStation {
 
+  @Id private UUID id;
   private String name;
   private String zipCode;
   private Double latitude;
@@ -25,11 +33,14 @@ public class DeliveryStation {
       throw new Exception("Longitude is required");
     }
 
+    this.id = UUID.randomUUID();
     this.name = name;
     this.zipCode = zipCode;
     this.latitude = latitude;
     this.longitude = longitude;
   }
+
+  public DeliveryStation() {}
 
   public String getName() {
     return name;

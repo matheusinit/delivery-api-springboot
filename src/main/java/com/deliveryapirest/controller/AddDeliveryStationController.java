@@ -3,6 +3,8 @@ package com.deliveryapirest.controller;
 import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
 public class AddDeliveryStationController {
+
+  @Autowired DeliveryStationRepository repository;
+
   @PostMapping("/station")
   ResponseEntity<?> addDeliveryStation(@RequestBody DeliveryStationInput deliveryStationInput) {
 
@@ -22,8 +27,11 @@ public class AddDeliveryStationController {
 
       var deliveryStation = new DeliveryStation(name, zipCode, latitude, longitude);
 
+      repository.save(deliveryStation);
+
       return ResponseEntity.status(HttpStatus.CREATED).body(deliveryStation);
     } catch (Exception exception) {
+
       if (deliveryStationInput.getName() != null && deliveryStationInput.getZipCode() == null) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(BadRequestError.make("Zip code, Latitude and Longitude is required"));
