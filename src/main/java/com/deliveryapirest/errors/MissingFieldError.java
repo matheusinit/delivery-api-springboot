@@ -4,6 +4,7 @@ public class MissingFieldError extends Exception {
   public String message;
 
   public MissingFieldError(String message) {
+    super(message);
     this.message = message;
   }
 

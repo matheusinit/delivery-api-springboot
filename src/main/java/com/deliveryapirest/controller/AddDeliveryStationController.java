@@ -43,10 +43,11 @@ public class AddDeliveryStationController {
 
       return ResponseEntity.status(HttpStatus.CREATED).body(deliveryStation);
     } catch (Exception exception) {
-      if (exception.getCause() instanceof MissingFieldError) {
+      if (exception instanceof MissingFieldError) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(MissingFieldError.make(exception.getMessage()));
       }
+
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(
               new InternalServerError("An internal server error occured. Please try again later."));
