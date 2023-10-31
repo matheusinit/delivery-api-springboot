@@ -1,5 +1,18 @@
 version: '3.7'
 services:
+  api-rest:
+    container_name: delivery-api-rest
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_URL: ${POSTGRES_URL}
+      KAFKA_URL: ${KAFKA_URL}
+    depends_on:
+      - database
+      - kafka
   kafka:
     container_name: ordering-queue
     image: 'bitnami/kafka:latest'
