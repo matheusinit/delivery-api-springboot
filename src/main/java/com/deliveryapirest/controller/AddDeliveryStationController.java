@@ -2,6 +2,7 @@ package com.deliveryapirest.controller;
 
 import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.entities.DeliveryStation;
+import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.errors.MissingFieldError;
 import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
 import org.springframework.http.HttpStatus;
@@ -9,14 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-class InternalServerError {
-  public String message;
-
-  public InternalServerError(String message) {
-    this.message = message;
-  }
-}
 
 @RestController()
 public class AddDeliveryStationController {
