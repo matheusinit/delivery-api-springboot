@@ -96,6 +96,10 @@ public class OrderToShip {
           "Order is already out for delivery. Cannot set it out for delivery again!");
     }
 
+    if (status == OrderStatus.IN_DELIVERY) {
+      throw new Exception("Order is in delivery. Cannot set it out for delivery!");
+    }
+
     status = OrderStatus.OUT_FOR_DELIVERY;
   }
 }
