@@ -37,9 +37,10 @@ public class OrderToShip {
     this.quantity = quantity;
     this.status = status;
     this.createdAt = createdAt.toInstant();
-    var updatedAtWithNull = updatedAt.orElse(null);
+    var updatedAtWithNull = updatedAt != null ? updatedAt.orElse(null) : null;
     this.updatedAt = updatedAtWithNull == null ? null : updatedAtWithNull.toInstant();
-    this.canceledAt = canceledAt.orElse(null) == null ? null : canceledAt.get().toInstant();
+    var canceledAtWithNull = canceledAt != null ? canceledAt.orElse(null) : null;
+    this.canceledAt = canceledAtWithNull == null ? null : canceledAt.get().toInstant();
   }
 
   public OrderToShip(UUID productId, OrderStatus status, int quantity) {
@@ -83,5 +84,9 @@ public class OrderToShip {
 
   public Instant getCanceledAt() {
     return canceledAt;
+  }
+
+  public void setOutForDelivery() throws Exception {
+    throw new Exception("Order is cancelled. Cannot set it out for delivery!");
   }
 }
