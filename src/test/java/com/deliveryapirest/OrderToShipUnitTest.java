@@ -2,9 +2,12 @@ package com.deliveryapirest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -84,5 +87,22 @@ class OrderToShipUnitTest {
     var orderToShip = new OrderToShip(productId, quantity);
 
     assertThat(orderToShip.getId(), is(instanceOf(UUID.class)));
+  }
+
+  @Test
+  void ensureGivenOrderWithCancelledStatusWhenOrderIsSetOutForDeliveryThenShouldThrowError() {
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.CANCELLED;
+    var createdAt = ZonedDateTime.now();
+
+    var orderToShip =
+        new OrderToShip(id, productId, quantity, currentStatus, createdAt, null, null);
+
+    Exception error = assertThrows(Exception.class, () -> orderToShip.setOutForDelivery());
+
+    assertThat(orderToShip.getStatus(), is(OrderStatus.CANCELLED));
+    assertThat(error.getMessage(), is("Order is cancelled. Cannot set it out for delivery!"));
   }
 }
