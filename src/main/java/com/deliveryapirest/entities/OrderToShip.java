@@ -87,6 +87,10 @@ public class OrderToShip {
   }
 
   public void setOutForDelivery() throws Exception {
-    throw new Exception("Order is cancelled. Cannot set it out for delivery!");
+    if (status == OrderStatus.CANCELLED) {
+      throw new Exception("Order is cancelled. Cannot set it out for delivery!");
+    }
+
+    status = OrderStatus.OUT_FOR_DELIVERY;
   }
 }
