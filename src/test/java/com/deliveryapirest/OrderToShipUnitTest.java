@@ -105,4 +105,22 @@ class OrderToShipUnitTest {
     assertThat(orderToShip.getStatus(), is(OrderStatus.CANCELLED));
     assertThat(error.getMessage(), is("Order is cancelled. Cannot set it out for delivery!"));
   }
+
+  @Test
+  void
+      ensureGivenOrderWithNotSentStatusWhenOrderIsSetOutForDeliveryThenShouldChangeStatusToOutForDelivery()
+          throws Exception {
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.NOT_SENT;
+    var createdAt = ZonedDateTime.now();
+
+    var orderToShip =
+        new OrderToShip(id, productId, quantity, currentStatus, createdAt, null, null);
+
+    orderToShip.setOutForDelivery();
+
+    assertThat(orderToShip.getStatus(), is(OrderStatus.OUT_FOR_DELIVERY));
+  }
 }
