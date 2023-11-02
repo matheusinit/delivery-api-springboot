@@ -107,6 +107,25 @@ class OrderToShipUnitTest {
   }
 
   @Test
+  void ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetOutForDeliveryThenShouldThrowError() {
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.OUT_FOR_DELIVERY;
+    var createdAt = ZonedDateTime.now();
+
+    var orderToShip =
+        new OrderToShip(id, productId, quantity, currentStatus, createdAt, null, null);
+
+    Exception error = assertThrows(Exception.class, () -> orderToShip.setOutForDelivery());
+
+    assertThat(orderToShip.getStatus(), is(OrderStatus.OUT_FOR_DELIVERY));
+    var expectedErrorMessage =
+        "Order is already out for delivery. Cannot set it out for delivery again!";
+    assertThat(error.getMessage(), is(expectedErrorMessage));
+  }
+
+  @Test
   void
       ensureGivenOrderWithNotSentStatusWhenOrderIsSetOutForDeliveryThenShouldChangeStatusToOutForDelivery()
           throws Exception {
