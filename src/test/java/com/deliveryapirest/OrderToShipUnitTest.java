@@ -126,6 +126,24 @@ class OrderToShipUnitTest {
   }
 
   @Test
+  void ensureGivenOrderWithInDeliveryStatusWhenOrderIsSetOutForDeliveryThenShouldThrowError() {
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.IN_DELIVERY;
+    var createdAt = ZonedDateTime.now();
+
+    var orderToShip =
+        new OrderToShip(id, productId, quantity, currentStatus, createdAt, null, null);
+
+    Exception error = assertThrows(Exception.class, () -> orderToShip.setOutForDelivery());
+
+    assertThat(orderToShip.getStatus(), is(OrderStatus.IN_DELIVERY));
+    var expectedErrorMessage = "Order is in delivery. Cannot set it out for delivery!";
+    assertThat(error.getMessage(), is(expectedErrorMessage));
+  }
+
+  @Test
   void
       ensureGivenOrderWithNotSentStatusWhenOrderIsSetOutForDeliveryThenShouldChangeStatusToOutForDelivery()
           throws Exception {
