@@ -91,6 +91,11 @@ public class OrderToShip {
       throw new Exception("Order is cancelled. Cannot set it out for delivery!");
     }
 
+    if (status == OrderStatus.OUT_FOR_DELIVERY) {
+      throw new Exception(
+          "Order is already out for delivery. Cannot set it out for delivery again!");
+    }
+
     status = OrderStatus.OUT_FOR_DELIVERY;
   }
 }
