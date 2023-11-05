@@ -48,6 +48,10 @@ To run the integration tests:
  + [ ] Inform product is in delivery
  + [ ] Inform product was delivered
 
+### (US1) Set order out for delivery 
+
+As a courier, I want to set an order out for delivery, so that the consumer can track the status of the order.
+
 ## References
 
  - :link: [Spring Boot](https://spring.io/guides/gs/spring-boot/)
