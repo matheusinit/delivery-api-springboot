@@ -100,6 +100,10 @@ public class OrderToShip {
       throw new Exception("Order is in delivery. Cannot set it out for delivery!");
     }
 
+    if (status == OrderStatus.DELIVERED) {
+      throw new Exception("Order is delivered. Cannot set it out for delivery!");
+    }
+
     status = OrderStatus.OUT_FOR_DELIVERY;
   }
 }
