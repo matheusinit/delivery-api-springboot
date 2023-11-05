@@ -31,7 +31,8 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
             .response();
 
     var responseBody = response.getBody().jsonPath();
-    assertThat(response.getStatusCode(), is(400));
+    var badRequestCode = 400;
+    assertThat(response.getStatusCode(), is(badRequestCode));
     assertThat(responseBody.get("message"), is("Order id is required"));
   }
 }
