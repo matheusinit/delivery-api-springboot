@@ -82,8 +82,8 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
             .response();
 
     var responseBody = response.getBody().jsonPath();
+    var expectedMessageError = "Order is cancelled. Cannot set it out for delivery!";
     assertThat(response.getStatusCode(), is(400));
-    assertThat(
-        responseBody.get("message"), is("Order is cancelled. Cannot set it out for delivery!"));
+    assertThat(responseBody.get("message"), is(expectedMessageError));
   }
 }
