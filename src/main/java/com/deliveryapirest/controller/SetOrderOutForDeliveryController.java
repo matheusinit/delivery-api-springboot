@@ -19,18 +19,25 @@ public class SetOrderOutForDeliveryController {
 
   @PostMapping("/order/{id}/delivery")
   public ResponseEntity<?> setOrderOutForDelivery(@PathVariable UUID id) {
-    if (id == null) {
-      return ResponseEntity.badRequest().body(new Error("Order id is required"));
+    try {
+      if (id == null) {
+        return ResponseEntity.badRequest().body(new Error("Order id is required"));
+      }
+
+      var order = this.repository.findById(id);
+
+      if (order.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(new Error("Order not found with given id"));
+      }
+
+      order.get().setOutForDelivery();
+
+      return ResponseEntity.ok().build();
+
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(new Error("Order is cancelled. Cannot set it out for delivery!"));
     }
-
-    var order = this.repository.findById(id);
-
-    if (order.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND)
-          .body(new Error("Order not found with given id"));
-    }
-
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(new Error("Order is cancelled. Cannot set it out for delivery!"));
   }
 }
