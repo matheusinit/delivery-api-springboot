@@ -2,6 +2,8 @@ package com.deliveryapirest.entities;
 
 import com.deliveryapirest.data.OrderStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
@@ -15,7 +17,10 @@ public class OrderToShip {
   @Id private UUID id;
   private UUID productId;
   private int quantity;
+
+  @Enumerated(EnumType.STRING)
   private OrderStatus status;
+
   private Instant createdAt;
   private Instant updatedAt;
   private Instant canceledAt;
