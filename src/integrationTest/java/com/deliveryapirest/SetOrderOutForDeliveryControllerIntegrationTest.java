@@ -3,16 +3,22 @@ package com.deliveryapirest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import com.deliveryapirest.data.OrderStatus;
+import com.deliveryapirest.entities.OrderToShip;
+import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
 import io.restassured.RestAssured;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SetOrderOutForDeliveryControllerIntegrationTest {
   @LocalServerPort private Integer port;
+
+  @Autowired private OrderToShipRepository repository;
 
   @BeforeAll
   void setupClient() {
@@ -52,8 +58,32 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
             .extract()
             .response();
 
+    response.getBody().prettyPrint();
+
     var responseBody = response.getBody().jsonPath();
     assertThat(response.getStatusCode(), is(404));
     assertThat(responseBody.get("message"), is("Order not found with given id"));
+  }
+
+  @Test
+  void ensureGivenOrderId_whenOrderHasStatusCancelled_thenShouldGetBadRequest() {
+    var productId = UUID.randomUUID();
+    var order = new OrderToShip(productId, OrderStatus.CANCELLED, 1);
+    repository.save(order);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .post("/order/" + order.getId() + "/delivery")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(response.getStatusCode(), is(400));
+    assertThat(
+        responseBody.get("message"), is("Order is cancelled. Cannot set it out for delivery!"));
   }
 }
