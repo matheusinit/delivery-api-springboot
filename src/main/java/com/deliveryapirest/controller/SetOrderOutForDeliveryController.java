@@ -44,6 +44,11 @@ public class SetOrderOutForDeliveryController {
             .body(InvalidOperationError.make(error.getMessage()));
       }
 
+      if (error.getMessage() == "Order is in delivery. Cannot set it out for delivery!") {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(InvalidOperationError.make(error.getMessage()));
+      }
+
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(InvalidOperationError.make(error.getMessage()));
     }
