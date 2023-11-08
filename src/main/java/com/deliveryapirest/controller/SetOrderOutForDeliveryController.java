@@ -1,5 +1,6 @@
 package com.deliveryapirest.controller;
 
+import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
@@ -40,12 +41,13 @@ public class SetOrderOutForDeliveryController {
     } catch (Exception e) {
       if (e.getMessage() == "Order is cancelled. Cannot set it out for delivery!") {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(new Error("Order is cancelled. Cannot set it out for delivery!"));
+            .body(
+                InvalidOperationError.make("Order is cancelled. Cannot set it out for delivery!"));
       }
 
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(
-              new Error(
+              InvalidOperationError.make(
                   "Order is already out for delivery. Cannot set it out for delivery again!"));
     }
   }
