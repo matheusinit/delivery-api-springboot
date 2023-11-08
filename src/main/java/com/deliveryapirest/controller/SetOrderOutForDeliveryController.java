@@ -36,8 +36,7 @@ public class SetOrderOutForDeliveryController {
 
       order.setOutForDelivery();
 
-      return ResponseEntity.ok().build();
-
+      return ResponseEntity.ok().body(order);
     } catch (Exception error) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(InvalidOperationError.make(error.getMessage()));
