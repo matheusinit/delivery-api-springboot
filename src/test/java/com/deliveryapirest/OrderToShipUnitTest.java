@@ -178,4 +178,22 @@ class OrderToShipUnitTest {
 
     assertThat(orderToShip.getStatus(), is(OrderStatus.OUT_FOR_DELIVERY));
   }
+
+  @Test
+  void
+      ensureGivenOrderWithNotSentStatusWhenOrderIsSetOutForDeliveryThenShouldSetUpdatedAtToCurrentDateTime()
+          throws Exception {
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.NOT_SENT;
+    var createdAt = ZonedDateTime.now();
+
+    var orderToShip =
+        new OrderToShip(id, productId, quantity, currentStatus, createdAt, null, null);
+
+    orderToShip.setOutForDelivery();
+
+    assertThat(orderToShip.getUpdatedAt(), is(notNullValue(Instant.class)));
+  }
 }
