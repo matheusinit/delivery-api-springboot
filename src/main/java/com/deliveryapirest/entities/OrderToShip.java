@@ -110,5 +110,6 @@ public class OrderToShip {
     }
 
     status = OrderStatus.OUT_FOR_DELIVERY;
+    updatedAt = Instant.now();
   }
 }
