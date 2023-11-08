@@ -61,8 +61,6 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
             .extract()
             .response();
 
-    response.getBody().prettyPrint();
-
     var responseBody = response.getBody().jsonPath();
     assertThat(response.getStatusCode(), is(404));
     assertThat(responseBody.get("message"), is("Order not found with given id"));
