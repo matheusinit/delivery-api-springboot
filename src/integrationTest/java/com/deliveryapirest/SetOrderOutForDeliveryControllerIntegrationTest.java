@@ -192,13 +192,12 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
             .response();
 
     var responseBody = response.getBody().jsonPath();
+    var createdAtTruncated = order.getCreatedAt().plusNanos(500).truncatedTo(ChronoUnit.MICROS);
     assertThat(responseBody.get("id"), is(order.getId().toString()));
     assertThat(responseBody.get("productId"), is(order.getProductId().toString()));
     assertThat(responseBody.get("quantity"), is(order.getQuantity()));
     assertThat(responseBody.get("status"), is(OrderStatus.OUT_FOR_DELIVERY.toString()));
-    assertThat(
-        responseBody.get("createdAt"),
-        is(order.getCreatedAt().plusNanos(500).truncatedTo(ChronoUnit.MICROS).toString()));
+    assertThat(responseBody.get("createdAt"), is(createdAtTruncated.toString()));
     assertThat(responseBody.get("canceledAt"), is(nullValue(Instant.class)));
   }
 }
