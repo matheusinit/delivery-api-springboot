@@ -6,7 +6,10 @@ import static org.hamcrest.Matchers.*;
 import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
 import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.RestAssured;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -171,5 +174,33 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
             .response();
 
     assertThat(response.getStatusCode(), is(200));
+  }
+
+  @Test
+  void ensureGivenOrderId_whenOrderHasStatusNotSent_thenShouldGetOrderData()
+      throws JsonProcessingException {
+    var productId = UUID.randomUUID();
+    var order = new OrderToShip(productId, OrderStatus.NOT_SENT, 1);
+    repository.save(order);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .post("/order/" + order.getId() + "/delivery")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(responseBody.get("id"), is(order.getId().toString()));
+    assertThat(responseBody.get("productId"), is(order.getProductId().toString()));
+    assertThat(responseBody.get("quantity"), is(order.getQuantity()));
+    assertThat(responseBody.get("status"), is(OrderStatus.OUT_FOR_DELIVERY.toString()));
+    assertThat(
+        responseBody.get("createdAt"),
+        is(order.getCreatedAt().plusNanos(500).truncatedTo(ChronoUnit.MICROS).toString()));
+    assertThat(responseBody.get("canceledAt"), is(nullValue(Instant.class)));
   }
 }
