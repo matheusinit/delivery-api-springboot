@@ -41,14 +41,11 @@ public class SetOrderOutForDeliveryController {
     } catch (Exception e) {
       if (e.getMessage() == "Order is cancelled. Cannot set it out for delivery!") {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(
-                InvalidOperationError.make("Order is cancelled. Cannot set it out for delivery!"));
+            .body(InvalidOperationError.make(e.getMessage()));
       }
 
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(
-              InvalidOperationError.make(
-                  "Order is already out for delivery. Cannot set it out for delivery again!"));
+          .body(InvalidOperationError.make(e.getMessage()));
     }
   }
 }
