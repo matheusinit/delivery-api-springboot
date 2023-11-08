@@ -153,4 +153,23 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
     assertThat(response.getStatusCode(), is(400));
     assertThat(responseBody.get("message"), is(expectedMessageError));
   }
+
+  @Test
+  void ensureGivenOrderId_whenOrderHasStatusNotSent_thenShouldGetOk() {
+    var productId = UUID.randomUUID();
+    var order = new OrderToShip(productId, OrderStatus.NOT_SENT, 1);
+    repository.save(order);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .post("/order/" + order.getId() + "/delivery")
+            .then()
+            .extract()
+            .response();
+
+    assertThat(response.getStatusCode(), is(200));
+  }
 }
