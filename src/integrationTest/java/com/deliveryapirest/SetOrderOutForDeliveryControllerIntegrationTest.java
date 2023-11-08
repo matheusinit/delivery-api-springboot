@@ -198,6 +198,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
     assertThat(responseBody.get("quantity"), is(order.getQuantity()));
     assertThat(responseBody.get("status"), is(OrderStatus.OUT_FOR_DELIVERY.toString()));
     assertThat(responseBody.get("createdAt"), is(createdAtTruncated.toString()));
+    assertThat(responseBody.get("createdAt"), is(notNullValue(String.class)));
     assertThat(responseBody.get("canceledAt"), is(nullValue(Instant.class)));
   }
 }
