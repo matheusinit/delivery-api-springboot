@@ -109,4 +109,26 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
     assertThat(response.getStatusCode(), is(400));
     assertThat(responseBody.get("message"), is(expectedMessageError));
   }
+
+  @Test
+  void ensureGivenOrderId_whenOrderHasStatusInDelivery_thenShouldGetBadRequest() {
+    var productId = UUID.randomUUID();
+    var order = new OrderToShip(productId, OrderStatus.IN_DELIVERY, 1);
+    repository.save(order);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .post("/order/" + order.getId() + "/delivery")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    var expectedMessageError = "Order is in delivery. Cannot set it out for delivery!";
+    assertThat(response.getStatusCode(), is(400));
+    assertThat(responseBody.get("message"), is(expectedMessageError));
+  }
 }
