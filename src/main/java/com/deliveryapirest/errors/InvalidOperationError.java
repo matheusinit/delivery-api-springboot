@@ -1,6 +1,6 @@
 package com.deliveryapirest.errors;
 
-public class InvalidOperationError extends Error {
+public class InvalidOperationError extends Exception {
   public String message;
 
   private InvalidOperationError(String message) {

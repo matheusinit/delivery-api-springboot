@@ -1,5 +1,6 @@
 package com.deliveryapirest.controller;
 
+import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
 import java.util.UUID;
@@ -38,8 +39,14 @@ public class SetOrderOutForDeliveryController {
 
       return ResponseEntity.ok().body(order);
     } catch (Exception error) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(InvalidOperationError.make(error.getMessage()));
+      if (error instanceof InvalidOperationError) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(InvalidOperationError.make(error.getMessage()));
+      }
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(
+              new InternalServerError("An internal server error occured. Please try again later."));
     }
   }
 }
