@@ -41,10 +41,10 @@ public class AddDeliveryStationController {
             .body(MissingFieldError.make(exception.getMessage()));
       }
 
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(
-              InternalServerError.make(
-                  "An internal server error occured. Please try again later."));
+      var internalServerError =
+          InternalServerError.make("An internal server error occured. Please try again later.");
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(internalServerError);
     }
   }
 }
