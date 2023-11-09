@@ -1,6 +1,5 @@
 package com.deliveryapirest.errors;
 
-
 public class InternalServerError {
   public String message;
 
