@@ -1,6 +1,7 @@
 package com.deliveryapirest.entities;
 
 import com.deliveryapirest.data.OrderStatus;
+import com.deliveryapirest.errors.InvalidOperationError;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -91,22 +92,22 @@ public class OrderToShip {
     return canceledAt;
   }
 
-  public void setOutForDelivery() throws Exception {
+  public void setOutForDelivery() throws InvalidOperationError {
     if (status == OrderStatus.CANCELLED) {
-      throw new Exception("Order is cancelled. Cannot set it out for delivery!");
+      throw InvalidOperationError.make("Order is cancelled. Cannot set it out for delivery!");
     }
 
     if (status == OrderStatus.OUT_FOR_DELIVERY) {
-      throw new Exception(
+      throw InvalidOperationError.make(
           "Order is already out for delivery. Cannot set it out for delivery again!");
     }
 
     if (status == OrderStatus.IN_DELIVERY) {
-      throw new Exception("Order is in delivery. Cannot set it out for delivery!");
+      throw InvalidOperationError.make("Order is in delivery. Cannot set it out for delivery!");
     }
 
     if (status == OrderStatus.DELIVERED) {
-      throw new Exception("Order is delivered. Cannot set it out for delivery!");
+      throw InvalidOperationError.make("Order is delivered. Cannot set it out for delivery!");
     }
 
     status = OrderStatus.OUT_FOR_DELIVERY;
