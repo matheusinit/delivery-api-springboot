@@ -27,4 +27,17 @@ class ProductUnitTest {
     var expectedErrorMessage = "Description cannot be empty, must have at least 10 characters";
     assertThat(error.getMessage(), is(expectedErrorMessage));
   }
+
+  @Test
+  void
+      givenDescriptionWithLessThan10Characters_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().characters(9);
+
+    var error = assertThrows(Exception.class, () -> new Product(productName, description));
+
+    var expectedErrorMessage = "Description cannot have less than 10 characters";
+    assertThat(error.getMessage(), is(expectedErrorMessage));
+  }
 }
