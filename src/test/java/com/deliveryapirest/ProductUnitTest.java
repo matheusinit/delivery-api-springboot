@@ -12,7 +12,6 @@ class ProductUnitTest {
 
   @Test
   void givenProductNameIsNotProvided_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
-
     var error = assertThrows(Exception.class, () -> new Product());
 
     assertThat(error.getMessage(), is("Product name is required"));
@@ -22,6 +21,7 @@ class ProductUnitTest {
   void givenDescriptionIsProvidedAsEmpty_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
     var faker = new Faker();
     var productName = faker.commerce().productName();
+
     var error = assertThrows(Exception.class, () -> new Product(productName, ""));
 
     var expectedErrorMessage = "Description cannot be empty, must have at least 10 characters";
