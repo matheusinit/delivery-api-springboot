@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.deliveryapirest.entities.Product;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.Test;
 
 class ProductUnitTest {
@@ -19,7 +20,9 @@ class ProductUnitTest {
 
   @Test
   void givenPriceIsNotProvided_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
-    var error = assertThrows(Exception.class, () -> new Product("Product 1"));
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var error = assertThrows(Exception.class, () -> new Product(productName));
 
     assertThat(error.getMessage(), is("Price is required"));
   }
