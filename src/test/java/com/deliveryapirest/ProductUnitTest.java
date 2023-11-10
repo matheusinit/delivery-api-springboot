@@ -24,7 +24,7 @@ class ProductUnitTest {
     var productName = faker.commerce().productName();
     var error = assertThrows(Exception.class, () -> new Product(productName, ""));
 
-    assertThat(
-        error.getMessage(), is("Description cannot be empty, must have at least 10 characters"));
+    var expectedErrorMessage = "Description cannot be empty, must have at least 10 characters";
+    assertThat(error.getMessage(), is(expectedErrorMessage));
   }
 }
