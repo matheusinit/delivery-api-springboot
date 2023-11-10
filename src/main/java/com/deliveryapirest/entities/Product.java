@@ -7,6 +7,11 @@ public class Product {
   }
 
   public Product(String name, String description) throws Exception {
-    throw new Exception("Description cannot be empty, must have at least 10 characters");
+
+    if (description == "") {
+      throw new Exception("Description cannot be empty, must have at least 10 characters");
+    }
+
+    throw new Exception("Description cannot have less than 10 characters");
   }
 }
