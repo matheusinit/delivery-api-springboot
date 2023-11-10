@@ -16,4 +16,11 @@ class ProductUnitTest {
 
     assertThat(error.getMessage(), is("Product name is required"));
   }
+
+  @Test
+  void givenPriceIsNotProvided_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
+    var error = assertThrows(Exception.class, () -> new Product("Product 1"));
+
+    assertThat(error.getMessage(), is("Price is required"));
+  }
 }
