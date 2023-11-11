@@ -92,6 +92,18 @@ class ProductUnitTest {
   }
 
   @Test
+  void
+      givenDescriptionIsNotProvided_whenIsRequestedToRegisterProduct_thenShouldHaveDescriptionAsNull()
+          throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+
+    var product = new Product(productName);
+
+    assertThat(product.getDescription(), is(nullValue()));
+  }
+
+  @Test
   void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveUpdatedAtAsNull()
       throws Exception {
     var faker = new Faker();
