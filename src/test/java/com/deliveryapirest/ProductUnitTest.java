@@ -12,7 +12,9 @@ class ProductUnitTest {
 
   @Test
   void givenProductNameIsNotProvided_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
-    var error = assertThrows(Exception.class, () -> new Product());
+    String productName = null;
+
+    var error = assertThrows(Exception.class, () -> new Product(productName));
 
     assertThat(error.getMessage(), is("Product name is required"));
   }

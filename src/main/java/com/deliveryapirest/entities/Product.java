@@ -9,15 +9,15 @@ public class Product {
   private Instant updatedAt;
   private Instant deletedAt;
 
-  public Product() throws Exception {
-    throw new Exception("Product name is required");
-  }
-
   public Product(String name) throws Exception {
     this(name, null);
   }
 
   public Product(String name, String description) throws Exception {
+
+    if (name == null) {
+      throw new Exception("Product name is required");
+    }
 
     if (description != null && description == "") {
       throw new Exception("Description cannot be empty, must have at least 10 characters");
