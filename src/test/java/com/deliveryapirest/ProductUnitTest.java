@@ -40,4 +40,16 @@ class ProductUnitTest {
     var expectedErrorMessage = "Description cannot have less than 10 characters";
     assertThat(error.getMessage(), is(expectedErrorMessage));
   }
+
+  @Test
+  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveCreatedAtValue()
+      throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+
+    var product = new Product(productName, description);
+
+    assertThat(product.getCreatedAt(), is(notNullValue()));
+  }
 }
