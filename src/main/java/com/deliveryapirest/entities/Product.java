@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 public class Product {
+  private UUID id;
   private String name;
   private String description;
   private Instant createdAt;
@@ -27,14 +28,14 @@ public class Product {
     if (description != null && description.length() < 10) {
       throw new Exception("Description cannot have less than 10 characters");
     }
-
+    this.id = UUID.randomUUID();
     this.name = name;
     this.description = description;
     this.createdAt = Instant.now();
   }
 
   public UUID getId() {
-    return UUID.randomUUID();
+    return id;
   }
 
   public String getName() {
