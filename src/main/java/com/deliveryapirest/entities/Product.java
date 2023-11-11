@@ -1,6 +1,9 @@
 package com.deliveryapirest.entities;
 
+import java.time.Instant;
+
 public class Product {
+  private Instant createdAt;
 
   public Product() throws Exception {
     throw new Exception("Product name is required");
@@ -12,6 +15,14 @@ public class Product {
       throw new Exception("Description cannot be empty, must have at least 10 characters");
     }
 
-    throw new Exception("Description cannot have less than 10 characters");
+    if (description.length() < 10) {
+      throw new Exception("Description cannot have less than 10 characters");
+    }
+
+    this.createdAt = Instant.now();
+  }
+
+  public Instant getCreatedAt() {
+    return createdAt;
   }
 }
