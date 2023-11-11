@@ -13,13 +13,17 @@ public class Product {
     throw new Exception("Product name is required");
   }
 
+  public Product(String name) throws Exception {
+    this(name, null);
+  }
+
   public Product(String name, String description) throws Exception {
 
-    if (description == "") {
+    if (description != null && description == "") {
       throw new Exception("Description cannot be empty, must have at least 10 characters");
     }
 
-    if (description.length() < 10) {
+    if (description != null && description.length() < 10) {
       throw new Exception("Description cannot have less than 10 characters");
     }
 
