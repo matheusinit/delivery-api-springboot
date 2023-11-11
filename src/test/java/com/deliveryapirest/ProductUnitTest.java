@@ -52,4 +52,17 @@ class ProductUnitTest {
 
     assertThat(product.getCreatedAt(), is(notNullValue()));
   }
+
+  @Test
+  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveDateTimeISOAsCreatedAtValue()
+      throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    final String regexPattern = "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+Z";
+
+    var product = new Product(productName, description);
+
+    assertThat(product.getCreatedAt().toString(), matchesPattern(regexPattern));
+  }
 }
