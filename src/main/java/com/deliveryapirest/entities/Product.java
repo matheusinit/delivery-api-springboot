@@ -3,6 +3,7 @@ package com.deliveryapirest.entities;
 import java.time.Instant;
 
 public class Product {
+  private String name;
   private Instant createdAt;
   private Instant updatedAt;
   private Instant deletedAt;
@@ -21,7 +22,13 @@ public class Product {
       throw new Exception("Description cannot have less than 10 characters");
     }
 
+    this.name = name;
+
     this.createdAt = Instant.now();
+  }
+
+  public String getName() {
+    return name;
   }
 
   public Instant getCreatedAt() {
