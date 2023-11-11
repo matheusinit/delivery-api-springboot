@@ -79,6 +79,19 @@ class ProductUnitTest {
   }
 
   @Test
+  void
+      givenValidDescription_whenIsRequestedToRegisterProduct_thenShouldHaveProductDescriptionAsDefined()
+          throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+
+    var product = new Product(productName, description);
+
+    assertThat(product.getDescription(), is(description));
+  }
+
+  @Test
   void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveUpdatedAtAsNull()
       throws Exception {
     var faker = new Faker();
