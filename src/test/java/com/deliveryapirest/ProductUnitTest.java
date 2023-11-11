@@ -106,6 +106,17 @@ class ProductUnitTest {
   }
 
   @Test
+  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveAnId() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+
+    var product = new Product(productName, description);
+
+    assertThat(product.getId(), is(notNullValue()));
+  }
+
+  @Test
   void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveUpdatedAtAsNull()
       throws Exception {
     var faker = new Faker();
