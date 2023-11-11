@@ -126,7 +126,6 @@ class ProductUnitTest {
     var product = new Product(productName, description);
 
     var idCalled = product.getId();
-
     assertThat(product.getId(), is(idCalled));
   }
 
