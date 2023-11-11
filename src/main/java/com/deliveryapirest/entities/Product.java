@@ -1,6 +1,7 @@
 package com.deliveryapirest.entities;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class Product {
   private String name;
@@ -30,6 +31,10 @@ public class Product {
     this.name = name;
     this.description = description;
     this.createdAt = Instant.now();
+  }
+
+  public UUID getId() {
+    return UUID.randomUUID();
   }
 
   public String getName() {
