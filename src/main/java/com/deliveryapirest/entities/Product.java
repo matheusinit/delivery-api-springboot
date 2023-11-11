@@ -4,6 +4,7 @@ import java.time.Instant;
 
 public class Product {
   private String name;
+  private String description;
   private Instant createdAt;
   private Instant updatedAt;
   private Instant deletedAt;
@@ -23,12 +24,16 @@ public class Product {
     }
 
     this.name = name;
-
+    this.description = description;
     this.createdAt = Instant.now();
   }
 
   public String getName() {
     return name;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public Instant getCreatedAt() {
