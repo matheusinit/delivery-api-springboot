@@ -77,4 +77,16 @@ class ProductUnitTest {
 
     assertThat(product.getUpdatedAt(), is(nullValue()));
   }
+
+  @Test
+  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveDeletedAtAsNull()
+      throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+
+    var product = new Product(productName, description);
+
+    assertThat(product.getDeletedAt(), is(nullValue()));
+  }
 }
