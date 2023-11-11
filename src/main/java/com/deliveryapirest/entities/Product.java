@@ -4,6 +4,7 @@ import java.time.Instant;
 
 public class Product {
   private Instant createdAt;
+  private Instant updatedAt;
 
   public Product() throws Exception {
     throw new Exception("Product name is required");
@@ -24,5 +25,9 @@ public class Product {
 
   public Instant getCreatedAt() {
     return createdAt;
+  }
+
+  public Instant getUpdatedAt() {
+    return updatedAt;
   }
 }
