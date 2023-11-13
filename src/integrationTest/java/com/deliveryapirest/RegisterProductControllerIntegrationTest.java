@@ -30,8 +30,8 @@ class RegisterProductControllerIntegrationTest {
             .extract()
             .response();
 
+    var responseBody = response.body().jsonPath();
     assertThat(response.statusCode(), equalTo(400));
-    assertThat(
-        response.body().jsonPath().getString("message"), equalTo("Product name is required"));
+    assertThat(responseBody.get("message"), equalTo("Product name is required"));
   }
 }
