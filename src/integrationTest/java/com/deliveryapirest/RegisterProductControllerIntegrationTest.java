@@ -115,4 +115,32 @@ class RegisterProductControllerIntegrationTest {
     assertThat(responseBody.get("updatedAt"), nullValue(String.class));
     assertThat(responseBody.get("deletedAt"), nullValue(String.class));
   }
+
+  @Test
+  void givenNameAndDescription_whenRegisterProduct_thenGetCreated() {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var input = new RegisterProductInput(name, description);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(input)
+            .when()
+            .post("/product")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.body().jsonPath();
+    assertThat(response.statusCode(), equalTo(201));
+    assertThat(responseBody.get("id"), notNullValue());
+    assertThat(responseBody.get("name"), equalTo(name));
+    assertThat(responseBody.get("description"), equalTo(description));
+    assertThat(responseBody.get("createdAt"), notNullValue(String.class));
+    assertThat(responseBody.get("updatedAt"), nullValue(String.class));
+    assertThat(responseBody.get("deletedAt"), nullValue(String.class));
+  }
 }
