@@ -19,6 +19,11 @@ public class RegisterProductController {
           .body(BadRequestError.make("Product name is required"));
     }
 
+    if (input.getDescription() != "" && input.getDescription().length() < 10) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(BadRequestError.make("Description cannot have less than 10 characters"));
+    }
+
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(
             BadRequestError.make("Description cannot be empty, must have at least 10 characters"));
