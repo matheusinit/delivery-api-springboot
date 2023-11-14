@@ -88,4 +88,31 @@ class RegisterProductControllerIntegrationTest {
     assertThat(response.statusCode(), equalTo(400));
     assertThat(responseBody.get("message"), is("Description cannot have less than 10 characters"));
   }
+
+  @Test
+  void givenOnlyName_whenRegisterProduct_thenGetCreated() {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var input = new RegisterProductInput(name);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(input)
+            .when()
+            .post("/product")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.body().jsonPath();
+    assertThat(response.statusCode(), equalTo(201));
+    assertThat(responseBody.get("id"), notNullValue());
+    assertThat(responseBody.get("name"), equalTo(name));
+    assertThat(responseBody.get("description"), nullValue());
+    assertThat(responseBody.get("createdAt"), notNullValue(String.class));
+    assertThat(responseBody.get("updatedAt"), nullValue(String.class));
+    assertThat(responseBody.get("deletedAt"), nullValue(String.class));
+  }
 }
