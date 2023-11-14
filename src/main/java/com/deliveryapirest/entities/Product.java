@@ -1,5 +1,8 @@
 package com.deliveryapirest.entities;
 
+import com.deliveryapirest.errors.EmptyDescriptionError;
+import com.deliveryapirest.errors.InvalidFieldError;
+import com.deliveryapirest.errors.MissingFieldError;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -31,16 +34,18 @@ public class Product {
   public Product(String name, String description) throws Exception {
 
     if (name == null) {
-      throw new Exception("Product name is required");
+      throw new MissingFieldError("Product name is required");
     }
 
     if (description != null && description == "") {
-      throw new Exception("Description cannot be empty, must have at least 10 characters");
+      throw new EmptyDescriptionError(
+          "Description cannot be empty, must have at least 10 characters");
     }
 
-    if (description != null && description.length() < 10) {
-      throw new Exception("Description cannot have less than 10 characters");
+    if (description != null && !description.isEmpty() && description.length() < 10) {
+      throw new InvalidFieldError("Description cannot have less than 10 characters");
     }
+
     this.id = UUID.randomUUID();
     this.name = name;
     this.description = description;

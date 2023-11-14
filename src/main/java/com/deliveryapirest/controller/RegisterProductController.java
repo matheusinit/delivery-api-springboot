@@ -3,6 +3,8 @@ package com.deliveryapirest.controller;
 import com.deliveryapirest.data.RegisterProductInput;
 import com.deliveryapirest.entities.Product;
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.errors.InvalidFieldError;
+import com.deliveryapirest.errors.MissingFieldError;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,22 +30,18 @@ public class RegisterProductController {
       return ResponseEntity.status(HttpStatus.CREATED).body(product);
 
     } catch (Exception exception) {
-      if (input.getName() == null) {
+      if (exception instanceof MissingFieldError) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(BadRequestError.make("Product name is required"));
+            .body(BadRequestError.make(exception.getMessage()));
       }
 
-      if (input.getDescription() != null
-          && !input.getDescription().isEmpty()
-          && input.getDescription().length() < 10) {
+      if (exception instanceof InvalidFieldError) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(BadRequestError.make("Description cannot have less than 10 characters"));
+            .body(BadRequestError.make(exception.getMessage()));
       }
 
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(
-              BadRequestError.make(
-                  "Description cannot be empty, must have at least 10 characters"));
+          .body(BadRequestError.make(exception.getMessage()));
     }
   }
 }
