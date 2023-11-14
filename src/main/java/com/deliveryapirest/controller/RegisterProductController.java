@@ -3,6 +3,8 @@ package com.deliveryapirest.controller;
 import com.deliveryapirest.data.RegisterProductInput;
 import com.deliveryapirest.entities.Product;
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.errors.EmptyDescriptionError;
+import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.errors.InvalidFieldError;
 import com.deliveryapirest.errors.MissingFieldError;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
@@ -21,7 +23,7 @@ public class RegisterProductController {
   }
 
   @PostMapping("/product")
-  ResponseEntity<?> registerProduct(@RequestBody RegisterProductInput input) {
+  public ResponseEntity<?> registerProduct(@RequestBody RegisterProductInput input) {
     try {
       var product = new Product(input.getName(), input.getDescription());
 
@@ -40,8 +42,14 @@ public class RegisterProductController {
             .body(BadRequestError.make(exception.getMessage()));
       }
 
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(BadRequestError.make(exception.getMessage()));
+      if (exception instanceof EmptyDescriptionError) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(BadRequestError.make(exception.getMessage()));
+      }
+      var internalServerError =
+          InternalServerError.make("An internal server error occured. Please try again later.");
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(internalServerError);
     }
   }
 }
