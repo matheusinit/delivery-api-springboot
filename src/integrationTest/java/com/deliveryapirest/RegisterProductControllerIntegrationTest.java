@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 
 import com.deliveryapirest.data.RegisterProductInput;
 import io.restassured.RestAssured;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,8 @@ class RegisterProductControllerIntegrationTest {
 
   @Test
   void givenNameIsNotProvided_whenRegisterProduct_thenGetBadRequest() {
-    var input = new RegisterProductInput(null);
+    String name = null;
+    var input = new RegisterProductInput(name);
 
     var response =
         RestAssured.given()
@@ -41,7 +43,10 @@ class RegisterProductControllerIntegrationTest {
 
   @Test
   void givenDescriptionAsEmpty_whenRegisterProduct_thenGetBadRequest() {
-    var input = new RegisterProductInput("name", "");
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = "";
+    var input = new RegisterProductInput(name, description);
 
     var response =
         RestAssured.given()
@@ -63,7 +68,10 @@ class RegisterProductControllerIntegrationTest {
 
   @Test
   void givenDescriptionWithLessThan10Characters_whenRegisterProduct_thenGetBadRequest() {
-    var input = new RegisterProductInput("name", "less");
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(9);
+    var input = new RegisterProductInput(name, description);
 
     var response =
         RestAssured.given()
