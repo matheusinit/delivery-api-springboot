@@ -60,4 +60,24 @@ class RegisterProductControllerIntegrationTest {
         responseBody.get("message"),
         is("Description cannot be empty, must have at least 10 characters"));
   }
+
+  @Test
+  void givenDescriptionWithLessThan10Characters_whenRegisterProduct_thenGetBadRequest() {
+    var input = new RegisterProductInput("name", "less");
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(input)
+            .when()
+            .post("/product")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.body().jsonPath();
+    assertThat(response.statusCode(), equalTo(400));
+    assertThat(responseBody.get("message"), is("Description cannot have less than 10 characters"));
+  }
 }
