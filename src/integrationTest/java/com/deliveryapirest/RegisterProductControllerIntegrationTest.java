@@ -4,16 +4,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import com.deliveryapirest.data.RegisterProductInput;
+import com.deliveryapirest.repositories.protocols.ProductRepository;
 import io.restassured.RestAssured;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RegisterProductControllerIntegrationTest {
   @LocalServerPort private int port;
+
+  @Autowired private ProductRepository repository;
 
   @BeforeAll
   void setup() {
@@ -142,5 +149,36 @@ class RegisterProductControllerIntegrationTest {
     assertThat(responseBody.get("createdAt"), notNullValue(String.class));
     assertThat(responseBody.get("updatedAt"), nullValue(String.class));
     assertThat(responseBody.get("deletedAt"), nullValue(String.class));
+  }
+
+  @Test
+  void givenValidInput_whenRegisterProduct_thenShouldBeStoredInDatabase() {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var input = new RegisterProductInput(name, description);
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .body(input)
+            .when()
+            .post("/product")
+            .then()
+            .extract()
+            .response();
+    var responseBody = response.body().jsonPath();
+
+    var productValue = repository.findById(UUID.fromString(responseBody.get("id")));
+
+    var product = productValue.get();
+    var createdAt =
+        Instant.parse(responseBody.get("createdAt")).plusNanos(500).truncatedTo(ChronoUnit.MICROS);
+    assertThat(product.getId(), equalTo(UUID.fromString(responseBody.get("id"))));
+    assertThat(product.getName(), equalTo(responseBody.get("name")));
+    assertThat(product.getDescription(), equalTo(responseBody.get("description")));
+    assertThat(product.getCreatedAt().toString(), equalTo(createdAt.toString()));
+    assertThat(product.getUpdatedAt(), equalTo(responseBody.get("updatedAt")));
+    assertThat(product.getDeletedAt(), equalTo(responseBody.get("deletedAt")));
   }
 }
