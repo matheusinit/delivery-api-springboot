@@ -1,15 +1,28 @@
 package com.deliveryapirest.entities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
+import org.hibernate.annotations.UpdateTimestamp;
 
+@Entity
+@Table(name = "product")
 public class Product {
-  private UUID id;
+  @Id private UUID id;
   private String name;
   private String description;
   private Instant createdAt;
+
+  @Column(insertable = false)
+  @UpdateTimestamp
   private Instant updatedAt;
+
   private Instant deletedAt;
+
+  public Product() {}
 
   public Product(String name) throws Exception {
     this(name, null);
