@@ -60,7 +60,11 @@ public class Product {
     return name;
   }
 
-  public void setName(String newValue) {
+  public void setName(String newValue) throws InvalidFieldError {
+    if (newValue == "") {
+      throw new InvalidFieldError("Name cannot be empty");
+    }
+
     name = newValue;
     updatedAt = Instant.now();
   }
