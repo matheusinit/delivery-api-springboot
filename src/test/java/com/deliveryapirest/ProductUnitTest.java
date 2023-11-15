@@ -178,4 +178,18 @@ class ProductUnitTest {
     assertThat(product.getName(), is(nameUpdated));
     assertThat(product.getUpdatedAt(), is(notNullValue()));
   }
+
+  @Test
+  void givenValidData_whenUpdateDescription_thenShouldHaveUpdatedAtAsNow() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(productName, description);
+
+    var descriptionUpdated = faker.lorem().maxLengthSentence(10);
+    product.setDescription(descriptionUpdated);
+
+    assertThat(product.getDescription(), is(descriptionUpdated));
+    assertThat(product.getUpdatedAt(), is(notNullValue()));
+  }
 }
