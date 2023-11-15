@@ -60,6 +60,11 @@ public class Product {
     return name;
   }
 
+  public void setName(String newValue) {
+    name = newValue;
+    updatedAt = Instant.now();
+  }
+
   public String getDescription() {
     return description;
   }
