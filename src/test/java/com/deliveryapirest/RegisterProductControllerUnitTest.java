@@ -14,14 +14,13 @@ import org.springframework.http.HttpStatus;
 class RegisterProductControllerUnitTest {
   @Test
   void givenValidData_whenErrorIsThrown_thenGetInternalServerError() {
-    var repository = new InMemoryProductRepository();
-    var sut = new RegisterProductController(repository);
-    var mock = mock(RegisterProductController.class);
+    var mock = mock(InMemoryProductRepository.class);
+    var sut = new RegisterProductController(mock);
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
     var requestBody = new RegisterProductInput(productName, description);
-    when(mock.registerProduct(requestBody)).thenThrow(new RuntimeException());
+    when(mock.save(any())).thenThrow(new RuntimeException());
 
     var responseBody = sut.registerProduct(requestBody);
 
