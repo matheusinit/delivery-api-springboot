@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.deliveryapirest.entities.Product;
+import com.deliveryapirest.errors.InvalidFieldError;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.Test;
 
@@ -177,6 +178,18 @@ class ProductUnitTest {
 
     assertThat(product.getName(), is(nameUpdated));
     assertThat(product.getUpdatedAt(), is(notNullValue()));
+  }
+
+  @Test
+  void givenNameAsEmpty_whenUpdateProductName_thenReturnError() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(productName, description);
+
+    var error = assertThrows(InvalidFieldError.class, () -> product.setName(""));
+
+    assertThat(error.getMessage(), is("Name cannot be empty"));
   }
 
   @Test
