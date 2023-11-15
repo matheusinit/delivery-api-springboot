@@ -69,6 +69,11 @@ public class Product {
     return description;
   }
 
+  public void setDescription(String newValue) {
+    description = newValue;
+    updatedAt = Instant.now();
+  }
+
   public Instant getCreatedAt() {
     return createdAt;
   }
