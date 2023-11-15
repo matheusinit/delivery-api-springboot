@@ -21,4 +21,14 @@ public class InMemoryProductRepository implements ProductRepository {
   public Optional<Product> findById(UUID id) {
     return products.stream().filter(p -> p.getId().equals(id)).findFirst();
   }
+
+  @Override
+  public List<Product> findAll() {
+    return products;
+  }
+
+  @Override
+  public void deleteAll() {
+    products.clear();
+  }
 }
