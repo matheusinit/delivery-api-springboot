@@ -68,4 +68,26 @@ class DeleteProductControllerIntegrationTest {
     assertThat(response.getStatusCode(), is(404));
     assertThat(response.getBody().jsonPath().get("message"), is("Product not found"));
   }
+
+  @Test
+  void givenAProductNotDeleted_whenDeleteProduct_thenReturnNoContent() throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    var productSaved = repository.save(product);
+    var id = productSaved.getId();
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .delete("/product/" + id)
+            .then()
+            .extract()
+            .response();
+
+    assertThat(response.getStatusCode(), is(204));
+  }
 }
