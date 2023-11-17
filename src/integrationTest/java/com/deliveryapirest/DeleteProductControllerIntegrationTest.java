@@ -53,7 +53,8 @@ class DeleteProductControllerIntegrationTest {
     var product = new Product(name, description);
     repository.save(product);
     var id = product.getId();
-    repository.softDelete(id);
+    product.delete();
+    repository.save(product);
 
     var response =
         RestAssured.given()

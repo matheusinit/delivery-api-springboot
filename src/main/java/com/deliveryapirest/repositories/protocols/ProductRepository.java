@@ -13,6 +13,4 @@ public interface ProductRepository {
   public List<Product> findAll();
 
   public void deleteAll();
-
-  public void softDelete(UUID id);
 }
