@@ -1,7 +1,8 @@
 package com.deliveryapirest.controller;
 
+import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.errors.BadRequestError;
-import com.deliveryapirest.repositories.protocols.ProductRepository;
+import com.deliveryapirest.services.UpdateProductService;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,34 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-class UpdateProductInput {
-  public String name;
-  public String description;
-}
-
 @RestController
 public class UpdateProductController {
 
-  private final ProductRepository repository;
+  private final UpdateProductService updateProductService;
 
-  public UpdateProductController(ProductRepository repository) {
-    this.repository = repository;
+  public UpdateProductController(UpdateProductService updateProductService) {
+    this.updateProductService = updateProductService;
   }
 
   @PatchMapping("/product/{id}")
   ResponseEntity<?> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductInput input) {
     try {
-      var productValue = repository.findById(id);
-
-      var product = productValue.get();
-
-      if (input.description != null) {
-        product.setDescription(input.description);
-      }
-
-      if (input.name != null) {
-        product.setName(input.name);
-      }
+      var product = updateProductService.updateProduct(id, input);
 
       return ResponseEntity.status(HttpStatus.OK).body(product);
 
