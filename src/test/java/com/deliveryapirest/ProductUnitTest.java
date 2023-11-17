@@ -257,4 +257,16 @@ class ProductUnitTest {
 
     assertThat(error.getMessage(), is("Description cannot have less than 10 characters"));
   }
+
+  @Test
+  void givenAProductCreated_whenDeleted_thenShouldHaveDeletedAtNotNull() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(productName, description);
+
+    product.delete();
+
+    assertThat(product.getDeletedAt(), is(notNullValue()));
+  }
 }
