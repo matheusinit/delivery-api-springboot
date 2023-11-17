@@ -1,7 +1,6 @@
 package com.deliveryapirest.controller;
 
 import com.deliveryapirest.errors.BadRequestError;
-import com.deliveryapirest.errors.InvalidFieldError;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
@@ -26,10 +25,8 @@ public class UpdateProductController {
   }
 
   @PatchMapping("/product/{id}")
-  ResponseEntity<?> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductInput input)
-      throws InvalidFieldError {
-
-    if (input.description == "") {
+  ResponseEntity<?> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductInput input) {
+    try {
       var productValue = repository.findById(id);
 
       var product = productValue.get();
@@ -37,19 +34,20 @@ public class UpdateProductController {
       product.setDescription(input.description);
 
       return ResponseEntity.status(HttpStatus.OK).body(product);
-    }
 
-    if (input.name == "") {
+    } catch (Exception exception) {
+      if (input.name == "") {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(
+                BadRequestError.make(
+                    "Name cannot be null and description must be not null, at least one of them"
+                        + " must be provided"));
+      }
+
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(
               BadRequestError.make(
-                  "Name cannot be null and description must be not null, at least one of them must"
-                      + " be provided"));
+                  "Name or description cannot be null, at least one of them must be provided"));
     }
-
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(
-            BadRequestError.make(
-                "Name or description cannot be null, at least one of them must be provided"));
   }
 }
