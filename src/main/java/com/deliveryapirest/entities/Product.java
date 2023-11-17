@@ -65,6 +65,10 @@ public class Product {
       throw new InvalidFieldError("Name cannot be empty");
     }
 
+    if (newValue == null) {
+      throw new InvalidFieldError("Name cannot be null");
+    }
+
     name = newValue;
     updatedAt = Instant.now();
   }

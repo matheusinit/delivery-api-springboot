@@ -218,4 +218,16 @@ class ProductUnitTest {
     assertThat(product.getDescription(), is(nullValue()));
     assertThat(product.getUpdatedAt(), is(notNullValue()));
   }
+
+  @Test
+  void givenNullValue_whenUpdateName_thenShouldReturnError() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(productName, description);
+
+    var error = assertThrows(InvalidFieldError.class, () -> product.setName(null));
+
+    assertThat(error.getMessage(), is("Name cannot be null"));
+  }
 }
