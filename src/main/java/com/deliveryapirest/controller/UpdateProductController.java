@@ -1,6 +1,8 @@
 package com.deliveryapirest.controller;
 
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.errors.InvalidFieldError;
+import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,25 @@ class UpdateProductInput {
 @RestController
 public class UpdateProductController {
 
+  private final ProductRepository repository;
+
+  public UpdateProductController(ProductRepository repository) {
+    this.repository = repository;
+  }
+
   @PatchMapping("/product/{id}")
-  ResponseEntity<?> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductInput input) {
+  ResponseEntity<?> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductInput input)
+      throws InvalidFieldError {
+
+    if (input.description == "") {
+      var productValue = repository.findById(id);
+
+      var product = productValue.get();
+
+      product.setDescription(input.description);
+
+      return ResponseEntity.status(HttpStatus.OK).body(product);
+    }
 
     if (input.name == "") {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
