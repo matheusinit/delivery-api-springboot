@@ -46,4 +46,30 @@ class UpdateProductControllerIntegrationTest {
         responseBody.get("message"),
         equalTo("Name or description cannot be null, at least one of them must be provided"));
   }
+
+  @Test
+  void givenNameAsEmpty_whenUpdateProduct_thenReturnBadRequest() {
+    var uuid = UUID.randomUUID();
+    var requestBody = new UpdateProductInput();
+    requestBody.name = "";
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
+            .patch("/product/" + uuid)
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(response.statusCode(), equalTo(400));
+    assertThat(
+        responseBody.get("message"),
+        equalTo(
+            "Name cannot be null and description must be not null, at least one of them must be"
+                + " provided"));
+  }
 }
