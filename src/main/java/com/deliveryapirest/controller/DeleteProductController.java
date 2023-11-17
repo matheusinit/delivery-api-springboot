@@ -21,8 +21,12 @@ public class DeleteProductController {
   ResponseEntity<?> deleteProduct(@PathVariable UUID id) {
 
     var productValue = this.repository.findById(id);
+    var productIsEmpty = productValue.isEmpty();
+    var productWasSoftDeleted = !productIsEmpty && productValue.get().getDeletedAt() != null;
 
-    if (productValue.isEmpty() || productValue.get().getDeletedAt() != null) {
+    var productWasNotFound = productIsEmpty || productWasSoftDeleted;
+
+    if (productWasNotFound) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
           .body(BadRequestError.make("Product not found"));
     }
