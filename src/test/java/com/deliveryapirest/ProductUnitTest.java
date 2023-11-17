@@ -207,15 +207,15 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenNullValue_whenUpdateDescription_thenShouldHaveUpdateValue() throws Exception {
+  void givenEmptyValue_whenUpdateDescription_thenShouldHaveUpdateValue() throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
     var product = new Product(productName, description);
 
-    product.setDescription(null);
+    product.setDescription("");
 
-    assertThat(product.getDescription(), is(nullValue()));
+    assertThat(product.getDescription(), is(""));
     assertThat(product.getUpdatedAt(), is(notNullValue()));
   }
 
@@ -229,5 +229,17 @@ class ProductUnitTest {
     var error = assertThrows(InvalidFieldError.class, () -> product.setName(null));
 
     assertThat(error.getMessage(), is("Name cannot be null"));
+  }
+
+  @Test
+  void givenNullValue_whenUpdateDescription_thenShouldReturnError() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(productName, description);
+
+    var error = assertThrows(InvalidFieldError.class, () -> product.setDescription(null));
+
+    assertThat(error.getMessage(), is("Description cannot be null"));
   }
 }
