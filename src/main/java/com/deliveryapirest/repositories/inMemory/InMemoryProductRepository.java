@@ -31,4 +31,15 @@ public class InMemoryProductRepository implements ProductRepository {
   public void deleteAll() {
     products.clear();
   }
+
+  @Override
+  public void softDelete(UUID id) {
+    var productValue = products.stream().filter(p -> p.getId().equals(id)).findFirst();
+    var productFound = productValue.get();
+    var index = products.indexOf(productFound);
+
+    productFound.delete();
+
+    products.set(index, productFound);
+  }
 }
