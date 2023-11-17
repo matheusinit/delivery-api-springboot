@@ -31,7 +31,10 @@ public class DeleteProductController {
           .body(BadRequestError.make("Product not found"));
     }
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(BadRequestError.make("Product cannot be deleted, because was not found"));
+    var product = productValue.get();
+
+    product.delete();
+
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
