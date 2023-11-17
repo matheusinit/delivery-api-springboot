@@ -101,7 +101,6 @@ class DeleteProductControllerIntegrationTest {
     var product = new Product(name, description);
     var productSaved = repository.save(product);
     var id = productSaved.getId();
-
     RestAssured.given()
         .accept("application/json")
         .contentType("application/json")
