@@ -10,4 +10,8 @@ public class InternalServerError {
   public static InternalServerError make(String message) {
     return new InternalServerError(message);
   }
+
+  public String toString() {
+    return message;
+  }
 }

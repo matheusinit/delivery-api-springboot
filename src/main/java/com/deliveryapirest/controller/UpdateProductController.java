@@ -2,6 +2,7 @@ package com.deliveryapirest.controller;
 
 import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.services.UpdateProductService;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,8 @@ public class UpdateProductController {
   }
 
   @PatchMapping("/product/{id}")
-  ResponseEntity<?> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductInput input) {
+  public ResponseEntity<?> updateProduct(
+      @PathVariable UUID id, @RequestBody UpdateProductInput input) {
     try {
       var product = updateProductService.updateProduct(id, input);
 
@@ -36,10 +38,17 @@ public class UpdateProductController {
                         + " must be provided"));
       }
 
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body(
-              BadRequestError.make(
-                  "Name or description cannot be null, at least one of them must be provided"));
+      if (input.name == null && input.description == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(
+                BadRequestError.make(
+                    "Name or description cannot be null, at least one of them must be provided"));
+      }
+
+      var errorMessage =
+          InternalServerError.make("An internal server error occured. Please try again later.");
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
   }
 }
