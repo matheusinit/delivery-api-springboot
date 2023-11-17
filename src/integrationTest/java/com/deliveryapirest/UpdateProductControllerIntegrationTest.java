@@ -131,4 +131,31 @@ class UpdateProductControllerIntegrationTest {
     assertThat(response.statusCode(), equalTo(200));
     assertThat(responseBody.get("description"), is(newDescription));
   }
+
+  @Test
+  void givenName_whenUpdateProduct_thenReturnUpdatedData() throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    repository.save(product);
+    var requestBody = new UpdateProductInput();
+    var newName = faker.commerce().productName();
+    requestBody.name = newName;
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
+            .patch("/product/" + product.getId())
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(response.statusCode(), equalTo(200));
+    assertThat(responseBody.get("name"), is(newName));
+  }
 }
