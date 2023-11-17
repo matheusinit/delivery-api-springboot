@@ -31,18 +31,18 @@ public class UpdateProductController {
 
     } catch (Exception exception) {
       if (input.name == "") {
+        var errorMessage =
+            "Name cannot be null and description must be not null, at least one of them must be"
+                + " provided";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(
-                BadRequestError.make(
-                    "Name cannot be null and description must be not null, at least one of them"
-                        + " must be provided"));
+            .body(BadRequestError.make(errorMessage));
       }
 
       if (input.name == null && input.description == null) {
+        var errorMessage =
+            "Name or description cannot be null, at least one of them must be provided";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(
-                BadRequestError.make(
-                    "Name or description cannot be null, at least one of them must be provided"));
+            .body(BadRequestError.make(errorMessage));
       }
 
       var errorMessage =
