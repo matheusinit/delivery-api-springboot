@@ -89,6 +89,10 @@ public class Product {
     }
   }
 
+  public void delete() {
+    this.deletedAt = Instant.now();
+  }
+
   public Instant getCreatedAt() {
     return createdAt;
   }
