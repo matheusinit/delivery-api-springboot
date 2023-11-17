@@ -46,10 +46,10 @@ public class RegisterProductController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(BadRequestError.make(exception.getMessage()));
       }
-      var internalServerError =
+      var error =
           InternalServerError.make("An internal server error occured. Please try again later.");
 
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(internalServerError);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
   }
 }

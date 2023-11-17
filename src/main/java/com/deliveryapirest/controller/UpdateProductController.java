@@ -45,10 +45,10 @@ public class UpdateProductController {
             .body(BadRequestError.make(errorMessage));
       }
 
-      var errorMessage =
+      var error =
           InternalServerError.make("An internal server error occured. Please try again later.");
 
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
   }
 }
