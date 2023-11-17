@@ -3,10 +3,14 @@ package com.deliveryapirest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import com.deliveryapirest.entities.Product;
+import com.deliveryapirest.repositories.protocols.ProductRepository;
 import io.restassured.RestAssured;
 import java.util.UUID;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
@@ -18,6 +22,8 @@ class UpdateProductInput {
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UpdateProductControllerIntegrationTest {
   @LocalServerPort private int port;
+
+  @Autowired private ProductRepository repository;
 
   @BeforeAll
   void setup() {
@@ -71,5 +77,31 @@ class UpdateProductControllerIntegrationTest {
         equalTo(
             "Name cannot be null and description must be not null, at least one of them must be"
                 + " provided"));
+  }
+
+  @Test
+  void givenDescriptionAsEmpty_whenUpdateProduct_thenReturnUpdatedData() throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    repository.save(product);
+    var requestBody = new UpdateProductInput();
+    requestBody.description = "";
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
+            .patch("/product/" + product.getId())
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(response.statusCode(), equalTo(200));
+    assertThat(responseBody.get("description"), is(""));
   }
 }
