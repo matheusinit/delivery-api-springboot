@@ -31,7 +31,13 @@ public class UpdateProductController {
 
       var product = productValue.get();
 
-      product.setDescription(input.description);
+      if (input.description != null) {
+        product.setDescription(input.description);
+      }
+
+      if (input.name != null) {
+        product.setName(input.name);
+      }
 
       return ResponseEntity.status(HttpStatus.OK).body(product);
 
