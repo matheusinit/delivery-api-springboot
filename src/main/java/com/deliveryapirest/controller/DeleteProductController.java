@@ -35,6 +35,8 @@ public class DeleteProductController {
 
     product.delete();
 
+    repository.save(product);
+
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
