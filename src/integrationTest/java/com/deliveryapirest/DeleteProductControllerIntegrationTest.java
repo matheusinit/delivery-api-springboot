@@ -90,4 +90,28 @@ class DeleteProductControllerIntegrationTest {
 
     assertThat(response.getStatusCode(), is(204));
   }
+
+  @Test
+  void givenAProductNotDeleted_whenDeleteProduct_thenShouldHaveDeletedAtDefinedAtDatabase()
+      throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    var productSaved = repository.save(product);
+    var id = productSaved.getId();
+
+    RestAssured.given()
+        .accept("application/json")
+        .contentType("application/json")
+        .when()
+        .delete("/product/" + id)
+        .then()
+        .extract()
+        .response();
+
+    var productDeleted = repository.findById(id).get();
+
+    assertThat(productDeleted.getDeletedAt(), notNullValue());
+  }
 }
