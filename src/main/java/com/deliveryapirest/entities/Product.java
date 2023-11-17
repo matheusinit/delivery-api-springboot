@@ -77,7 +77,11 @@ public class Product {
     return description;
   }
 
-  public void setDescription(String newValue) {
+  public void setDescription(String newValue) throws InvalidFieldError {
+    if (newValue == null) {
+      throw new InvalidFieldError("Description cannot be null");
+    }
+
     description = newValue;
     updatedAt = Instant.now();
   }
