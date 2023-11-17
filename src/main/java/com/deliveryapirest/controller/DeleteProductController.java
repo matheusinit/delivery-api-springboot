@@ -1,7 +1,7 @@
 package com.deliveryapirest.controller;
 
 import com.deliveryapirest.errors.BadRequestError;
-import com.deliveryapirest.repositories.protocols.ProductRepository;
+import com.deliveryapirest.services.DeleteProductService;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,32 +11,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DeleteProductController {
-  ProductRepository repository;
+  DeleteProductService deleteProductService;
 
-  public DeleteProductController(ProductRepository repository) {
-    this.repository = repository;
+  public DeleteProductController(DeleteProductService deleteProductService) {
+    this.deleteProductService = deleteProductService;
   }
 
   @DeleteMapping("/product/{id}")
   ResponseEntity<?> deleteProduct(@PathVariable UUID id) {
 
-    var productValue = this.repository.findById(id);
-    var productIsEmpty = productValue.isEmpty();
-    var productWasSoftDeleted = !productIsEmpty && productValue.get().getDeletedAt() != null;
+    try {
+      deleteProductService.delete(id);
 
-    var productWasNotFound = productIsEmpty || productWasSoftDeleted;
-
-    if (productWasNotFound) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    } catch (Exception exception) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND)
           .body(BadRequestError.make("Product not found"));
     }
-
-    var product = productValue.get();
-
-    product.delete();
-
-    repository.save(product);
-
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
