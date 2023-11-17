@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.deliveryapirest.entities.Product;
+import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InvalidFieldError;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.Test;
@@ -213,10 +214,10 @@ class ProductUnitTest {
     var description = faker.lorem().maxLengthSentence(10);
     var product = new Product(productName, description);
 
-    product.setDescription("");
+    var error = assertThrows(EmptyDescriptionError.class, () -> product.setDescription(""));
 
-    assertThat(product.getDescription(), is(""));
-    assertThat(product.getUpdatedAt(), is(notNullValue()));
+    assertThat(
+        error.getMessage(), is("Description cannot be empty, must have at least 10 characters"));
   }
 
   @Test
@@ -238,8 +239,22 @@ class ProductUnitTest {
     var description = faker.lorem().maxLengthSentence(10);
     var product = new Product(productName, description);
 
-    var error = assertThrows(InvalidFieldError.class, () -> product.setDescription(null));
+    product.setDescription(null);
 
-    assertThat(error.getMessage(), is("Description cannot be null"));
+    assertThat(product.getDescription(), is(nullValue()));
+    assertThat(product.getUpdatedAt(), is(notNullValue()));
+  }
+
+  @Test
+  void givenLessThan10Characters_whenUpdateDescription_thenShouldReturnError() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().characters(10);
+    var product = new Product(productName, description);
+    var newDescription = faker.lorem().characters(9);
+
+    var error = assertThrows(InvalidFieldError.class, () -> product.setDescription(newDescription));
+
+    assertThat(error.getMessage(), is("Description cannot have less than 10 characters"));
   }
 }

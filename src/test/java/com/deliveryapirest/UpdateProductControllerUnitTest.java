@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import com.deliveryapirest.controller.UpdateProductController;
 import com.deliveryapirest.data.UpdateProductInput;
+import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.errors.InvalidFieldError;
 import com.deliveryapirest.services.UpdateProductService;
@@ -16,7 +17,8 @@ import org.springframework.http.HttpStatus;
 
 class UpdateProductControllerUnitTest {
   @Test
-  void givenValidData_whenErrorIsThrown_thenGetInternalServerError() throws InvalidFieldError {
+  void givenValidData_whenErrorIsThrown_thenGetInternalServerError()
+      throws InvalidFieldError, EmptyDescriptionError {
     var faker = new Faker();
     var serviceMock = mock(UpdateProductService.class);
     var sut = new UpdateProductController(serviceMock);
