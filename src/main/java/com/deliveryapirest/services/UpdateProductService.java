@@ -2,6 +2,7 @@ package com.deliveryapirest.services;
 
 import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.entities.Product;
+import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InvalidFieldError;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
@@ -15,7 +16,8 @@ public class UpdateProductService {
     this.repository = repository;
   }
 
-  public Product updateProduct(UUID id, UpdateProductInput input) throws InvalidFieldError {
+  public Product updateProduct(UUID id, UpdateProductInput input)
+      throws InvalidFieldError, EmptyDescriptionError {
     var productValue = repository.findById(id);
 
     var product = productValue.get();

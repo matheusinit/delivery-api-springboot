@@ -37,14 +37,7 @@ public class Product {
       throw new MissingFieldError("Product name is required");
     }
 
-    if (description != null && description == "") {
-      throw new EmptyDescriptionError(
-          "Description cannot be empty, must have at least 10 characters");
-    }
-
-    if (description != null && !description.isEmpty() && description.length() < 10) {
-      throw new InvalidFieldError("Description cannot have less than 10 characters");
-    }
+    validateDescription(description);
 
     this.id = UUID.randomUUID();
     this.name = name;
@@ -77,13 +70,23 @@ public class Product {
     return description;
   }
 
-  public void setDescription(String newValue) throws InvalidFieldError {
-    if (newValue == null) {
-      throw new InvalidFieldError("Description cannot be null");
-    }
+  public void setDescription(String newValue) throws InvalidFieldError, EmptyDescriptionError {
+    validateDescription(newValue);
 
     description = newValue;
     updatedAt = Instant.now();
+  }
+
+  private void validateDescription(String description)
+      throws InvalidFieldError, EmptyDescriptionError {
+    if (description != null && description == "") {
+      throw new EmptyDescriptionError(
+          "Description cannot be empty, must have at least 10 characters");
+    }
+
+    if (description != null && !description.isEmpty() && description.length() < 10) {
+      throw new InvalidFieldError("Description cannot have less than 10 characters");
+    }
   }
 
   public Instant getCreatedAt() {
