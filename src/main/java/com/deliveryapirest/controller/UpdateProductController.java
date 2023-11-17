@@ -2,6 +2,7 @@ package com.deliveryapirest.controller;
 
 import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.services.UpdateProductService;
 import java.util.UUID;
@@ -30,6 +31,11 @@ public class UpdateProductController {
       return ResponseEntity.status(HttpStatus.OK).body(product);
 
     } catch (Exception exception) {
+      if (exception instanceof EmptyDescriptionError) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(BadRequestError.make(exception.getMessage()));
+      }
+
       if (input.name == "") {
         var errorMessage =
             "Name cannot be null and description must be not null, at least one of them must be"

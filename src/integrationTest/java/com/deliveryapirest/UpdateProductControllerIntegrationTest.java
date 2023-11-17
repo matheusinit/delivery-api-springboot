@@ -101,8 +101,10 @@ class UpdateProductControllerIntegrationTest {
             .response();
 
     var responseBody = response.getBody().jsonPath();
-    assertThat(response.statusCode(), equalTo(200));
-    assertThat(responseBody.get("description"), is(""));
+    assertThat(response.statusCode(), equalTo(400));
+    assertThat(
+        responseBody.get("message"),
+        is("Description cannot be empty, must have at least 10 characters"));
   }
 
   @Test
