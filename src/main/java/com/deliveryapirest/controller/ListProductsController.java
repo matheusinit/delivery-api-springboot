@@ -18,7 +18,9 @@ public class ListProductsController {
   @GetMapping("/product")
   public ResponseEntity<?> listProducts() {
     try {
-      var products = this.repository.findAll();
+      var allProducts = this.repository.findAll();
+
+      var products = allProducts.stream().filter(product -> product.getDeletedAt() == null);
 
       return ResponseEntity.ok(products);
 
