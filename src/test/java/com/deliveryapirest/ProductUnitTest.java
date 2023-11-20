@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.deliveryapirest.entities.Product;
 import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InvalidFieldError;
+import com.deliveryapirest.errors.InvalidOperationError;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.Test;
 
@@ -268,5 +269,20 @@ class ProductUnitTest {
     product.delete();
 
     assertThat(product.getDeletedAt(), is(notNullValue()));
+  }
+
+  @Test
+  void givenADeletedProduct_whenUpdateName_thenShouldReturnError() throws Exception {
+    var faker = new Faker();
+    var productName = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(productName, description);
+    product.delete();
+
+    var newName = faker.commerce().productName();
+
+    var error = assertThrows(InvalidOperationError.class, () -> product.setName(newName));
+
+    assertThat(error.getMessage(), is("Cannot update a deleted product"));
   }
 }

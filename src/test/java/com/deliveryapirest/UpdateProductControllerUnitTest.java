@@ -9,6 +9,7 @@ import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.errors.InvalidFieldError;
+import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.services.UpdateProductService;
 import java.util.UUID;
 import net.datafaker.Faker;
@@ -18,7 +19,7 @@ import org.springframework.http.HttpStatus;
 class UpdateProductControllerUnitTest {
   @Test
   void givenValidData_whenErrorIsThrown_thenGetInternalServerError()
-      throws InvalidFieldError, EmptyDescriptionError {
+      throws InvalidFieldError, EmptyDescriptionError, InvalidOperationError {
     var faker = new Faker();
     var serviceMock = mock(UpdateProductService.class);
     var sut = new UpdateProductController(serviceMock);
