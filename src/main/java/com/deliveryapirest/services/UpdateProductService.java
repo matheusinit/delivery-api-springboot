@@ -4,6 +4,7 @@ import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.entities.Product;
 import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InvalidFieldError;
+import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class UpdateProductService {
   }
 
   public Product updateProduct(UUID id, UpdateProductInput input)
-      throws InvalidFieldError, EmptyDescriptionError {
+      throws InvalidFieldError, EmptyDescriptionError, InvalidOperationError {
     var productValue = repository.findById(id);
 
     var product = productValue.get();

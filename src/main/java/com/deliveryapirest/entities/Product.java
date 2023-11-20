@@ -2,6 +2,7 @@ package com.deliveryapirest.entities;
 
 import com.deliveryapirest.errors.EmptyDescriptionError;
 import com.deliveryapirest.errors.InvalidFieldError;
+import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.errors.MissingFieldError;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,7 +54,11 @@ public class Product {
     return name;
   }
 
-  public void setName(String newValue) throws InvalidFieldError {
+  public void setName(String newValue) throws InvalidFieldError, InvalidOperationError {
+    if (deletedAt != null) {
+      throw new InvalidOperationError("Cannot update a deleted product");
+    }
+
     if (newValue == "") {
       throw new InvalidFieldError("Name cannot be empty");
     }
