@@ -9,6 +9,7 @@ import com.deliveryapirest.repositories.protocols.ProductRepository;
 import io.restassured.RestAssured;
 import java.util.UUID;
 import net.datafaker.Faker;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ class UpdateProductControllerIntegrationTest {
   @BeforeAll
   void setup() {
     RestAssured.baseURI = "http://localhost:" + port;
+  }
+
+  @AfterAll
+  void cleanUpAfterTestsFinish() {
+    this.repository.deleteAll();
   }
 
   @Test

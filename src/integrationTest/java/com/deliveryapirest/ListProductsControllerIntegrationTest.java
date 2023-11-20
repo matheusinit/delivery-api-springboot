@@ -7,6 +7,7 @@ import com.deliveryapirest.entities.Product;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import io.restassured.RestAssured;
 import net.datafaker.Faker;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,15 @@ class ListProductsControllerIntegrationTest {
   }
 
   @BeforeEach
+  void cleanBeforeTestStart() {
+    this.cleanUp();
+  }
+
+  @AfterAll
+  void cleanAllAfterAllTestsFinish() {
+    this.cleanUp();
+  }
+
   void cleanUp() {
     this.repository.deleteAll();
   }

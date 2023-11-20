@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import net.datafaker.Faker;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ class RegisterProductControllerIntegrationTest {
   @BeforeAll
   void setup() {
     RestAssured.baseURI = "http://localhost:" + port;
+  }
+
+  @AfterAll
+  void cleanUpAfterTestsFinish() {
+    this.repository.deleteAll();
   }
 
   @Test
