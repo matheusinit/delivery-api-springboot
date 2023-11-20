@@ -185,4 +185,29 @@ class UpdateProductControllerIntegrationTest {
 
     assertThat(productFromDb.getName(), is(newName));
   }
+
+  @Test
+  void givenDescription_whenUpdateProduct_thenShouldHaveDataUpdatedInDatabase() throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    repository.save(product);
+    var requestBody = new UpdateProductInput();
+    var newDescription = faker.lorem().maxLengthSentence(10);
+    requestBody.description = newDescription;
+    RestAssured.given()
+        .accept("application/json")
+        .contentType("application/json")
+        .when()
+        .body(requestBody)
+        .patch("/product/" + product.getId())
+        .then()
+        .extract()
+        .response();
+
+    var productFromDb = repository.findById(product.getId()).get();
+
+    assertThat(productFromDb.getDescription(), is(newDescription));
+  }
 }
