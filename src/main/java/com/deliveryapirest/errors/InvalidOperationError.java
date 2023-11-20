@@ -3,7 +3,7 @@ package com.deliveryapirest.errors;
 public class InvalidOperationError extends Exception {
   public String message;
 
-  private InvalidOperationError(String message) {
+  public InvalidOperationError(String message) {
     super(message);
     this.message = message;
   }
