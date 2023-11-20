@@ -40,7 +40,6 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
             .extract()
             .response();
 
-    response.getBody().prettyPrint();
     var responseBody = response.getBody().jsonPath();
     var badRequestCode = 400;
     assertThat(response.getStatusCode(), is(badRequestCode));

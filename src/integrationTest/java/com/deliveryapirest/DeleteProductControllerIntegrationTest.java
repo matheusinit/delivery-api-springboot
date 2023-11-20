@@ -39,8 +39,6 @@ class DeleteProductControllerIntegrationTest {
             .extract()
             .response();
 
-    response.getBody().prettyPrint();
-
     assertThat(response.getStatusCode(), is(404));
     assertThat(response.getBody().jsonPath().get("message"), is("Product not found"));
   }
