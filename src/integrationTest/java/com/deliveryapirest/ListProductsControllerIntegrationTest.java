@@ -82,4 +82,33 @@ class ListProductsControllerIntegrationTest {
     assertThat(secondProduct.getName(), equalTo(secondName));
     assertThat(secondProduct.getDescription(), equalTo(secondDescription));
   }
+
+  @Test
+  void givenProductsStoredInDatabase_whenListProducts_thenReturnOnlyProductsNotDeleted()
+      throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().sentence(10);
+    var product = new Product(name, description);
+    this.repository.save(product);
+    var secondName = faker.commerce().productName();
+    var secondDescription = faker.lorem().sentence(10);
+    var secondProduct = new Product(secondName, secondDescription);
+    this.repository.save(secondProduct);
+    secondProduct.delete();
+    this.repository.save(secondProduct);
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .when()
+            .get("/product")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(
+        responseBody.getList("$", Product.class), contains(hasProperty("deletedAt", nullValue())));
+  }
 }
