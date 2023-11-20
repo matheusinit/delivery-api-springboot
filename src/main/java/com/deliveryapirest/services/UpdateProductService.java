@@ -30,6 +30,8 @@ public class UpdateProductService {
       product.setName(input.name);
     }
 
+    repository.save(product);
+
     return product;
   }
 }
