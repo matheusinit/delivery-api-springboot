@@ -8,4 +8,6 @@ public class UpdateProductInput {
     this.name = name;
     this.description = description;
   }
+
+  public UpdateProductInput() {}
 }

@@ -3,6 +3,7 @@ package com.deliveryapirest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.entities.Product;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import io.restassured.RestAssured;
@@ -13,11 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-
-class UpdateProductInput {
-  public String name;
-  public String description;
-}
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UpdateProductControllerIntegrationTest {
