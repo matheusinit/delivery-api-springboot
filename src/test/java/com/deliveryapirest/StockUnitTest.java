@@ -88,4 +88,14 @@ class StockUnitTest {
 
     assertThat(error.getMessage(), is("Quantity must be 0 or positive"));
   }
+
+  @Test
+  void ensureGivenZeroQuantityWhenUpdateStockThenShouldUpdate() throws InvalidOperationError {
+    var productId = UUID.randomUUID();
+    var stock = new Stock(productId, 1);
+
+    stock.setQuantity(0);
+
+    assertThat(stock.getQuantity(), is(0));
+  }
 }
