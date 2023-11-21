@@ -37,7 +37,11 @@ class SetStockByProductController {
           .body(BadRequestError.make("Quantity must be provided"));
     }
 
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(BadRequestError.make("Quantity must be 0 or positive"));
+    if (input.quantity < 0) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(BadRequestError.make("Quantity must be 0 or positive"));
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 }
