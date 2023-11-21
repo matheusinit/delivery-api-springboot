@@ -56,6 +56,7 @@ class SetStockByProductController {
     }
 
     stock.setQuantity(input.quantity);
+    stockRepository.save(stock);
 
     return ResponseEntity.status(HttpStatus.OK).body(stock);
   }
