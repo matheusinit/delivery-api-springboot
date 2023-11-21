@@ -31,7 +31,6 @@ class SetStockByProductController {
   ResponseEntity<?> setStockByProduct(
       @PathVariable UUID id, @RequestBody SetStockByProductInput input) {
     try {
-
       var productValue = productRepository.findById(id);
 
       if (productValue.isEmpty()) {
@@ -44,8 +43,8 @@ class SetStockByProductController {
             .body(BadRequestError.make("Quantity must be provided"));
       }
 
-      var stock = stockRepository.findByProductId(productValue.get().getId());
       var product = productValue.get();
+      var stock = stockRepository.findByProductId(product.getId());
 
       if (stock != null) {
         stock.setQuantity(input.quantity);
