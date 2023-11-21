@@ -127,4 +127,29 @@ class SetStockByProductControllerIntegrationTest {
 
     assertThat(response.statusCode(), is(200));
   }
+
+  @Test
+  void givenQuantityIsPositive_whenSetStockByProduct_thenReturnOk() throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    productRepository.save(product);
+    var id = product.getId();
+    var requestBody = new SetStockByProductInput();
+    requestBody.quantity = 1;
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
+            .post("/product/" + id + "/stock")
+            .then()
+            .extract()
+            .response();
+
+    assertThat(response.statusCode(), is(200));
+  }
 }
