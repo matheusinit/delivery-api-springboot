@@ -242,4 +242,31 @@ class SetStockByProductControllerIntegrationTest {
 
     assertThat(stockFromDatabase.getQuantity(), is(2));
   }
+
+  @Test
+  void givenValidData_whenSetStockByProduct_thenShouldUpdateInDatabase() throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    productRepository.save(product);
+    var id = product.getId();
+    var requestBody = new SetStockByProductInput();
+    requestBody.quantity = 2;
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
+            .post("/product/" + id + "/stock")
+            .then()
+            .extract()
+            .response();
+    var stockId = UUID.fromString(response.getBody().jsonPath().get("id"));
+
+    var stockFromDatabase = stockRepository.findById(stockId).get();
+
+    assertThat(stockFromDatabase.getQuantity(), is(2));
+  }
 }
