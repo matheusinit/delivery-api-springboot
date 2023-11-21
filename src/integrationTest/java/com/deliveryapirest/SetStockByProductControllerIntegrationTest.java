@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+class SetStockByProductInput {
+  public Integer quantity;
+}
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SetStockByProductControllerIntegrationTest {
   @LocalServerPort Integer port;
@@ -28,11 +32,14 @@ class SetStockByProductControllerIntegrationTest {
   @Test
   void givenNonExistentProductId_whenSetStockByProduct_thenReturnNotFound() {
     var id = UUID.randomUUID();
+    var requestBody = new SetStockByProductInput();
 
     var response =
         RestAssured.given()
             .accept("application/json")
-            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
             .post("/product/" + id + "/stock")
             .then()
             .extract()
@@ -51,11 +58,14 @@ class SetStockByProductControllerIntegrationTest {
     var product = new Product(name, description);
     productRepository.save(product);
     var id = product.getId();
+    var requestBody = new SetStockByProductInput();
 
     var response =
         RestAssured.given()
             .accept("application/json")
-            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
             .post("/product/" + id + "/stock")
             .then()
             .extract()
@@ -64,5 +74,32 @@ class SetStockByProductControllerIntegrationTest {
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), is(400));
     assertThat(responseBody.get("message"), is("Quantity must be provided"));
+  }
+
+  @Test
+  void givenQuantityIsNegative_whenSetStockByProduct_thenReturnBadRequest() throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    productRepository.save(product);
+    var id = product.getId();
+    var requestBody = new SetStockByProductInput();
+    requestBody.quantity = -1;
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
+            .post("/product/" + id + "/stock")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(response.statusCode(), is(400));
+    assertThat(responseBody.get("message"), is("Quantity must be 0 or positive"));
   }
 }
