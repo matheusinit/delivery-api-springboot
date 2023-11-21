@@ -51,6 +51,10 @@ public class Stock {
     return quantity;
   }
 
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
+
   public Instant getCreatedAt() {
     return createdAt;
   }

@@ -2,6 +2,7 @@ package com.deliveryapirest.controller;
 
 import com.deliveryapirest.entities.Stock;
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.repositories.hibernate.StockRepository;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,12 @@ class SetStockByProductInput {
 @RestController
 class SetStockByProductController {
   ProductRepository productRepository;
+  StockRepository stockRepository;
 
-  public SetStockByProductController(ProductRepository productRepository) {
+  public SetStockByProductController(
+      ProductRepository productRepository, StockRepository stockRepository) {
     this.productRepository = productRepository;
+    this.stockRepository = stockRepository;
   }
 
   @PostMapping("/product/{id}/stock")
@@ -43,8 +47,15 @@ class SetStockByProductController {
           .body(BadRequestError.make("Quantity must be 0 or positive"));
     }
 
+    var stock = stockRepository.findByProductId(productValue.get().getId());
     var product = productValue.get();
-    var stock = new Stock(product.getId(), input.quantity);
+
+    if (stock == null) {
+      stock = new Stock(product.getId(), input.quantity);
+      return ResponseEntity.status(HttpStatus.OK).body(stock);
+    }
+
+    stock.setQuantity(input.quantity);
 
     return ResponseEntity.status(HttpStatus.OK).body(stock);
   }
