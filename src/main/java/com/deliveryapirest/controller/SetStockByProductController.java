@@ -1,5 +1,6 @@
 package com.deliveryapirest.controller;
 
+import com.deliveryapirest.entities.Stock;
 import com.deliveryapirest.errors.BadRequestError;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
@@ -42,6 +43,9 @@ class SetStockByProductController {
           .body(BadRequestError.make("Quantity must be 0 or positive"));
     }
 
-    return ResponseEntity.status(HttpStatus.OK).build();
+    var product = productValue.get();
+    var stock = new Stock(product.getId(), input.quantity);
+
+    return ResponseEntity.status(HttpStatus.OK).body(stock);
   }
 }
