@@ -108,4 +108,16 @@ class StockUnitTest {
 
     assertThat(stock.getQuantity(), is(2));
   }
+
+  @Test
+  void ensureGivenDeletedStockWhenUpdateStockThenShouldThrowException()
+      throws InvalidOperationError {
+    var productId = UUID.randomUUID();
+    var stock = new Stock(productId, 1);
+    stock.delete();
+
+    var error = assertThrows(InvalidOperationError.class, () -> stock.setQuantity(2));
+
+    assertThat(error.getMessage(), is("Cannot update stock when it is deleted"));
+  }
 }
