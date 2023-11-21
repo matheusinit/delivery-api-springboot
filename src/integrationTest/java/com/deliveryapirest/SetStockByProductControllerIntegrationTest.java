@@ -214,4 +214,32 @@ class SetStockByProductControllerIntegrationTest {
     assertThat(responseBody.get("quantity"), is(2));
     assertThat(responseBody.get("productId"), is(id.toString()));
   }
+
+  @Test
+  void givenStockAlreadyExistsForProductId_whenSetStockByProduct_thenShouldUpdateInDatabase()
+      throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    productRepository.save(product);
+    var id = product.getId();
+    var stock = new Stock(id, 1);
+    stockRepository.save(stock);
+    var requestBody = new SetStockByProductInput();
+    requestBody.quantity = 2;
+    RestAssured.given()
+        .accept("application/json")
+        .contentType("application/json")
+        .when()
+        .body(requestBody)
+        .post("/product/" + id + "/stock")
+        .then()
+        .extract()
+        .response();
+
+    var stockFromDatabase = stockRepository.findById(stock.getId()).get();
+
+    assertThat(stockFromDatabase.getQuantity(), is(2));
+  }
 }
