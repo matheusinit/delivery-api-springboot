@@ -22,7 +22,8 @@ class SetStockByProductController {
     var productValue = productRepository.findById(id);
 
     if (productValue.isEmpty()) {
-      return ResponseEntity.status(404).body(BadRequestError.make("Product not found"));
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+          .body(BadRequestError.make("Product not found"));
     }
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
