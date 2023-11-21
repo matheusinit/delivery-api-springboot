@@ -53,6 +53,10 @@ public class Stock {
   }
 
   public void setQuantity(int quantity) throws InvalidOperationError {
+    if (deletedAt != null) {
+      throw new InvalidOperationError("Cannot update stock when it is deleted");
+    }
+
     if (quantity < 0) {
       throw new InvalidOperationError("Quantity must be 0 or positive");
     }
@@ -70,5 +74,9 @@ public class Stock {
 
   public Instant getDeletedAt() {
     return deletedAt;
+  }
+
+  public void delete() {
+    deletedAt = Instant.now();
   }
 }
