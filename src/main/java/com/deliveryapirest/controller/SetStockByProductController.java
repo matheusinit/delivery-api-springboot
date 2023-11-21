@@ -2,6 +2,7 @@ package com.deliveryapirest.controller;
 
 import com.deliveryapirest.entities.Stock;
 import com.deliveryapirest.errors.BadRequestError;
+import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.repositories.hibernate.StockRepository;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
@@ -29,7 +30,8 @@ class SetStockByProductController {
 
   @PostMapping("/product/{id}/stock")
   ResponseEntity<?> setStockByProduct(
-      @PathVariable UUID id, @RequestBody SetStockByProductInput input) {
+      @PathVariable UUID id, @RequestBody SetStockByProductInput input)
+      throws InvalidOperationError {
     var productValue = productRepository.findById(id);
 
     if (productValue.isEmpty()) {

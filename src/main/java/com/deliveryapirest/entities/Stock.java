@@ -1,5 +1,6 @@
 package com.deliveryapirest.entities;
 
+import com.deliveryapirest.errors.InvalidOperationError;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -51,7 +52,11 @@ public class Stock {
     return quantity;
   }
 
-  public void setQuantity(int quantity) {
+  public void setQuantity(int quantity) throws InvalidOperationError {
+    if (quantity < 0) {
+      throw new InvalidOperationError("Quantity must be 0 or positive");
+    }
+
     this.quantity = quantity;
   }
 
