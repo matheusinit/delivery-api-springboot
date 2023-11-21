@@ -4,6 +4,8 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.deliveryapirest.entities.Product;
+import com.deliveryapirest.entities.Stock;
+import com.deliveryapirest.repositories.hibernate.StockRepository;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import io.restassured.RestAssured;
 import java.util.UUID;
@@ -23,6 +25,7 @@ class SetStockByProductControllerIntegrationTest {
   @LocalServerPort Integer port;
 
   @Autowired ProductRepository productRepository;
+  @Autowired StockRepository stockRepository;
 
   @BeforeAll
   void setupRestAssured() {
@@ -178,6 +181,37 @@ class SetStockByProductControllerIntegrationTest {
     var responseBody = response.getBody().jsonPath();
     assertThat(responseBody.get("id"), is(notNullValue()));
     assertThat(responseBody.get("quantity"), is(1));
+    assertThat(responseBody.get("productId"), is(id.toString()));
+  }
+
+  @Test
+  void givenStockAlreadyExistsForProductId_whenSetStockByProduct_thenUpdateStock()
+      throws Exception {
+    var faker = new Faker();
+    var name = faker.commerce().productName();
+    var description = faker.lorem().maxLengthSentence(10);
+    var product = new Product(name, description);
+    productRepository.save(product);
+    var id = product.getId();
+    var stock = new Stock(id, 1);
+    stockRepository.save(stock);
+    var requestBody = new SetStockByProductInput();
+    requestBody.quantity = 2;
+
+    var response =
+        RestAssured.given()
+            .accept("application/json")
+            .contentType("application/json")
+            .when()
+            .body(requestBody)
+            .post("/product/" + id + "/stock")
+            .then()
+            .extract()
+            .response();
+
+    var responseBody = response.getBody().jsonPath();
+    assertThat(responseBody.get("id"), is(stock.getId().toString()));
+    assertThat(responseBody.get("quantity"), is(2));
     assertThat(responseBody.get("productId"), is(id.toString()));
   }
 }
