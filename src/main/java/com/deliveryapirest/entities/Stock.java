@@ -34,7 +34,11 @@ public class Stock {
     this.createdAt = Instant.now();
   }
 
-  public Stock(UUID productId, int quantity) {
+  public Stock(UUID productId, int quantity) throws InvalidOperationError {
+    if (quantity < 0) {
+      throw new InvalidOperationError("Quantity must be 0 or positive");
+    }
+
     this.productId = productId;
     this.quantity = quantity;
     this.id = UUID.randomUUID();

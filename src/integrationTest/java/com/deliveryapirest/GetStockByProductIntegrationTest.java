@@ -1,6 +1,7 @@
 package com.deliveryapirest;
 
 import com.deliveryapirest.entities.Stock;
+import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.repositories.hibernate.StockRepository;
 import io.restassured.RestAssured;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class GetStockByProductIntegrationTest {
   }
 
   @Test
-  void givenProductId_whenGetStockByProduct_thenReturnOk() {
+  void givenProductId_whenGetStockByProduct_thenReturnOk() throws InvalidOperationError {
     var productId = UUID.randomUUID();
     stockRepository.save(new Stock(productId, 1));
 
@@ -40,7 +41,7 @@ public class GetStockByProductIntegrationTest {
   }
 
   @Test
-  void givenProductId_whenGetStockByProduct_thenReturnProductStock() {
+  void givenProductId_whenGetStockByProduct_thenReturnProductStock() throws InvalidOperationError {
     var productId = UUID.randomUUID();
     stockRepository.save(new Stock(productId, 1));
 
