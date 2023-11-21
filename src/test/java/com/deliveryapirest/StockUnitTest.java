@@ -4,8 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.deliveryapirest.entities.Stock;
+import com.deliveryapirest.errors.InvalidOperationError;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -75,5 +77,15 @@ class StockUnitTest {
     var stock = new Stock(productId);
 
     assertThat(stock.getDeletedAt(), is(nullValue()));
+  }
+
+  @Test
+  void ensureGivenNegativeQuantityWhenUpdateStockThenShouldThrowException() {
+    var productId = UUID.randomUUID();
+    var stock = new Stock(productId, 1);
+
+    var error = assertThrows(InvalidOperationError.class, () -> stock.setQuantity(-1));
+
+    assertThat(error.getMessage(), is("Quantity must be 0 or positive"));
   }
 }
