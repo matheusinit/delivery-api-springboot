@@ -54,6 +54,7 @@ class SetStockByProductController {
       }
 
       stock = new Stock(product.getId(), input.quantity);
+      stockRepository.save(stock);
 
       return ResponseEntity.status(HttpStatus.OK).body(stock);
     } catch (Exception exception) {
