@@ -23,18 +23,26 @@ public class StockProducer {
   KafkaTemplate<String, StockDto> kafkaTemplate;
 
   public StockProducer() {
-    this.kafkaTemplate =
-        new KafkaTemplate<>(
-            new DefaultKafkaProducerFactory<>(
-                Map.of(
-                    BOOTSTRAP_SERVERS_CONFIG,
-                    "localhost:9092",
-                    LINGER_MS_CONFIG,
-                    10,
-                    KEY_SERIALIZER_CLASS_CONFIG,
-                    IntegerSerializer.class,
-                    VALUE_SERIALIZER_CLASS_CONFIG,
-                    JsonSerializer.class)));
+    var config = getProducerConfig();
+    this.kafkaTemplate = new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(config));
+  }
+
+  Map<String, Object> getProducerConfig() {
+    var kafkaServer = "localhost:9092";
+    var waitForInMs = 10;
+
+    Map<String, Object> config =
+        Map.of(
+            BOOTSTRAP_SERVERS_CONFIG,
+            kafkaServer,
+            LINGER_MS_CONFIG,
+            waitForInMs,
+            KEY_SERIALIZER_CLASS_CONFIG,
+            IntegerSerializer.class,
+            VALUE_SERIALIZER_CLASS_CONFIG,
+            JsonSerializer.class);
+
+    return config;
   }
 
   @Value("${kafka.topic.stock}")
