@@ -2,22 +2,29 @@ package com.deliveryapirest.services;
 
 import com.deliveryapirest.entities.Stock;
 import com.deliveryapirest.errors.InvalidOperationError;
+import com.deliveryapirest.producer.StockProducer;
 import com.deliveryapirest.repositories.hibernate.StockRepository;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SetStockByProductService {
   ProductRepository productRepository;
   StockRepository stockRepository;
+  StockProducer stockProducer;
 
   public SetStockByProductService(
-      ProductRepository productRepository, StockRepository stockRepository) {
+      ProductRepository productRepository,
+      StockRepository stockRepository,
+      StockProducer stockProducer) {
     this.productRepository = productRepository;
     this.stockRepository = stockRepository;
+    this.stockProducer = stockProducer;
   }
 
+  @Transactional
   public Stock setStockByProduct(UUID id, Integer quantity) throws InvalidOperationError {
     var productValue = productRepository.findById(id);
 
@@ -41,6 +48,8 @@ public class SetStockByProductService {
 
     stock = new Stock(product.getId(), quantity);
     stockRepository.save(stock);
+
+    stockProducer.sendStock(stock);
 
     return stock;
   }
