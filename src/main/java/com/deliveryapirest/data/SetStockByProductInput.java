@@ -6,4 +6,6 @@ public class SetStockByProductInput {
   public SetStockByProductInput(Integer quantity) {
     this.quantity = quantity;
   }
+
+  public SetStockByProductInput() {}
 }
