@@ -1,9 +1,8 @@
 package com.deliveryapirest.controller;
 
-import com.deliveryapirest.entities.Stock;
 import com.deliveryapirest.errors.BadRequestError;
-import com.deliveryapirest.repositories.hibernate.StockRepository;
-import com.deliveryapirest.repositories.protocols.ProductRepository;
+import com.deliveryapirest.errors.InvalidOperationError;
+import com.deliveryapirest.services.SetStockByProductService;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,46 +17,30 @@ class SetStockByProductInput {
 
 @RestController
 class SetStockByProductController {
-  ProductRepository productRepository;
-  StockRepository stockRepository;
+  SetStockByProductService service;
 
-  public SetStockByProductController(
-      ProductRepository productRepository, StockRepository stockRepository) {
-    this.productRepository = productRepository;
-    this.stockRepository = stockRepository;
+  public SetStockByProductController(SetStockByProductService service) {
+    this.service = service;
   }
 
   @PostMapping("/product/{id}/stock")
   ResponseEntity<?> setStockByProduct(
       @PathVariable UUID id, @RequestBody SetStockByProductInput input) {
     try {
-      var productValue = productRepository.findById(id);
-
-      if (productValue.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(BadRequestError.make("Product not found"));
-      }
-
-      if (input.quantity == null) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(BadRequestError.make("Quantity must be provided"));
-      }
-
-      var product = productValue.get();
-      var stock = stockRepository.findByProductId(product.getId());
-
-      if (stock != null) {
-        stock.setQuantity(input.quantity);
-        stockRepository.save(stock);
-
-        return ResponseEntity.status(HttpStatus.OK).body(stock);
-      }
-
-      stock = new Stock(product.getId(), input.quantity);
-      stockRepository.save(stock);
+      var stock = service.setStockByProduct(id, input.quantity);
 
       return ResponseEntity.status(HttpStatus.OK).body(stock);
     } catch (Exception exception) {
+      if (exception.getMessage() == "Product not found") {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(InvalidOperationError.make(exception.getMessage()));
+      }
+
+      if (exception instanceof InvalidOperationError) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(InvalidOperationError.make(exception.getMessage()));
+      }
+
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
           .body(BadRequestError.make("Quantity must be 0 or positive"));
     }
