@@ -22,8 +22,8 @@ class SetStockByProducerControllerUnitTest {
     var sut = new SetStockByProductController(service);
     when(service.setStockByProduct(any(), any())).thenThrow(new RuntimeException());
     var productId = UUID.randomUUID();
-    var input = new SetStockByProductInput();
-    input.quantity = 1;
+    var quantity = 1;
+    var input = new SetStockByProductInput(quantity);
 
     var response = sut.setStockByProduct(productId, input);
 
