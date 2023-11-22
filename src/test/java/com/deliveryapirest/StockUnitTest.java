@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class StockUnitTest {
 
   @Test
-  void ensureWhenStockIsCreatedThenShouldHaveId() {
+  void ensureWhenStockIsCreatedThenShouldHaveId() throws InvalidOperationError {
     var productId = UUID.randomUUID();
 
     var stock = new Stock(productId, 1);
@@ -24,7 +24,7 @@ class StockUnitTest {
   }
 
   @Test
-  void ensureWhenStockIsCreatedThenShouldHaveProductId() {
+  void ensureWhenStockIsCreatedThenShouldHaveProductId() throws InvalidOperationError {
     var productId = UUID.randomUUID();
 
     var stock = new Stock(productId, 1);
@@ -33,7 +33,7 @@ class StockUnitTest {
   }
 
   @Test
-  void ensureWhenQuantityIsProvidedShouldHaveQuantityGiven() {
+  void ensureWhenQuantityIsProvidedShouldHaveQuantityGiven() throws InvalidOperationError {
     var productId = UUID.randomUUID();
     var quantity = 1;
 
@@ -80,7 +80,8 @@ class StockUnitTest {
   }
 
   @Test
-  void ensureGivenNegativeQuantityWhenUpdateStockThenShouldThrowException() {
+  void ensureGivenNegativeQuantityWhenUpdateStockThenShouldThrowException()
+      throws InvalidOperationError {
     var productId = UUID.randomUUID();
     var stock = new Stock(productId, 1);
 
