@@ -42,6 +42,7 @@ public class SetStockByProductService {
     if (stock != null) {
       stock.setQuantity(quantity);
       stockRepository.save(stock);
+      stockProducer.sendStock(stock);
 
       return stock;
     }
