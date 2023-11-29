@@ -13,6 +13,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.stereotype.Component;
 
 class StockDto {
+  public String id;
   public String productId;
   public int quantity;
 }
@@ -52,6 +53,7 @@ public class StockProducer {
     StockDto data = new StockDto();
     data.productId = stock.getProductId().toString();
     data.quantity = stock.getQuantity();
+    data.id = stock.getId().toString();
 
     kafkaTemplate.send(routingKey, data);
   }
