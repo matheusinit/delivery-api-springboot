@@ -42,7 +42,7 @@ public class SetStockByProductService {
     if (stock != null) {
       stock.setQuantity(quantity);
       stockRepository.save(stock);
-      stockProducer.sendStock(stock);
+      stockProducer.sendStockToQueue(stock);
 
       return stock;
     }
@@ -50,7 +50,7 @@ public class SetStockByProductService {
     stock = new Stock(product.getId(), quantity);
     stockRepository.save(stock);
 
-    stockProducer.sendStock(stock);
+    stockProducer.sendStockToQueue(stock);
 
     return stock;
   }
