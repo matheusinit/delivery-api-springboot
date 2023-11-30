@@ -22,16 +22,16 @@ record OrderToConsume(
     Optional<ZonedDateTime> canceledAt) {}
 
 @Component
-public class OrderingConsumer {
+public class OrderConsumerKafka implements OrderConsumer {
 
   RegisterOrderToShipService registerOrderToShipService;
 
-  public OrderingConsumer(RegisterOrderToShipService registerOrderToShipService) {
+  public OrderConsumerKafka(RegisterOrderToShipService registerOrderToShipService) {
     this.registerOrderToShipService = registerOrderToShipService;
   }
 
   @KafkaListener(topics = "ordering", groupId = "orderingGroup")
-  public void checkOrder(String content) {
+  public void consumeAndRegisterOrder(String content) {
     OrderToConsume orderToConsume = receiveAndSerializeContent(content);
 
     var order = convertOrderToConsumeToOrderObject(orderToConsume);
