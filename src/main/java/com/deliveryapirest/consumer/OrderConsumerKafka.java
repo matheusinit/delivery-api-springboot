@@ -30,7 +30,10 @@ public class OrderConsumerKafka implements OrderConsumer {
     this.registerOrderToShipService = registerOrderToShipService;
   }
 
-  @KafkaListener(topics = "ordering", groupId = "orderingGroup")
+  @KafkaListener(
+      topics = "ordering",
+      groupId = "orderingGroup",
+      autoStartup = "${kafka.enabled:false}")
   public void consumeAndRegisterOrder(String content) {
     OrderToConsume orderToConsume = receiveAndSerializeContent(content);
 

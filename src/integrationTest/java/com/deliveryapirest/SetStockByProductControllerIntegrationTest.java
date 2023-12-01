@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.deliveryapirest.entities.Product;
 import com.deliveryapirest.entities.Stock;
+import com.deliveryapirest.producer.StockProducer;
 import com.deliveryapirest.repositories.hibernate.StockRepository;
 import com.deliveryapirest.repositories.protocols.ProductRepository;
 import io.restassured.RestAssured;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 class SetStockByProductInput {
@@ -23,6 +25,8 @@ class SetStockByProductInput {
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SetStockByProductControllerIntegrationTest {
   @LocalServerPort Integer port;
+
+  @MockBean private StockProducer stockProducer;
 
   @Autowired ProductRepository productRepository;
   @Autowired StockRepository stockRepository;
