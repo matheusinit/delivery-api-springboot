@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: delivery-postgres-db
+  labels:
+    app: delivery-postgres-db
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: delivery-postgres-db
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: delivery-postgres-db-pv
+  labels:
+    app: delivery-postgres-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-postgres-db
+  labels:
+    app: delivery-postgres-db
+spec:
+  selector:
+    matchLabels:
+      app: delivery-postgres-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: delivery-postgres-db
+    spec:
+      containers:
+        - image: postgres:14
+          name: delivery-postgres-db
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: delivery-api-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: delivery-api-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: delivery-api-secrets
+                  key: POSTGRES_DB
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: delivery-postgres-volume
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: delivery-postgres-volume
+          persistentVolumeClaim:
+            claimName: delivery-postgres-db-pv

@@ -39,3 +39,6 @@ out/
 ### Environment Variables ###
 .env
 .env.*
+
+# Kubernetes
+secrets.yaml
