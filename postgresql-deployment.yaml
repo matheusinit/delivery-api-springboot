@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: delivery-postgres-db
+  name: delivery-postgres-db-service
   labels:
-    app: delivery-postgres-db
+    app: delivery-postgres-db-service
 spec:
   ports:
     - port: 5432
