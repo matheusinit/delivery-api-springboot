@@ -40,7 +40,7 @@ spec:
             - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
               value: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
-              value: 0@ecommerce-kafka-queue:9093
+              value: 0@0.0.0.0:9093
             - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
               value: CONTROLLER
           ports:
