@@ -23,6 +23,22 @@ change time-zone that want date and time to be consistent.
 
 ## How to run
 
+### With Docker
+
+To run the project:
+
+    docker compose up -d
+
+To update the project with recent changes:
+
+    docker compose up -d api-rest --build
+
+To stop the project:
+
+    docker compose down
+
+### Locally
+
 To run the project:
 
     ./gradlew bootRun
