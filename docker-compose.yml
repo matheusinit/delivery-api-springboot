@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       POSTGRES_URL: ${POSTGRES_URL}
       KAFKA_URL: ${KAFKA_URL}
-      KAFKA_ENABLED: ${KAFKA_ENABLED}
+      KAFKA_AUTOSTART: ${KAFKA_AUTOSTART}
     depends_on:
       - database
       - kafka

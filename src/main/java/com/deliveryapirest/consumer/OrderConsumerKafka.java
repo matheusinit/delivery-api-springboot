@@ -33,7 +33,7 @@ public class OrderConsumerKafka implements OrderConsumer {
   @KafkaListener(
       topics = "ordering",
       groupId = "orderingGroup",
-      autoStartup = "${kafka.enabled:false}")
+      autoStartup = "${kafka.autostart:false}")
   public void consumeAndRegisterOrder(String content) {
     OrderToConsume orderToConsume = receiveAndSerializeContent(content);
 
