@@ -10,16 +10,36 @@ assure the quality of the code, the funcionality of the API and the maintenance 
 
     A microservice to manage products orders of a ecommerce application. See at: [matheusinit/ordering-api-aspnet](https://github.com/matheusinit/ordering-api-aspnet)
 
-## Why use Instant instead of LocalDateTime or ZonedDateTime?
+## Features
 
-`Instant` is a class to represent a instant of time, a moment, in seconds since 00:00:00 UTC on 1 January 1970 (Unix epoch). It is used to represent a moment in time since the 
-Unix epoch, so do even has information about a date or time.
+### Product domain
 
-`LocalDateTime` has no information about time-zone, so it can represent different **instants** depending on
-the time-zone the computer is localed. It is used more to represent date and time, such as Birthdays.
+ + [x] List products
+ + [x] Register Product
+ + [x] Update product
+ + [x] Delete product
 
-And `ZonedDateTime` can represent a date and time with the information about the time-zone, so more suited for working with dates that
-change time-zone that want date and time to be consistent.
+### Delivery domain
+
+ + [x] Add delivery stations
+ + [x] Get an order from the message queue
+ + [ ] Get delivery stations
+ + [ ] Set order out for delivery
+ + [ ] Set order as delivered
+
+### Stock domain
+
+ + [x] Set stock by product
+ + [x] Get stock by product
+
+### Non functional requirements
+
+ + [x] Send to microservice the stock data every time the stock is updated via Message Queue
+ + [x] Receive order data from Message Queue from a microservice
+
+### (US1) Set order out for delivery
+
+As a courier, I want to set an order out for delivery, so that the consumer can track the status of the order.
 
 ## How to run
 
@@ -55,18 +75,17 @@ To run the integration tests:
 
     ./gradlew integrationTest
 
+## Why use Instant instead of LocalDateTime or ZonedDateTime?
 
-## Features
+`Instant` is a class to represent a instant of time, a moment, in seconds since 00:00:00 UTC on 1 January 1970 (Unix epoch). It is used to represent a moment in time since the 
+Unix epoch, so do even has information about a date or time.
 
- + [x] Get an order from the message queue
- + [x] Add delivery stations
- + [ ] Get delivery stations
- + [ ] Inform product is in delivery
- + [ ] Inform product was delivered
+`LocalDateTime` has no information about time-zone, so it can represent different **instants** depending on
+the time-zone the computer is localed. It is used more to represent date and time, such as Birthdays.
 
-### (US1) Set order out for delivery 
+And `ZonedDateTime` can represent a date and time with the information about the time-zone, so more suited for working with dates that
+change time-zone that want date and time to be consistent.
 
-As a courier, I want to set an order out for delivery, so that the consumer can track the status of the order.
 
 ## References
 
