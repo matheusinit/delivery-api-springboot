@@ -2,7 +2,9 @@ version: '3.7'
 services:
   api-rest:
     container_name: delivery-api-rest
-    build: .
+    build:
+      context: .
+      dockerfile: ./container/docker/Dockerfile
     ports:
       - 8080:8080
     environment:
