@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.repositories.inMemory.InMemoryDeliveryStationRepository;
-import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
 import com.deliveryapirest.services.GetDeliveryStationsService;
 
 class GetDeliveryStationsServiceUnitTest {
