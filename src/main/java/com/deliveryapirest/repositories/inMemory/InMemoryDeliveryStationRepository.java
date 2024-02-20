@@ -4,9 +4,14 @@ import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
 import java.util.List;
 
-public class InMemoryDeliveryStationRepository implements DeliveryStationRepository {
+public class InMemoryDeliveryStationRepository
+    implements DeliveryStationRepository {
 
   List<DeliveryStation> deliveryStations;
+
+  public InMemoryDeliveryStationRepository() {
+    this.deliveryStations = new java.util.ArrayList<>();
+  }
 
   @Override
   public DeliveryStation save(DeliveryStation entity) {

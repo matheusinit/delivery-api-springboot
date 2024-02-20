@@ -5,17 +5,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.repositories.inMemory.InMemoryDeliveryStationRepository;
 import com.deliveryapirest.services.GetDeliveryStationsService;
+import org.junit.jupiter.api.Test;
 
 class GetDeliveryStationsServiceUnitTest {
-
+  @Test
   void ensureWhenThereIsntAnyDeliveryStationsThenShouldReturnEmptyList() {
-    var sut = new GetDeliveryStationsService();
+    var repository = new InMemoryDeliveryStationRepository();
+
+    var sut = new GetDeliveryStationsService(repository);
 
     var deliveryStations = sut.getDeliveryStations();
 
     assertEquals(0, deliveryStations.size());
   }
 
+  @Test
   void ensureWhenThereIsAnyDeliveryStationThenShouldReturnListWithItems()
       throws Exception {
     var repository = new InMemoryDeliveryStationRepository();
