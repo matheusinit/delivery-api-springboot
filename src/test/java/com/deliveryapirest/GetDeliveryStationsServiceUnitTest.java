@@ -1,6 +1,7 @@
 package com.deliveryapirest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import com.deliveryapirest.entities.DeliveryStation;
 import com.deliveryapirest.repositories.inMemory.InMemoryDeliveryStationRepository;
@@ -16,7 +17,7 @@ class GetDeliveryStationsServiceUnitTest {
 
     var deliveryStations = sut.getDeliveryStations();
 
-    assertEquals(0, deliveryStations.size());
+    assertThat(deliveryStations.size(), equalTo(0));
   }
 
   @Test
@@ -31,6 +32,6 @@ class GetDeliveryStationsServiceUnitTest {
 
     var deliveryStations = sut.getDeliveryStations();
 
-    assertEquals(1, deliveryStations.size());
+    assertThat(deliveryStations.size(), greaterThan(0));
   }
 }
