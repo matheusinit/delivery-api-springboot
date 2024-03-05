@@ -36,12 +36,11 @@ class ListProductsControllerIntegrationTest {
     this.cleanUp();
   }
 
-  void cleanUp() {
-    this.repository.deleteAll();
-  }
+  void cleanUp() { this.repository.deleteAll(); }
 
   @Test
-  void givenProductsStoredInDatabase_whenListProducts_thenProductListAreReturnedWithSameSize()
+  void
+  givenProductsStoredInDatabase_whenListProducts_thenProductListAreReturnedWithSameSize()
       throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
@@ -51,21 +50,21 @@ class ListProductsControllerIntegrationTest {
     var secondDescription = faker.lorem().sentence(10);
     this.repository.save(new Product(secondName, secondDescription));
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .when()
-            .get("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .when()
+                       .get("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(responseBody.getList("$"), hasSize(2));
   }
 
   @Test
-  void givenProductsStoredInDatabase_whenListProducts_thenProductListReturnedWithSameData()
+  void
+  givenProductsStoredInDatabase_whenListProducts_thenProductListReturnedWithSameData()
       throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
@@ -75,14 +74,13 @@ class ListProductsControllerIntegrationTest {
     var secondDescription = faker.lorem().sentence(10);
     this.repository.save(new Product(secondName, secondDescription));
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .when()
-            .get("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .when()
+                       .get("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     var firstProduct = responseBody.getObject("[0]", Product.class);
@@ -94,7 +92,8 @@ class ListProductsControllerIntegrationTest {
   }
 
   @Test
-  void givenProductsStoredInDatabase_whenListProducts_thenReturnOnlyProductsNotDeleted()
+  void
+  givenProductsStoredInDatabase_whenListProducts_thenReturnOnlyProductsNotDeleted()
       throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
@@ -108,17 +107,16 @@ class ListProductsControllerIntegrationTest {
     secondProduct.delete();
     this.repository.save(secondProduct);
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .when()
-            .get("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .when()
+                       .get("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
-    assertThat(
-        responseBody.getList("$", Product.class), contains(hasProperty("deletedAt", nullValue())));
+    assertThat(responseBody.getList("$", Product.class),
+               contains(hasProperty("deletedAt", nullValue())));
   }
 }

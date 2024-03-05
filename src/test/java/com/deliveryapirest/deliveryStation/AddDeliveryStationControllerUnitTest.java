@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatusCode;
 
 class AddDeliveryStationControllerUnitTest {
   @Test
-  void ensureWhenInternalErrorIsThrownShouldGetInternalServerError() throws Exception {
+  void ensureWhenInternalErrorIsThrownShouldGetInternalServerError()
+      throws Exception {
     var mock = mock(InMemoryDeliveryStationRepository.class);
     when(mock.save(any())).thenThrow(new RuntimeException());
     var sut = new AddDeliveryStationController(mock);
@@ -19,7 +20,8 @@ class AddDeliveryStationControllerUnitTest {
     var zipCode = "59064-625";
     Double latitude = -5.826694;
     Double longitude = -35.2144;
-    var requestBody = new DeliveryStationInput(name, zipCode, latitude, longitude);
+    var requestBody =
+        new DeliveryStationInput(name, zipCode, latitude, longitude);
 
     var response = sut.addDeliveryStation(requestBody);
 

@@ -28,16 +28,17 @@ class RegisterOrderToShipServiceIntegrationTest {
   }
 
   @Test
-  void givenOrderWithStatusDifferentThanNotSent_whenRegister_thenShouldNotRegister() {
+  void
+  givenOrderWithStatusDifferentThanNotSent_whenRegister_thenShouldNotRegister() {
     var sut = new RegisterOrderToShipService(repository);
     var order = new Order(OrderStatus.CANCELLED, 1);
 
     sut.register(order);
 
     var list = repository.findAll();
-    var expected =
-        not(hasItem(Matchers.<OrderToShip>hasProperty("status", is(OrderStatus.CANCELLED))));
-    var listSize = ((Collection<?>) list).size();
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty(
+        "status", is(OrderStatus.CANCELLED))));
+    var listSize = ((Collection<?>)list).size();
     assertThat(listSize, is(0));
     assertThat(list, expected);
   }
@@ -51,8 +52,9 @@ class RegisterOrderToShipServiceIntegrationTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(quantity))));
-    var listSize = ((Collection<?>) list).size();
+    var expected = not(
+        hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(quantity))));
+    var listSize = ((Collection<?>)list).size();
     assertThat(listSize, is(0));
     assertThat(list, expected);
   }
@@ -66,8 +68,9 @@ class RegisterOrderToShipServiceIntegrationTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
-    var listSize = ((Collection<?>) list).size();
+    var expected = not(hasItem(
+        Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
+    var listSize = ((Collection<?>)list).size();
     assertThat(listSize, is(0));
     assertThat(list, expected);
   }
