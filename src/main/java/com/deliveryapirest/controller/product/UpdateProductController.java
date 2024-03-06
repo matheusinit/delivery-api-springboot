@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.product;
 
 import com.deliveryapirest.data.UpdateProductInput;
 import com.deliveryapirest.errors.BadRequestError;
@@ -23,8 +23,8 @@ public class UpdateProductController {
   }
 
   @PatchMapping("/product/{id}")
-  public ResponseEntity<?> updateProduct(
-      @PathVariable UUID id, @RequestBody UpdateProductInput input) {
+  public ResponseEntity<?>
+  updateProduct(@PathVariable UUID id, @RequestBody UpdateProductInput input) {
     try {
       var product = updateProductService.updateProduct(id, input);
 
@@ -39,7 +39,7 @@ public class UpdateProductController {
       if (input.name == "") {
         var errorMessage =
             "Name cannot be null and description must be not null, at least one of them must be"
-                + " provided";
+            + " provided";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(BadRequestError.make(errorMessage));
       }
@@ -51,10 +51,11 @@ public class UpdateProductController {
             .body(BadRequestError.make(errorMessage));
       }
 
-      var error =
-          InternalServerError.make("An internal server error occured. Please try again later.");
+      var error = InternalServerError.make(
+          "An internal server error occured. Please try again later.");
 
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(error);
     }
   }
 }

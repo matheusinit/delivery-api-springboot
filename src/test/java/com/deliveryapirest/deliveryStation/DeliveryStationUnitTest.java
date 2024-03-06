@@ -1,4 +1,4 @@
-package com.deliveryapirest;
+package com.deliveryapirest.deliveryStation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

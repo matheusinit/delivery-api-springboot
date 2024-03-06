@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.stock;
 
 import com.deliveryapirest.data.SetStockByProductInput;
 import com.deliveryapirest.errors.InternalServerError;
@@ -21,8 +21,9 @@ public class SetStockByProductController {
   }
 
   @PostMapping("/product/{id}/stock")
-  public ResponseEntity<?> setStockByProduct(
-      @PathVariable UUID id, @RequestBody SetStockByProductInput input) {
+  public ResponseEntity<?>
+  setStockByProduct(@PathVariable UUID id,
+                    @RequestBody SetStockByProductInput input) {
     try {
       var stock = service.setStockByProduct(id, input.quantity);
 
@@ -38,9 +39,10 @@ public class SetStockByProductController {
             .body(InvalidOperationError.make(exception.getMessage()));
       }
 
-      var error =
-          InternalServerError.make("An internal server error occured. Please try again later.");
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      var error = InternalServerError.make(
+          "An internal server error occured. Please try again later.");
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(error);
     }
   }
 }

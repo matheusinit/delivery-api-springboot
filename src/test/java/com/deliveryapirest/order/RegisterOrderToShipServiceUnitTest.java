@@ -3,7 +3,7 @@
 // 3. Consumer will pass order object to a Service class to register order to
 // ship
 
-package com.deliveryapirest;
+package com.deliveryapirest.order;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -41,8 +41,8 @@ class RegisterOrderToShipServiceUnitTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected =
-        not(hasItem(Matchers.<OrderToShip>hasProperty("status", is(OrderStatus.CANCELLED))));
+    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty(
+        "status", is(OrderStatus.CANCELLED))));
     assertThat(list.size(), is(0));
     assertThat(list, expected);
   }
@@ -57,7 +57,8 @@ class RegisterOrderToShipServiceUnitTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
+    var expected = not(hasItem(
+        Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
     assertThat(list.size(), is(0));
     assertThat(list, expected);
   }
@@ -72,14 +73,15 @@ class RegisterOrderToShipServiceUnitTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(quantity))));
+    var expected = not(
+        hasItem(Matchers.<OrderToShip>hasProperty("quantity", is(quantity))));
     assertThat(list.size(), is(0));
     assertThat(list, expected);
   }
 
   @Test
   void
-      ensureWhenThereIsItemsRegistered_and_orderProvidedHasCanceledAtNotNull_thenShouldNotRegister() {
+  ensureWhenThereIsItemsRegistered_and_orderProvidedHasCanceledAtNotNull_thenShouldNotRegister() {
     var canceledAt = Optional.of(ZonedDateTime.now());
     var order = new Order(canceledAt);
     var repository = makeRepository();
@@ -89,7 +91,8 @@ class RegisterOrderToShipServiceUnitTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = not(hasItem(Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
+    var expected = not(hasItem(
+        Matchers.<OrderToShip>hasProperty("canceledAt", is(canceledAt))));
     assertThat(list, expected);
   }
 
@@ -103,7 +106,8 @@ class RegisterOrderToShipServiceUnitTest {
     sut.register(order);
 
     var list = repository.findAll();
-    var expected = hasItem(Matchers.<OrderToShip>hasProperty("status", is(OrderStatus.NOT_SENT)));
+    var expected = hasItem(
+        Matchers.<OrderToShip>hasProperty("status", is(OrderStatus.NOT_SENT)));
     assertThat(list.size(), is(1));
     assertThat(list, expected);
   }

@@ -1,4 +1,4 @@
-package com.deliveryapirest;
+package com.deliveryapirest.product;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -29,22 +29,23 @@ class DeleteProductControllerIntegrationTest {
   void givenNonExistentId_whenDeleteProduct_thenReturnNotFound() {
     var id = UUID.randomUUID();
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .delete("/product/" + id)
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .delete("/product/" + id)
+                       .then()
+                       .extract()
+                       .response();
 
     assertThat(response.getStatusCode(), is(404));
-    assertThat(response.getBody().jsonPath().get("message"), is("Product not found"));
+    assertThat(response.getBody().jsonPath().get("message"),
+               is("Product not found"));
   }
 
   @Test
-  void givenAProductAlreadyDeleted_whenDeleteProduct_thenReturnNotFound() throws Exception {
+  void givenAProductAlreadyDeleted_whenDeleteProduct_thenReturnNotFound()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -54,22 +55,23 @@ class DeleteProductControllerIntegrationTest {
     product.delete();
     repository.save(product);
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .delete("/product/" + id)
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .delete("/product/" + id)
+                       .then()
+                       .extract()
+                       .response();
 
     assertThat(response.getStatusCode(), is(404));
-    assertThat(response.getBody().jsonPath().get("message"), is("Product not found"));
+    assertThat(response.getBody().jsonPath().get("message"),
+               is("Product not found"));
   }
 
   @Test
-  void givenAProductNotDeleted_whenDeleteProduct_thenReturnNoContent() throws Exception {
+  void givenAProductNotDeleted_whenDeleteProduct_thenReturnNoContent()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -77,21 +79,21 @@ class DeleteProductControllerIntegrationTest {
     var productSaved = repository.save(product);
     var id = productSaved.getId();
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .delete("/product/" + id)
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .delete("/product/" + id)
+                       .then()
+                       .extract()
+                       .response();
 
     assertThat(response.getStatusCode(), is(204));
   }
 
   @Test
-  void givenAProductNotDeleted_whenDeleteProduct_thenShouldHaveDeletedAtDefinedAtDatabase()
+  void
+  givenAProductNotDeleted_whenDeleteProduct_thenShouldHaveDeletedAtDefinedAtDatabase()
       throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();

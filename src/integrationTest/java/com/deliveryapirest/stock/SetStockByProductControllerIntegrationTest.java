@@ -1,4 +1,4 @@
-package com.deliveryapirest;
+package com.deliveryapirest.stock;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,16 +41,15 @@ class SetStockByProductControllerIntegrationTest {
     var id = UUID.randomUUID();
     var requestBody = new SetStockByProductInput();
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), is(404));
@@ -58,7 +57,8 @@ class SetStockByProductControllerIntegrationTest {
   }
 
   @Test
-  void givenQuantityIsNotProvided_whenSetStockByProduct_thenReturnBadRequest() throws Exception {
+  void givenQuantityIsNotProvided_whenSetStockByProduct_thenReturnBadRequest()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -67,16 +67,15 @@ class SetStockByProductControllerIntegrationTest {
     var id = product.getId();
     var requestBody = new SetStockByProductInput();
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), is(400));
@@ -84,7 +83,8 @@ class SetStockByProductControllerIntegrationTest {
   }
 
   @Test
-  void givenQuantityIsNegative_whenSetStockByProduct_thenReturnBadRequest() throws Exception {
+  void givenQuantityIsNegative_whenSetStockByProduct_thenReturnBadRequest()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -94,24 +94,25 @@ class SetStockByProductControllerIntegrationTest {
     var requestBody = new SetStockByProductInput();
     requestBody.quantity = -1;
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), is(400));
-    assertThat(responseBody.get("message"), is("Quantity must be 0 or positive"));
+    assertThat(responseBody.get("message"),
+               is("Quantity must be 0 or positive"));
   }
 
   @Test
-  void givenQuantityisZero_whenSetStockByProduct_thenReturnOk() throws Exception {
+  void givenQuantityisZero_whenSetStockByProduct_thenReturnOk()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -121,22 +122,22 @@ class SetStockByProductControllerIntegrationTest {
     var requestBody = new SetStockByProductInput();
     requestBody.quantity = 0;
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
 
     assertThat(response.statusCode(), is(200));
   }
 
   @Test
-  void givenQuantityIsPositive_whenSetStockByProduct_thenReturnOk() throws Exception {
+  void givenQuantityIsPositive_whenSetStockByProduct_thenReturnOk()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -146,22 +147,22 @@ class SetStockByProductControllerIntegrationTest {
     var requestBody = new SetStockByProductInput();
     requestBody.quantity = 1;
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
 
     assertThat(response.statusCode(), is(200));
   }
 
   @Test
-  void givenValidQuantity_whenSetStockByProduct_thenReturnStockData() throws Exception {
+  void givenValidQuantity_whenSetStockByProduct_thenReturnStockData()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -171,16 +172,15 @@ class SetStockByProductControllerIntegrationTest {
     var requestBody = new SetStockByProductInput();
     requestBody.quantity = 1;
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(responseBody.get("id"), is(notNullValue()));
@@ -189,7 +189,8 @@ class SetStockByProductControllerIntegrationTest {
   }
 
   @Test
-  void givenStockAlreadyExistsForProductId_whenSetStockByProduct_thenUpdateStock()
+  void
+  givenStockAlreadyExistsForProductId_whenSetStockByProduct_thenUpdateStock()
       throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
@@ -202,16 +203,15 @@ class SetStockByProductControllerIntegrationTest {
     var requestBody = new SetStockByProductInput();
     requestBody.quantity = 2;
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(responseBody.get("id"), is(stock.getId().toString()));
@@ -220,7 +220,8 @@ class SetStockByProductControllerIntegrationTest {
   }
 
   @Test
-  void givenStockAlreadyExistsForProductId_whenSetStockByProduct_thenShouldUpdateInDatabase()
+  void
+  givenStockAlreadyExistsForProductId_whenSetStockByProduct_thenShouldUpdateInDatabase()
       throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
@@ -248,7 +249,8 @@ class SetStockByProductControllerIntegrationTest {
   }
 
   @Test
-  void givenValidData_whenSetStockByProduct_thenShouldUpdateInDatabase() throws Exception {
+  void givenValidData_whenSetStockByProduct_thenShouldUpdateInDatabase()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -257,16 +259,15 @@ class SetStockByProductControllerIntegrationTest {
     var id = product.getId();
     var requestBody = new SetStockByProductInput();
     requestBody.quantity = 2;
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .post("/product/" + id + "/stock")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .post("/product/" + id + "/stock")
+                       .then()
+                       .extract()
+                       .response();
     var stockId = UUID.fromString(response.getBody().jsonPath().get("id"));
 
     var stockFromDatabase = stockRepository.findById(stockId).get();

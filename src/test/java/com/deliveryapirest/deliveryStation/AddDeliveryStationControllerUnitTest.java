@@ -1,9 +1,9 @@
-package com.deliveryapirest;
+package com.deliveryapirest.deliveryStation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.deliveryapirest.controller.AddDeliveryStationController;
+import com.deliveryapirest.controller.deliveryStation.AddDeliveryStationController;
 import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.repositories.inMemory.InMemoryDeliveryStationRepository;
 import org.junit.jupiter.api.Test;

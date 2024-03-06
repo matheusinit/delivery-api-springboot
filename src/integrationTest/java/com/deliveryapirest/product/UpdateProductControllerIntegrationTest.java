@@ -1,4 +1,4 @@
-package com.deliveryapirest;
+package com.deliveryapirest.product;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -37,22 +37,22 @@ class UpdateProductControllerIntegrationTest {
     var uuid = UUID.randomUUID();
     var requestBody = new UpdateProductInput();
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .patch("/product/" + uuid)
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .patch("/product/" + uuid)
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), equalTo(400));
     assertThat(
         responseBody.get("message"),
-        equalTo("Name or description cannot be null, at least one of them must be provided"));
+        equalTo(
+            "Name or description cannot be null, at least one of them must be provided"));
   }
 
   @Test
@@ -61,16 +61,15 @@ class UpdateProductControllerIntegrationTest {
     var requestBody = new UpdateProductInput();
     requestBody.name = "";
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .patch("/product/" + uuid)
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .patch("/product/" + uuid)
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), equalTo(400));
@@ -78,11 +77,12 @@ class UpdateProductControllerIntegrationTest {
         responseBody.get("message"),
         equalTo(
             "Name cannot be null and description must be not null, at least one of them must be"
-                + " provided"));
+            + " provided"));
   }
 
   @Test
-  void givenDescriptionAsEmpty_whenUpdateProduct_thenReturnUpdatedData() throws Exception {
+  void givenDescriptionAsEmpty_whenUpdateProduct_thenReturnUpdatedData()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -91,16 +91,15 @@ class UpdateProductControllerIntegrationTest {
     var requestBody = new UpdateProductInput();
     requestBody.description = "";
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .patch("/product/" + product.getId())
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .patch("/product/" + product.getId())
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), equalTo(400));
@@ -110,7 +109,8 @@ class UpdateProductControllerIntegrationTest {
   }
 
   @Test
-  void givenDescription_whenUpdateProduct_thenReturnUpdatedData() throws Exception {
+  void givenDescription_whenUpdateProduct_thenReturnUpdatedData()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -120,16 +120,15 @@ class UpdateProductControllerIntegrationTest {
     var newDescription = faker.lorem().maxLengthSentence(10);
     requestBody.description = newDescription;
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .patch("/product/" + product.getId())
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .patch("/product/" + product.getId())
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), equalTo(200));
@@ -147,16 +146,15 @@ class UpdateProductControllerIntegrationTest {
     var newName = faker.commerce().productName();
     requestBody.name = newName;
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .when()
-            .body(requestBody)
-            .patch("/product/" + product.getId())
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .when()
+                       .body(requestBody)
+                       .patch("/product/" + product.getId())
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.getBody().jsonPath();
     assertThat(response.statusCode(), equalTo(200));
@@ -164,7 +162,8 @@ class UpdateProductControllerIntegrationTest {
   }
 
   @Test
-  void givenName_whenUpdateProduct_thenShouldHaveDataUpdatedInDatabase() throws Exception {
+  void givenName_whenUpdateProduct_thenShouldHaveDataUpdatedInDatabase()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -189,7 +188,8 @@ class UpdateProductControllerIntegrationTest {
   }
 
   @Test
-  void givenDescription_whenUpdateProduct_thenShouldHaveDataUpdatedInDatabase() throws Exception {
+  void givenDescription_whenUpdateProduct_thenShouldHaveDataUpdatedInDatabase()
+      throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -214,7 +214,8 @@ class UpdateProductControllerIntegrationTest {
   }
 
   @Test
-  void givenValidData_whenUpdateProduct_thenShouldHaveUpdatedAtUpdatedInDatabase()
+  void
+  givenValidData_whenUpdateProduct_thenShouldHaveUpdatedAtUpdatedInDatabase()
       throws Exception {
     var faker = new Faker();
     var name = faker.commerce().productName();

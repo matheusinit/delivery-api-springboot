@@ -1,4 +1,4 @@
-package com.deliveryapirest;
+package com.deliveryapirest.product;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -38,20 +38,20 @@ class RegisterProductControllerIntegrationTest {
     String name = null;
     var input = new RegisterProductInput(name);
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .body(input)
-            .when()
-            .post("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .body(input)
+                       .when()
+                       .post("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.body().jsonPath();
     assertThat(response.statusCode(), equalTo(400));
-    assertThat(responseBody.get("message"), equalTo("Product name is required"));
+    assertThat(responseBody.get("message"),
+               equalTo("Product name is required"));
   }
 
   @Test
@@ -61,16 +61,15 @@ class RegisterProductControllerIntegrationTest {
     var description = "";
     var input = new RegisterProductInput(name, description);
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .body(input)
-            .when()
-            .post("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .body(input)
+                       .when()
+                       .post("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.body().jsonPath();
     assertThat(response.statusCode(), equalTo(400));
@@ -80,26 +79,27 @@ class RegisterProductControllerIntegrationTest {
   }
 
   @Test
-  void givenDescriptionWithLessThan10Characters_whenRegisterProduct_thenGetBadRequest() {
+  void
+  givenDescriptionWithLessThan10Characters_whenRegisterProduct_thenGetBadRequest() {
     var faker = new Faker();
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(9);
     var input = new RegisterProductInput(name, description);
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .body(input)
-            .when()
-            .post("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .body(input)
+                       .when()
+                       .post("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.body().jsonPath();
     assertThat(response.statusCode(), equalTo(400));
-    assertThat(responseBody.get("message"), is("Description cannot have less than 10 characters"));
+    assertThat(responseBody.get("message"),
+               is("Description cannot have less than 10 characters"));
   }
 
   @Test
@@ -108,16 +108,15 @@ class RegisterProductControllerIntegrationTest {
     var name = faker.commerce().productName();
     var input = new RegisterProductInput(name);
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .body(input)
-            .when()
-            .post("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .body(input)
+                       .when()
+                       .post("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.body().jsonPath();
     assertThat(response.statusCode(), equalTo(201));
@@ -136,16 +135,15 @@ class RegisterProductControllerIntegrationTest {
     var description = faker.lorem().maxLengthSentence(10);
     var input = new RegisterProductInput(name, description);
 
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .body(input)
-            .when()
-            .post("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .body(input)
+                       .when()
+                       .post("/product")
+                       .then()
+                       .extract()
+                       .response();
 
     var responseBody = response.body().jsonPath();
     assertThat(response.statusCode(), equalTo(201));
@@ -163,27 +161,31 @@ class RegisterProductControllerIntegrationTest {
     var name = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
     var input = new RegisterProductInput(name, description);
-    var response =
-        RestAssured.given()
-            .accept("application/json")
-            .contentType("application/json")
-            .body(input)
-            .when()
-            .post("/product")
-            .then()
-            .extract()
-            .response();
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .body(input)
+                       .when()
+                       .post("/product")
+                       .then()
+                       .extract()
+                       .response();
     var responseBody = response.body().jsonPath();
 
-    var productValue = repository.findById(UUID.fromString(responseBody.get("id")));
+    var productValue =
+        repository.findById(UUID.fromString(responseBody.get("id")));
 
     var product = productValue.get();
-    var createdAt =
-        Instant.parse(responseBody.get("createdAt")).plusNanos(500).truncatedTo(ChronoUnit.MICROS);
-    assertThat(product.getId(), equalTo(UUID.fromString(responseBody.get("id"))));
+    var createdAt = Instant.parse(responseBody.get("createdAt"))
+                        .plusNanos(500)
+                        .truncatedTo(ChronoUnit.MICROS);
+    assertThat(product.getId(),
+               equalTo(UUID.fromString(responseBody.get("id"))));
     assertThat(product.getName(), equalTo(responseBody.get("name")));
-    assertThat(product.getDescription(), equalTo(responseBody.get("description")));
-    assertThat(product.getCreatedAt().toString(), equalTo(createdAt.toString()));
+    assertThat(product.getDescription(),
+               equalTo(responseBody.get("description")));
+    assertThat(product.getCreatedAt().toString(),
+               equalTo(createdAt.toString()));
     assertThat(product.getUpdatedAt(), equalTo(responseBody.get("updatedAt")));
     assertThat(product.getDeletedAt(), equalTo(responseBody.get("deletedAt")));
   }

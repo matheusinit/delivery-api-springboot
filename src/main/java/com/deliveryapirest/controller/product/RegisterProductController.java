@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.product;
 
 import com.deliveryapirest.data.RegisterProductInput;
 import com.deliveryapirest.entities.Product;
@@ -23,7 +23,8 @@ public class RegisterProductController {
   }
 
   @PostMapping("/product")
-  public ResponseEntity<?> registerProduct(@RequestBody RegisterProductInput input) {
+  public ResponseEntity<?>
+  registerProduct(@RequestBody RegisterProductInput input) {
     try {
       var product = new Product(input.getName(), input.getDescription());
 
@@ -46,10 +47,11 @@ public class RegisterProductController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(BadRequestError.make(exception.getMessage()));
       }
-      var error =
-          InternalServerError.make("An internal server error occured. Please try again later.");
+      var error = InternalServerError.make(
+          "An internal server error occured. Please try again later.");
 
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(error);
     }
   }
 }

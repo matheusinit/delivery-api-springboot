@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.product;
 
 import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.repositories.protocols.ProductRepository;

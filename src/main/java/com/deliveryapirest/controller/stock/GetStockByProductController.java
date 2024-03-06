@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.stock;
 
 import com.deliveryapirest.errors.StockNotFoundError;
 import com.deliveryapirest.repositories.hibernate.StockRepository;

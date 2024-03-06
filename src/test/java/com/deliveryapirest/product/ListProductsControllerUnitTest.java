@@ -1,10 +1,10 @@
-package com.deliveryapirest;
+package com.deliveryapirest.product;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 
-import com.deliveryapirest.controller.ListProductsController;
+import com.deliveryapirest.controller.product.ListProductsController;
 import com.deliveryapirest.repositories.inMemory.InMemoryProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -18,6 +18,7 @@ class ListProductsControllerUnitTest {
 
     var response = sut.listProducts();
 
-    assertThat(response.getStatusCode(), equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
+    assertThat(response.getStatusCode(),
+               equalTo(HttpStatus.INTERNAL_SERVER_ERROR));
   }
 }

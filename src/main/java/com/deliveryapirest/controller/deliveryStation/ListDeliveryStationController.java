@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.deliveryStation;
 
 import com.deliveryapirest.repositories.protocols.DeliveryStationRepository;
 import org.springframework.http.ResponseEntity;

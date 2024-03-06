@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.deliveryStation;
 
 import com.deliveryapirest.data.DeliveryStationInput;
 import com.deliveryapirest.entities.DeliveryStation;
@@ -21,8 +21,8 @@ public class AddDeliveryStationController {
   }
 
   @PostMapping("/station")
-  public ResponseEntity<?> addDeliveryStation(
-      @RequestBody DeliveryStationInput deliveryStationInput) {
+  public ResponseEntity<?>
+  addDeliveryStation(@RequestBody DeliveryStationInput deliveryStationInput) {
 
     try {
       var name = deliveryStationInput.getName();
@@ -30,7 +30,8 @@ public class AddDeliveryStationController {
       var latitude = deliveryStationInput.getLatitude();
       var longitude = deliveryStationInput.getLongitude();
 
-      var deliveryStation = new DeliveryStation(name, zipCode, latitude, longitude);
+      var deliveryStation =
+          new DeliveryStation(name, zipCode, latitude, longitude);
 
       repository.save(deliveryStation);
 
@@ -41,10 +42,11 @@ public class AddDeliveryStationController {
             .body(MissingFieldError.make(exception.getMessage()));
       }
 
-      var error =
-          InternalServerError.make("An internal server error occured. Please try again later.");
+      var error = InternalServerError.make(
+          "An internal server error occured. Please try again later.");
 
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(error);
     }
   }
 }

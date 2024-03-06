@@ -1,4 +1,4 @@
-package com.deliveryapirest;
+package com.deliveryapirest.order;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -24,7 +24,8 @@ class StockUnitTest {
   }
 
   @Test
-  void ensureWhenStockIsCreatedThenShouldHaveProductId() throws InvalidOperationError {
+  void ensureWhenStockIsCreatedThenShouldHaveProductId()
+      throws InvalidOperationError {
     var productId = UUID.randomUUID();
 
     var stock = new Stock(productId, 1);
@@ -33,7 +34,8 @@ class StockUnitTest {
   }
 
   @Test
-  void ensureWhenQuantityIsProvidedShouldHaveQuantityGiven() throws InvalidOperationError {
+  void ensureWhenQuantityIsProvidedShouldHaveQuantityGiven()
+      throws InvalidOperationError {
     var productId = UUID.randomUUID();
     var quantity = 1;
 
@@ -85,13 +87,15 @@ class StockUnitTest {
     var productId = UUID.randomUUID();
     var stock = new Stock(productId, 1);
 
-    var error = assertThrows(InvalidOperationError.class, () -> stock.setQuantity(-1));
+    var error =
+        assertThrows(InvalidOperationError.class, () -> stock.setQuantity(-1));
 
     assertThat(error.getMessage(), is("Quantity must be 0 or positive"));
   }
 
   @Test
-  void ensureGivenZeroQuantityWhenUpdateStockThenShouldUpdate() throws InvalidOperationError {
+  void ensureGivenZeroQuantityWhenUpdateStockThenShouldUpdate()
+      throws InvalidOperationError {
     var productId = UUID.randomUUID();
     var stock = new Stock(productId, 1);
 
@@ -101,7 +105,8 @@ class StockUnitTest {
   }
 
   @Test
-  void ensureGivenPositiveQuantityWhenUpdateStockThenShouldUpdate() throws InvalidOperationError {
+  void ensureGivenPositiveQuantityWhenUpdateStockThenShouldUpdate()
+      throws InvalidOperationError {
     var productId = UUID.randomUUID();
     var stock = new Stock(productId, 1);
 
@@ -117,8 +122,10 @@ class StockUnitTest {
     var stock = new Stock(productId, 1);
     stock.delete();
 
-    var error = assertThrows(InvalidOperationError.class, () -> stock.setQuantity(2));
+    var error =
+        assertThrows(InvalidOperationError.class, () -> stock.setQuantity(2));
 
-    assertThat(error.getMessage(), is("Cannot update stock when it is deleted"));
+    assertThat(error.getMessage(),
+               is("Cannot update stock when it is deleted"));
   }
 }

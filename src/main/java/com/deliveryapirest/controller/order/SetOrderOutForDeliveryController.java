@@ -1,4 +1,4 @@
-package com.deliveryapirest.controller;
+package com.deliveryapirest.controller.order;
 
 import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.errors.InvalidOperationError;
@@ -23,7 +23,8 @@ public class SetOrderOutForDeliveryController {
   public ResponseEntity<?> setOrderOutForDelivery(@PathVariable UUID id) {
     try {
       if (id == null) {
-        return ResponseEntity.badRequest().body(new Error("Order id is required"));
+        return ResponseEntity.badRequest().body(
+            new Error("Order id is required"));
       }
 
       var orderValue = this.repository.findById(id);
@@ -44,10 +45,11 @@ public class SetOrderOutForDeliveryController {
             .body(InvalidOperationError.make(exception.getMessage()));
       }
 
-      var error =
-          InternalServerError.make("An internal server error occured. Please try again later.");
+      var error = InternalServerError.make(
+          "An internal server error occured. Please try again later.");
 
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(error);
     }
   }
 }

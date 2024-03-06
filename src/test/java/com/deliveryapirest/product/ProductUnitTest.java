@@ -1,4 +1,4 @@
-package com.deliveryapirest;
+package com.deliveryapirest.product;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -14,7 +14,8 @@ import org.junit.jupiter.api.Test;
 class ProductUnitTest {
 
   @Test
-  void givenProductNameIsNotProvided_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
+  void
+  givenProductNameIsNotProvided_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
     String productName = null;
 
     var error = assertThrows(Exception.class, () -> new Product(productName));
@@ -23,31 +24,37 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenDescriptionIsProvidedAsEmpty_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
+  void
+  givenDescriptionIsProvidedAsEmpty_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
     var faker = new Faker();
     var productName = faker.commerce().productName();
 
-    var error = assertThrows(Exception.class, () -> new Product(productName, ""));
+    var error =
+        assertThrows(Exception.class, () -> new Product(productName, ""));
 
-    var expectedErrorMessage = "Description cannot be empty, must have at least 10 characters";
+    var expectedErrorMessage =
+        "Description cannot be empty, must have at least 10 characters";
     assertThat(error.getMessage(), is(expectedErrorMessage));
   }
 
   @Test
   void
-      givenDescriptionWithLessThan10Characters_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
+  givenDescriptionWithLessThan10Characters_whenIsRequestedToRegisterProduct_thenIsReturnedAnError() {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().characters(9);
 
-    var error = assertThrows(Exception.class, () -> new Product(productName, description));
+    var error = assertThrows(Exception.class,
+                             () -> new Product(productName, description));
 
-    var expectedErrorMessage = "Description cannot have less than 10 characters";
+    var expectedErrorMessage =
+        "Description cannot have less than 10 characters";
     assertThat(error.getMessage(), is(expectedErrorMessage));
   }
 
   @Test
-  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveCreatedAtValue()
+  void
+  givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveCreatedAtValue()
       throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
@@ -59,12 +66,14 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveDateTimeISOAsCreatedAtValue()
+  void
+  givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveDateTimeISOAsCreatedAtValue()
       throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
-    final String regexPattern = "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+Z";
+    final String regexPattern =
+        "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+Z";
 
     var product = new Product(productName, description);
 
@@ -72,7 +81,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidName_whenIsRequestedToRegisterProduct_thenShouldHaveProductNameAsDefined()
+  void
+  givenValidName_whenIsRequestedToRegisterProduct_thenShouldHaveProductNameAsDefined()
       throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
@@ -85,8 +95,8 @@ class ProductUnitTest {
 
   @Test
   void
-      givenValidDescription_whenIsRequestedToRegisterProduct_thenShouldHaveProductDescriptionAsDefined()
-          throws Exception {
+  givenValidDescription_whenIsRequestedToRegisterProduct_thenShouldHaveProductDescriptionAsDefined()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -98,8 +108,8 @@ class ProductUnitTest {
 
   @Test
   void
-      givenDescriptionIsNotProvided_whenIsRequestedToRegisterProduct_thenShouldHaveDescriptionAsNull()
-          throws Exception {
+  givenDescriptionIsNotProvided_whenIsRequestedToRegisterProduct_thenShouldHaveDescriptionAsNull()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
 
@@ -109,7 +119,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveAnId() throws Exception {
+  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveAnId()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -120,7 +131,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldAlwaysBeTheSame()
+  void
+  givenValidData_whenIsRequestedToRegisterProduct_thenShouldAlwaysBeTheSame()
       throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
@@ -133,7 +145,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveUpdatedAtAsNull()
+  void
+  givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveUpdatedAtAsNull()
       throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
@@ -145,7 +158,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveDeletedAtAsNull()
+  void
+  givenValidData_whenIsRequestedToRegisterProduct_thenShouldHaveDeletedAtAsNull()
       throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
@@ -157,7 +171,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidData_whenIsRequestedToRegisterProduct_thenShouldCreateNewProduct()
+  void
+  givenValidData_whenIsRequestedToRegisterProduct_thenShouldCreateNewProduct()
       throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
@@ -169,7 +184,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenValidData_whenUpdateProductName_thenShouldHaveUpdatedAtAsNow() throws Exception {
+  void givenValidData_whenUpdateProductName_thenShouldHaveUpdatedAtAsNow()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -183,19 +199,22 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenNameAsEmpty_whenUpdateProductName_thenReturnError() throws Exception {
+  void givenNameAsEmpty_whenUpdateProductName_thenReturnError()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
     var product = new Product(productName, description);
 
-    var error = assertThrows(InvalidFieldError.class, () -> product.setName(""));
+    var error =
+        assertThrows(InvalidFieldError.class, () -> product.setName(""));
 
     assertThat(error.getMessage(), is("Name cannot be empty"));
   }
 
   @Test
-  void givenValidData_whenUpdateDescription_thenShouldHaveUpdatedAtAsNow() throws Exception {
+  void givenValidData_whenUpdateDescription_thenShouldHaveUpdatedAtAsNow()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -209,16 +228,19 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenEmptyValue_whenUpdateDescription_thenShouldHaveUpdateValue() throws Exception {
+  void givenEmptyValue_whenUpdateDescription_thenShouldHaveUpdateValue()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
     var product = new Product(productName, description);
 
-    var error = assertThrows(EmptyDescriptionError.class, () -> product.setDescription(""));
+    var error = assertThrows(EmptyDescriptionError.class,
+                             () -> product.setDescription(""));
 
     assertThat(
-        error.getMessage(), is("Description cannot be empty, must have at least 10 characters"));
+        error.getMessage(),
+        is("Description cannot be empty, must have at least 10 characters"));
   }
 
   @Test
@@ -228,13 +250,15 @@ class ProductUnitTest {
     var description = faker.lorem().maxLengthSentence(10);
     var product = new Product(productName, description);
 
-    var error = assertThrows(InvalidFieldError.class, () -> product.setName(null));
+    var error =
+        assertThrows(InvalidFieldError.class, () -> product.setName(null));
 
     assertThat(error.getMessage(), is("Name cannot be null"));
   }
 
   @Test
-  void givenNullValue_whenUpdateDescription_thenShouldReturnError() throws Exception {
+  void givenNullValue_whenUpdateDescription_thenShouldReturnError()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -247,20 +271,24 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenLessThan10Characters_whenUpdateDescription_thenShouldReturnError() throws Exception {
+  void givenLessThan10Characters_whenUpdateDescription_thenShouldReturnError()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().characters(10);
     var product = new Product(productName, description);
     var newDescription = faker.lorem().characters(9);
 
-    var error = assertThrows(InvalidFieldError.class, () -> product.setDescription(newDescription));
+    var error = assertThrows(InvalidFieldError.class,
+                             () -> product.setDescription(newDescription));
 
-    assertThat(error.getMessage(), is("Description cannot have less than 10 characters"));
+    assertThat(error.getMessage(),
+               is("Description cannot have less than 10 characters"));
   }
 
   @Test
-  void givenAProductCreated_whenDeleted_thenShouldHaveDeletedAtNotNull() throws Exception {
+  void givenAProductCreated_whenDeleted_thenShouldHaveDeletedAtNotNull()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -272,7 +300,8 @@ class ProductUnitTest {
   }
 
   @Test
-  void givenADeletedProduct_whenUpdateName_thenShouldReturnError() throws Exception {
+  void givenADeletedProduct_whenUpdateName_thenShouldReturnError()
+      throws Exception {
     var faker = new Faker();
     var productName = faker.commerce().productName();
     var description = faker.lorem().maxLengthSentence(10);
@@ -281,7 +310,8 @@ class ProductUnitTest {
 
     var newName = faker.commerce().productName();
 
-    var error = assertThrows(InvalidOperationError.class, () -> product.setName(newName));
+    var error = assertThrows(InvalidOperationError.class,
+                             () -> product.setName(newName));
 
     assertThat(error.getMessage(), is("Cannot update a deleted product"));
   }
