@@ -19,34 +19,30 @@ public class OrderToShip {
   private UUID productId;
   private int quantity;
 
-  @Enumerated(EnumType.STRING)
-  private OrderStatus status;
+  @Enumerated(EnumType.STRING) private OrderStatus status;
+  private String location;
 
   private Instant createdAt;
   private Instant updatedAt;
   private Instant canceledAt;
 
-  public OrderToShip() {
-    this.id = UUID.randomUUID();
-  }
+  public OrderToShip() { this.id = UUID.randomUUID(); }
 
-  public OrderToShip(
-      UUID id,
-      UUID productId,
-      int quantity,
-      OrderStatus status,
-      ZonedDateTime createdAt,
-      Optional<ZonedDateTime> updatedAt,
-      Optional<ZonedDateTime> canceledAt) {
+  public OrderToShip(UUID id, UUID productId, int quantity, OrderStatus status,
+                     ZonedDateTime createdAt, Optional<ZonedDateTime> updatedAt,
+                     Optional<ZonedDateTime> canceledAt) {
     this.id = id;
     this.productId = productId;
     this.quantity = quantity;
     this.status = status;
     this.createdAt = createdAt.toInstant();
     var updatedAtWithNull = updatedAt != null ? updatedAt.orElse(null) : null;
-    this.updatedAt = updatedAtWithNull == null ? null : updatedAtWithNull.toInstant();
-    var canceledAtWithNull = canceledAt != null ? canceledAt.orElse(null) : null;
-    this.canceledAt = canceledAtWithNull == null ? null : canceledAt.get().toInstant();
+    this.updatedAt =
+        updatedAtWithNull == null ? null : updatedAtWithNull.toInstant();
+    var canceledAtWithNull =
+        canceledAt != null ? canceledAt.orElse(null) : null;
+    this.canceledAt =
+        canceledAtWithNull == null ? null : canceledAt.get().toInstant();
   }
 
   public OrderToShip(UUID productId, OrderStatus status, int quantity) {
@@ -64,37 +60,28 @@ public class OrderToShip {
     this.createdAt = Instant.now();
   }
 
-  public UUID getId() {
-    return id;
-  }
+  public UUID getId() { return id; }
 
-  public UUID getProductId() {
-    return productId;
-  }
+  public UUID getProductId() { return productId; }
 
-  public OrderStatus getStatus() {
-    return status;
-  }
+  public OrderStatus getStatus() { return status; }
 
-  public int getQuantity() {
-    return quantity;
-  }
+  public int getQuantity() { return quantity; }
 
-  public Instant getCreatedAt() {
-    return createdAt;
-  }
+  public void setLocation(String location) { this.location = location; }
 
-  public Instant getUpdatedAt() {
-    return updatedAt;
-  }
+  public String getLocation() { return location; }
 
-  public Instant getCanceledAt() {
-    return canceledAt;
-  }
+  public Instant getCreatedAt() { return createdAt; }
+
+  public Instant getUpdatedAt() { return updatedAt; }
+
+  public Instant getCanceledAt() { return canceledAt; }
 
   public void setOutForDelivery() throws InvalidOperationError {
     if (status == OrderStatus.CANCELLED) {
-      throw InvalidOperationError.make("Order is cancelled. Cannot set it out for delivery!");
+      throw InvalidOperationError.make(
+          "Order is cancelled. Cannot set it out for delivery!");
     }
 
     if (status == OrderStatus.OUT_FOR_DELIVERY) {
@@ -103,11 +90,13 @@ public class OrderToShip {
     }
 
     if (status == OrderStatus.IN_DELIVERY) {
-      throw InvalidOperationError.make("Order is in delivery. Cannot set it out for delivery!");
+      throw InvalidOperationError.make(
+          "Order is in delivery. Cannot set it out for delivery!");
     }
 
     if (status == OrderStatus.DELIVERED) {
-      throw InvalidOperationError.make("Order is delivered. Cannot set it out for delivery!");
+      throw InvalidOperationError.make(
+          "Order is delivered. Cannot set it out for delivery!");
     }
 
     status = OrderStatus.OUT_FOR_DELIVERY;
