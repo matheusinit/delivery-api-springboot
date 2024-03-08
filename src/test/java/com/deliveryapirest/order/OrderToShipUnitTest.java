@@ -9,6 +9,7 @@ import com.deliveryapirest.entities.OrderToShip;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.UUID;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.Test;
 
 class OrderToShipUnitTest {
@@ -206,5 +207,22 @@ class OrderToShipUnitTest {
     orderToShip.setOutForDelivery();
 
     assertThat(orderToShip.getUpdatedAt(), is(notNullValue(Instant.class)));
+  }
+
+  @Test
+  void ensureGivenALocationWhenOrderWasMadeThenShouldSetLocation() {
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.NOT_SENT;
+    var createdAt = ZonedDateTime.now();
+    var orderToShip = new OrderToShip(id, productId, quantity, currentStatus,
+                                      createdAt, null, null);
+
+    var faker = new Faker();
+    var city = faker.address().cityName();
+    orderToShip.setLocation(city);
+
+    assertThat(orderToShip.getLocation(), is(city));
   }
 }
