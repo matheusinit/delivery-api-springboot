@@ -210,7 +210,7 @@ class OrderToShipUnitTest {
   }
 
   @Test
-  void ensureGivenALocationWhenOrderWasMadeThenShouldSetLocation() {
+  void ensureWhenOrderWasMadeThenShouldSetOriginLocationOfProduct() {
     var id = UUID.randomUUID();
     var productId = UUID.randomUUID();
     var quantity = 2;
@@ -220,9 +220,9 @@ class OrderToShipUnitTest {
                                       createdAt, null, null);
 
     var faker = new Faker();
-    var city = faker.address().cityName();
-    orderToShip.setLocation(city);
+    var originLocation = faker.address().cityName();
+    orderToShip.setLocation(originLocation);
 
-    assertThat(orderToShip.getLocation(), is(city));
+    assertThat(orderToShip.getLocation(), is(originLocation));
   }
 }
