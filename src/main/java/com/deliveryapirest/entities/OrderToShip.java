@@ -103,7 +103,12 @@ public class OrderToShip {
     updatedAt = Instant.now();
   }
 
-  public void setInDelivery() {
+  public void setInDelivery() throws InvalidOperationError {
+    if (status == OrderStatus.NOT_SENT) {
+      throw InvalidOperationError.make(
+          "Order is not sent. Cannot set it in delivery!");
+    }
+
     status = OrderStatus.IN_DELIVERY;
     updatedAt = Instant.now();
   }
