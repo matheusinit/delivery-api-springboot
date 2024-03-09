@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
+import com.deliveryapirest.errors.InvalidOperationError;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -231,7 +232,8 @@ class OrderToShipUnitTest {
 
   @Test
   void
-  ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldOrderStatusBeInDelivery() {
+  ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldOrderStatusBeInDelivery()
+      throws InvalidOperationError {
     var faker = new Faker();
 
     var id = UUID.randomUUID();
@@ -252,7 +254,8 @@ class OrderToShipUnitTest {
 
   @Test
   void
-  ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldSetUpdatedAtToCurrentDateTime() {
+  ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldSetUpdatedAtToCurrentDateTime()
+      throws InvalidOperationError {
     var faker = new Faker();
 
     var id = UUID.randomUUID();
@@ -271,5 +274,24 @@ class OrderToShipUnitTest {
     orderToShip.setInDelivery();
 
     assertThat(orderToShip.getUpdatedAt(), is(not(currentUpdatedAt)));
+  }
+
+  @Test
+  void
+  ensureGivenOrderWithNotSentStatusWhenOrderIsSetForInDeliveryThenShouldGetAnError() {
+
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.NOT_SENT;
+    var createdAt = ZonedDateTime.now();
+    var orderToShip = new OrderToShip(id, productId, quantity, currentStatus,
+                                      createdAt, null, null);
+
+    var error =
+        assertThrows(Exception.class, () -> orderToShip.setInDelivery());
+
+    assertThat(error.getMessage(),
+               is("Order is not sent. Cannot set it in delivery!"));
   }
 }
