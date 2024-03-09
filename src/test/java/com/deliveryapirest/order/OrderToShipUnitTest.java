@@ -249,4 +249,27 @@ class OrderToShipUnitTest {
 
     assertThat(orderToShip.getStatus(), is(OrderStatus.IN_DELIVERY));
   }
+
+  @Test
+  void
+  ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldSetUpdatedAtToCurrentDateTime() {
+    var faker = new Faker();
+
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.OUT_FOR_DELIVERY;
+    var createdAt = ZonedDateTime.now();
+    var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
+    var orderToShip = new OrderToShip(
+        id, productId, quantity, currentStatus, createdAt,
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
+        null);
+
+    var currentUpdatedAt = orderToShip.getUpdatedAt();
+
+    orderToShip.setInDelivery();
+
+    assertThat(orderToShip.getUpdatedAt(), is(not(currentUpdatedAt)));
+  }
 }
