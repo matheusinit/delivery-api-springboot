@@ -7,8 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.deliveryapirest.data.OrderStatus;
 import com.deliveryapirest.entities.OrderToShip;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.Test;
 
@@ -224,5 +228,26 @@ class OrderToShipUnitTest {
     orderToShip.setLocation(originLocation);
 
     assertThat(orderToShip.getLocation(), is(originLocation));
+  }
+
+  @Test
+  void
+  ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldOrderStatusBeInDelivery() {
+    var faker = new Faker();
+
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.OUT_FOR_DELIVERY;
+    var createdAt = ZonedDateTime.now();
+    var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
+    var orderToShip = new OrderToShip(
+        id, productId, quantity, currentStatus, createdAt,
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
+        null);
+
+    orderToShip.setInDelivery();
+
+    assertThat(orderToShip.getStatus(), is(OrderStatus.IN_DELIVERY));
   }
 }
