@@ -103,5 +103,8 @@ public class OrderToShip {
     updatedAt = Instant.now();
   }
 
-  public void setInDelivery() { status = OrderStatus.IN_DELIVERY; }
+  public void setInDelivery() {
+    status = OrderStatus.IN_DELIVERY;
+    updatedAt = Instant.now();
+  }
 }
