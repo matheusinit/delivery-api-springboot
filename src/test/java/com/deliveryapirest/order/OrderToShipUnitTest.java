@@ -294,4 +294,26 @@ class OrderToShipUnitTest {
     assertThat(error.getMessage(),
                is("Order is not sent. Cannot set it in delivery!"));
   }
+
+  @Test
+  void
+  ensureGivenOrderWithInDeliveryStatusWhenOrderIsSetAsDeliveredThenShouldOrderStatusBeDelivered()
+      throws InvalidOperationError {
+    var faker = new Faker();
+
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.IN_DELIVERY;
+    var createdAt = ZonedDateTime.now();
+    var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
+    var orderToShip = new OrderToShip(
+        id, productId, quantity, currentStatus, createdAt,
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
+        null);
+
+    orderToShip.setDelivered();
+
+    assertThat(orderToShip.getStatus(), is(OrderStatus.DELIVERED));
+  }
 }
