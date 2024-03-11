@@ -316,4 +316,27 @@ class OrderToShipUnitTest {
 
     assertThat(orderToShip.getStatus(), is(OrderStatus.DELIVERED));
   }
+
+  @Test
+  void
+  ensureGivenOrderWithInDeliveryStatusWhenOrderIsSetAsDeliveredThenShouldUpdatedAtToCurrentDateTime()
+      throws InvalidOperationError {
+    var faker = new Faker();
+
+    var id = UUID.randomUUID();
+    var productId = UUID.randomUUID();
+    var quantity = 2;
+    var currentStatus = OrderStatus.IN_DELIVERY;
+    var createdAt = ZonedDateTime.now();
+    var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
+    var orderToShip = new OrderToShip(
+        id, productId, quantity, currentStatus, createdAt,
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
+        null);
+    var currentUpdatedAt = orderToShip.getUpdatedAt();
+
+    orderToShip.setDelivered();
+
+    assertThat(orderToShip.getUpdatedAt(), is(not(currentUpdatedAt)));
+  }
 }
