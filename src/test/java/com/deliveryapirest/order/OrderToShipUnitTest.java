@@ -235,17 +235,16 @@ class OrderToShipUnitTest {
   ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldOrderStatusBeInDelivery()
       throws InvalidOperationError {
     var faker = new Faker();
-
     var id = UUID.randomUUID();
     var productId = UUID.randomUUID();
     var quantity = 2;
     var currentStatus = OrderStatus.OUT_FOR_DELIVERY;
     var createdAt = ZonedDateTime.now();
     var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
-    var orderToShip = new OrderToShip(
-        id, productId, quantity, currentStatus, createdAt,
-        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
-        null);
+    var optionalUpdatedAt =
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault()));
+    var orderToShip = new OrderToShip(id, productId, quantity, currentStatus,
+                                      createdAt, optionalUpdatedAt, null);
 
     orderToShip.setInDelivery();
 
@@ -257,18 +256,16 @@ class OrderToShipUnitTest {
   ensureGivenOrderWithOutForDeliveryStatusWhenOrderIsSetForInDeliveryThenShouldSetUpdatedAtToCurrentDateTime()
       throws InvalidOperationError {
     var faker = new Faker();
-
     var id = UUID.randomUUID();
     var productId = UUID.randomUUID();
     var quantity = 2;
     var currentStatus = OrderStatus.OUT_FOR_DELIVERY;
     var createdAt = ZonedDateTime.now();
     var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
-    var orderToShip = new OrderToShip(
-        id, productId, quantity, currentStatus, createdAt,
-        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
-        null);
-
+    var optionalUpdatedAt =
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault()));
+    var orderToShip = new OrderToShip(id, productId, quantity, currentStatus,
+                                      createdAt, optionalUpdatedAt, null);
     var currentUpdatedAt = orderToShip.getUpdatedAt();
 
     orderToShip.setInDelivery();
@@ -300,17 +297,16 @@ class OrderToShipUnitTest {
   ensureGivenOrderWithInDeliveryStatusWhenOrderIsSetAsDeliveredThenShouldOrderStatusBeDelivered()
       throws InvalidOperationError {
     var faker = new Faker();
-
     var id = UUID.randomUUID();
     var productId = UUID.randomUUID();
     var quantity = 2;
     var currentStatus = OrderStatus.IN_DELIVERY;
     var createdAt = ZonedDateTime.now();
     var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
-    var orderToShip = new OrderToShip(
-        id, productId, quantity, currentStatus, createdAt,
-        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
-        null);
+    var optionalUpdatedAt =
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault()));
+    var orderToShip = new OrderToShip(id, productId, quantity, currentStatus,
+                                      createdAt, optionalUpdatedAt, null);
 
     orderToShip.setDelivered();
 
@@ -322,17 +318,16 @@ class OrderToShipUnitTest {
   ensureGivenOrderWithInDeliveryStatusWhenOrderIsSetAsDeliveredThenShouldUpdatedAtToCurrentDateTime()
       throws InvalidOperationError {
     var faker = new Faker();
-
     var id = UUID.randomUUID();
     var productId = UUID.randomUUID();
     var quantity = 2;
     var currentStatus = OrderStatus.IN_DELIVERY;
     var createdAt = ZonedDateTime.now();
     var updatedAt = faker.date().past(1, TimeUnit.DAYS).toInstant();
-    var orderToShip = new OrderToShip(
-        id, productId, quantity, currentStatus, createdAt,
-        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault())),
-        null);
+    var optionalUpdatedAt =
+        Optional.of(ZonedDateTime.ofInstant(updatedAt, ZoneId.systemDefault()));
+    var orderToShip = new OrderToShip(id, productId, quantity, currentStatus,
+                                      createdAt, optionalUpdatedAt, null);
     var currentUpdatedAt = orderToShip.getUpdatedAt();
 
     orderToShip.setDelivered();
