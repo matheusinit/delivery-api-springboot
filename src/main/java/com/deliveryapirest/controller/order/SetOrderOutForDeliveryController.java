@@ -21,7 +21,7 @@ public class SetOrderOutForDeliveryController {
     this.repository = repository;
   }
 
-  @PostMapping("/order/{id}/delivery")
+  @PostMapping("/order/{id}/status")
   public ResponseEntity<?>
   setOrderOutForDelivery(@PathVariable UUID id,
                          @RequestBody StatusInput input) {
