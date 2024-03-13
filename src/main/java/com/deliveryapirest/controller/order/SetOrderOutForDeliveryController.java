@@ -50,6 +50,8 @@ public class SetOrderOutForDeliveryController {
         order.setOutForDelivery();
       } else if (input.getStatus().equals("IN_DELIVERY")) {
         order.setInDelivery();
+      } else if (input.getStatus().equals("DELIVERED")) {
+        order.setDelivered();
       }
 
       return ResponseEntity.ok().body(order);
