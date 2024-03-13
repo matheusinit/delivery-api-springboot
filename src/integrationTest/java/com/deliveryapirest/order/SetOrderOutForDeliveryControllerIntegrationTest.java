@@ -243,4 +243,38 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
     assertThat(responseBody.get("createdAt"), is(notNullValue(String.class)));
     assertThat(responseBody.get("canceledAt"), is(nullValue(Instant.class)));
   }
+
+  @Test
+  void
+  ensureGivenOrderId_whenOrderChangesToStatusInDelivery_thenShouldGetOrderData()
+      throws JsonProcessingException {
+    var productId = UUID.randomUUID();
+    var order = new OrderToShip(productId, OrderStatus.OUT_FOR_DELIVERY, 1);
+    repository.save(order);
+    var status = new StatusInput("IN_DELIVERY");
+
+    var response = RestAssured.given()
+                       .accept("application/json")
+                       .contentType("application/json")
+                       .body(status)
+                       .when()
+                       .post("/order/" + order.getId() + "/status")
+                       .then()
+                       .extract()
+                       .response();
+
+    var responseBody = response.getBody().jsonPath();
+    var createdAtTruncated =
+        order.getCreatedAt().plusNanos(500).truncatedTo(ChronoUnit.MICROS);
+    assertThat(responseBody.get("id"), is(order.getId().toString()));
+    assertThat(responseBody.get("productId"),
+               is(order.getProductId().toString()));
+    assertThat(responseBody.get("quantity"), is(order.getQuantity()));
+    assertThat(responseBody.get("status"),
+               is(OrderStatus.IN_DELIVERY.toString()));
+    assertThat(responseBody.get("createdAt"),
+               is(createdAtTruncated.toString()));
+    assertThat(responseBody.get("updatedAt"), is(notNullValue(String.class)));
+    assertThat(responseBody.get("canceledAt"), is(nullValue(Instant.class)));
+  }
 }
