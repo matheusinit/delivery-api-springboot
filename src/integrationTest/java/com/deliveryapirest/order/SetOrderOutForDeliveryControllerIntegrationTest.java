@@ -38,7 +38,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/null/delivery")
+                       .post("/order/null/status")
                        .then()
                        .extract()
                        .response();
@@ -59,7 +59,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + randomUuid + "/delivery")
+                       .post("/order/" + randomUuid + "/status")
                        .then()
                        .extract()
                        .response();
@@ -83,7 +83,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + order.getId() + "/delivery")
+                       .post("/order/" + order.getId() + "/status")
                        .then()
                        .extract()
                        .response();
@@ -108,7 +108,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + order.getId() + "/delivery")
+                       .post("/order/" + order.getId() + "/status")
                        .then()
                        .extract()
                        .response();
@@ -133,7 +133,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + order.getId() + "/delivery")
+                       .post("/order/" + order.getId() + "/status")
                        .then()
                        .extract()
                        .response();
@@ -158,7 +158,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + order.getId() + "/delivery")
+                       .post("/order/" + order.getId() + "/status")
                        .then()
                        .extract()
                        .response();
@@ -182,7 +182,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + order.getId() + "/delivery")
+                       .post("/order/" + order.getId() + "/status")
                        .then()
                        .extract()
                        .response();
@@ -206,7 +206,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + order.getId() + "/delivery")
+                       .post("/order/" + order.getId() + "/status")
                        .then()
                        .extract()
                        .response();
@@ -227,7 +227,7 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
                        .contentType("application/json")
                        .body(status)
                        .when()
-                       .post("/order/" + order.getId() + "/delivery")
+                       .post("/order/" + order.getId() + "/status")
                        .then()
                        .extract()
                        .response();
