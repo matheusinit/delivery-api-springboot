@@ -1,5 +1,6 @@
 package com.deliveryapirest.controller.order;
 
+import com.deliveryapirest.data.StatusInput;
 import com.deliveryapirest.errors.InternalServerError;
 import com.deliveryapirest.errors.InvalidOperationError;
 import com.deliveryapirest.repositories.protocols.OrderToShipRepository;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,7 +22,9 @@ public class SetOrderOutForDeliveryController {
   }
 
   @PostMapping("/order/{id}/delivery")
-  public ResponseEntity<?> setOrderOutForDelivery(@PathVariable UUID id) {
+  public ResponseEntity<?>
+  setOrderOutForDelivery(@PathVariable UUID id,
+                         @RequestBody StatusInput input) {
     try {
       if (id == null) {
         return ResponseEntity.badRequest().body(
@@ -36,7 +40,16 @@ public class SetOrderOutForDeliveryController {
 
       var order = orderValue.get();
 
-      order.setOutForDelivery();
+      if (input.getStatus() != null &&
+          input.getStatus().equals("OUT_FOR_DELIVERY")) {
+        order.setOutForDelivery();
+      }
+
+      if (input.getStatus() == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(new Error(
+                "Order status is not given. Cannot set set a new status!"));
+      }
 
       return ResponseEntity.ok().body(order);
     } catch (Exception exception) {
