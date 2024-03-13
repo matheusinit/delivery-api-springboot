@@ -46,7 +46,11 @@ public class SetOrderOutForDeliveryController {
                 "Order status is not given. Cannot set set a new status!"));
       }
 
-      order.setOutForDelivery();
+      if (input.getStatus().equals("OUT_FOR_DELIVERY")) {
+        order.setOutForDelivery();
+      } else if (input.getStatus().equals("IN_DELIVERY")) {
+        order.setInDelivery();
+      }
 
       return ResponseEntity.ok().body(order);
     } catch (Exception exception) {
