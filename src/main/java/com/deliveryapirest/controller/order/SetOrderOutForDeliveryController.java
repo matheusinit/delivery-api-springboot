@@ -40,16 +40,13 @@ public class SetOrderOutForDeliveryController {
 
       var order = orderValue.get();
 
-      if (input.getStatus() != null &&
-          input.getStatus().equals("OUT_FOR_DELIVERY")) {
-        order.setOutForDelivery();
-      }
-
       if (input.getStatus() == null) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(new Error(
                 "Order status is not given. Cannot set set a new status!"));
       }
+
+      order.setOutForDelivery();
 
       return ResponseEntity.ok().body(order);
     } catch (Exception exception) {
