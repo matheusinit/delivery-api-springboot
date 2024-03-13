@@ -24,14 +24,14 @@ public class SetOrderOutForDeliveryController {
     try {
       if (id == null) {
         return ResponseEntity.badRequest().body(
-            new Error("Order id is required"));
+            new Error("Order Id is required"));
       }
 
       var orderValue = this.repository.findById(id);
 
       if (orderValue.isEmpty()) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(new Error("Order not found with given id"));
+            .body(new Error("Order not found with given Id"));
       }
 
       var order = orderValue.get();
