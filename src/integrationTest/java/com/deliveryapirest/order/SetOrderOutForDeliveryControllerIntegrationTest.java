@@ -31,12 +31,9 @@ class SetOrderOutForDeliveryControllerIntegrationTest {
 
   @Test
   void ensureWhenOrderIdIsNotProvided_thenShouldGetBadRequest() {
-    var status = new StatusInput(null);
-
     var response = RestAssured.given()
                        .accept("application/json")
                        .contentType("application/json")
-                       .body(status)
                        .when()
                        .post("/order/null/status")
                        .then()
