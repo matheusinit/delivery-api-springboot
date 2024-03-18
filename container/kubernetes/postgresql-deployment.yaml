@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: delivery-postgres-db-service
   labels:
-    app: delivery-postgres-db-service
+    app: postgres-db
 spec:
   ports:
     - port: 5432
@@ -15,7 +15,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: delivery-postgres-db-pv
   labels:
-    app: delivery-postgres-db
+    app: postgres-db
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,17 +28,17 @@ kind: Deployment
 metadata:
   name: delivery-postgres-db
   labels:
-    app: delivery-postgres-db
+    app: postgres-db
 spec:
   selector:
     matchLabels:
-      app: delivery-postgres-db
+      app: postgres-db
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: delivery-postgres-db
+        app: postgres-db
     spec:
       containers:
         - image: postgres:14
