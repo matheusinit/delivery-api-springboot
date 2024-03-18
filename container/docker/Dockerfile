@@ -12,7 +12,7 @@ RUN ./gradlew build -x test -x integrationTest
 
 RUN mkdir -p build/libs/dependency && (cd build/libs/dependency; jar -xf ../delivery-api-rest-0.0.1-SNAPSHOT.jar)
 
-FROM eclipse-temurin:17-jdk-alpine 
+FROM eclipse-temurin:17-jdk-alpine as production
 VOLUME /tmp
 
 ARG DEPENDENCY=/app/build/libs/dependency
