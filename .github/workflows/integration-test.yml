@@ -15,7 +15,7 @@ jobs:
           envkey_POSTGRES_USER: test
           envkey_POSTGRES_PASSWORD: senha123
           envkey_POSTGRES_DB: delivery
-          envkey_DATABASE_URL: "jdbc:postgresql://database:5432/delivery"
+          envkey_POSTGRES_URL: "jdbc:postgresql://database:5432/delivery"
           envkey_KAFKA_URL: "kafka:9092"
           file_name: ".env"
           fail_on_empty: false
