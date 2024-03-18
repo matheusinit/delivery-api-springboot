@@ -12,6 +12,12 @@ RUN ./gradlew build -x test -x integrationTest
 
 RUN mkdir -p build/libs/dependency && (cd build/libs/dependency; jar -xf ../delivery-api-rest-0.0.1-SNAPSHOT.jar)
 
+FROM build as integration-test
+
+WORKDIR /app
+
+ENTRYPOINT ["./gradlew", "integrationTest"]
+
 FROM eclipse-temurin:17-jdk-alpine as production
 VOLUME /tmp
 

@@ -5,6 +5,27 @@ services:
     build:
       context: .
       dockerfile: ./container/docker/Dockerfile
+      target: production
+    ports:
+      - 8080:8080
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_URL: ${POSTGRES_URL}
+      KAFKA_URL: ${KAFKA_URL}
+      KAFKA_AUTOSTART: ${KAFKA_AUTOSTART}
+    depends_on:
+      - database
+      - kafka
+    networks:
+      - ecommerce-network
+
+  integration-test:
+    container_name: integration-test
+    build:
+      context: .
+      dockerfile: ./container/docker/Dockerfile
+      target: integration-test
     ports:
       - 8080:8080
     environment:
