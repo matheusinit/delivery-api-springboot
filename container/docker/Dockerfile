@@ -18,6 +18,12 @@ WORKDIR /app
 
 ENTRYPOINT ["./gradlew", "integrationTest"]
 
+FROM build as unit-test
+
+WORKDIR /app
+
+ENTRYPOINT ["./gradlew", "test"]
+
 FROM eclipse-temurin:17-jdk-alpine as production
 VOLUME /tmp
 

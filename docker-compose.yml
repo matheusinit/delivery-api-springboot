@@ -39,6 +39,14 @@ services:
       - kafka
     networks:
       - ecommerce-network
+
+  unit-test:
+    container_name: unit-test
+    build:
+      context: .
+      dockerfile: ./container/docker/Dockerfile
+      target: unit-test
+
   kafka:
     container_name: ordering-queue
     image: 'bitnami/kafka:latest'
