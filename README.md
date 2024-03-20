@@ -10,37 +10,6 @@ assure the quality of the code, the funcionality of the API and the maintenance 
 
     A microservice to manage products orders of a ecommerce application. See at: [matheusinit/ordering-api-aspnet](https://github.com/matheusinit/ordering-api-aspnet)
 
-## Features
-
-### Product domain
-
- + [x] List products
- + [x] Register Product
- + [x] Update product
- + [x] Delete product
-
-### Delivery domain
-
- + [x] Add delivery stations
- + [x] Get an order from the message queue
- + [ ] Get delivery stations
- + [ ] Set order out for delivery
- + [ ] Set order as delivered
-
-### Stock domain
-
- + [x] Set stock by product
- + [x] Get stock by product
-
-### Non functional requirements
-
- + [x] Send to microservice the stock data every time the stock is updated via Message Queue
- + [x] Receive order data from Message Queue from a microservice
-
-### (US1) Set order out for delivery
-
-As a courier, I want to set an order out for delivery, so that the consumer can track the status of the order.
-
 ## How to run
 
 ### With Docker
@@ -86,6 +55,36 @@ the time-zone the computer is localed. It is used more to represent date and tim
 And `ZonedDateTime` can represent a date and time with the information about the time-zone, so more suited for working with dates that
 change time-zone that want date and time to be consistent.
 
+## Features
+
+### Product domain
+
+ + [x] List products
+ + [x] Register Product
+ + [x] Update product
+ + [x] Delete product
+
+### Delivery domain
+
+ + [x] Add delivery stations
+ + [x] Get an order from the message queue
+ + [ ] Get delivery stations
+ + [ ] Set order out for delivery
+ + [ ] Set order as delivered
+
+### Stock domain
+
+ + [x] Set stock by product
+ + [x] Get stock by product
+
+### Non functional requirements
+
+ + [x] Send to microservice the stock data every time the stock is updated via Message Queue
+ + [x] Receive order data from Message Queue from a microservice
+
+### (US1) Set order out for delivery
+
+As a courier, I want to set an order out for delivery, so that the consumer can track the status of the order.
 
 ## References
 
