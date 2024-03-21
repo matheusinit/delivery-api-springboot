@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: delivery-postgres-db-service
+  name: postgresql-service
   labels:
-    app: postgres-db
+    app: postgresql
 spec:
   ports:
     - port: 5432
   selector:
-    app: postgres-db
+    app: postgresql
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: delivery-postgres-db-pv
+  name: postgresql-pv
   labels:
-    app: postgres-db
+    app: postgresql
 spec:
   accessModes:
     - ReadWriteOnce
@@ -26,23 +26,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: delivery-postgres-db
+  name: postgresql-deployment
   labels:
-    app: postgres-db
+    app: postgresql
 spec:
   selector:
     matchLabels:
-      app: postgres-db
+      app: postgresql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: postgres-db
+        app: postgresql
     spec:
       containers:
         - image: postgres:14
-          name: delivery-postgres-db
+          name: postgresql
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -62,9 +62,9 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: delivery-postgres-volume
+            - name: postgresql-volume
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: delivery-postgres-volume
+        - name: postgresql-volume
           persistentVolumeClaim:
-            claimName: delivery-postgres-db-pv
+            claimName: postgresql-pv
