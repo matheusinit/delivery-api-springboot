@@ -42,3 +42,4 @@ out/
 
 # Kubernetes
 secrets.yaml
+container/k8s/enc.yaml
